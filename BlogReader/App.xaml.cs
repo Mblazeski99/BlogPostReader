@@ -20,6 +20,7 @@ namespace BlogReader
     {
         private readonly IHost _host;
         private NotificationsStore _notificationsStore;
+        private BlogPostItemsStore _blogPostItemsStore;
         private Notifier _notifier;
         private AppData _appData;
 
@@ -74,6 +75,7 @@ namespace BlogReader
                 cfg.Dispatcher = Current.Dispatcher;
             });
 
+            _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
             _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
             _notificationsStore.NotificationAdded += (currentNotification, args) =>
             {
@@ -107,6 +109,7 @@ namespace BlogReader
         {
             _host.Dispose();
             _notificationsStore.Dispose();
+            _blogPostItemsStore.Dispose();
             base.OnExit(e);
         }
     }
