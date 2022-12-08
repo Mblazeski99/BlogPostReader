@@ -1,0 +1,96 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="ViewHeaderTextBlock" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Width" Value="800" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Padding" Value="0 21 0 0" />
+        <Setter Property="Margin" Value="0 21 0 0" />
+
+    </Style>
+
+    <!--#region Button -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+
+        <Setter Property="Padding" Value="10 5" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+        <Setter Property="Template" Value="{StaticResource PrimaryButtonControlTemplate}" />
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseCaptured" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource PrimaryFocusedFontColorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
+    <!--#endregion-->
+
+    <!--#region DataGrid -->
+    <Style x:Key="PrimaryDataGridStyle" TargetType="DataGrid">
+
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="AreRowDetailsFrozen" Value="True" />
+        <Setter Property="CanUserResizeColumns" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="AlternatingRowBackground" Value="#e8e8e8" />
+
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Items.Count}"
+                         Value="0">
+
+                <Setter Property="Visibility" Value="Collapsed" />
+
+            </DataTrigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="PrimaryDataGridRowStyle" TargetType="DataGridRow">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <Style x:Key="PrimaryDataGridCellStyle" TargetType="DataGridCell">
+        <Setter Property="Height" Value="40" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="DataGridCell.IsSelected" Value="True">
+                <Setter Property="Background" Value="#CCDAFF" />
+                <Setter Property="BorderBrush" Value="#000" />
+                <Setter Property="Foreground" Value="#000" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--#endregion-->
+
+</ResourceDictionary>

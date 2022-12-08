@@ -1,0 +1,55 @@
+﻿<Window x:Class="BlogReader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
+        xmlns:views="clr-namespace:BlogReader.Views"
+        WindowState="Maximized"
+        mc:Ignorable="d"
+        Title="Blog Reader"
+        d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+
+    <Window.Resources>
+
+        <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
+            <views:HomeView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:BlogsViewModel}">
+            <views:BlogsView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:NotificationsLogViewModel}">
+            <views:NotificationsView />
+        </DataTemplate>
+
+    </Window.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:HomeViewModel}"
+                    Content="Home" />
+
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:BlogsViewModel}"
+                    Content="Blogs" />
+
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:NotificationsLogViewModel}"
+                    Content="Notifications" />
+
+        </StackPanel>
+        
+        <ContentControl Content="{Binding CurrentViewModel}"
+                        Grid.Row="1" 
+                        Margin="20" />
+        
+    </Grid>
+    
+</Window>

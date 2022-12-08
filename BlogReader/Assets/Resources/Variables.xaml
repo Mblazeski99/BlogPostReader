@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region Colors -->
+    <Color x:Key="PrimaryFontColor">#000</Color>
+    <SolidColorBrush x:Key="PrimaryFontColorBrush" Color="{StaticResource PrimaryFontColor}" />
+
+    <Color x:Key="PrimaryFocusedFontColor">#373c3e</Color>
+    <SolidColorBrush x:Key="PrimaryFocusedFontColorBrush" Color="{StaticResource PrimaryFocusedFontColor}" />
+    <!--#endregion-->
+
+</ResourceDictionary>
