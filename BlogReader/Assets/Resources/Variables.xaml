@@ -2,11 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--#region Colors -->
+    <Color x:Key="PrimaryBackgrounColor">#FFF</Color>
+    <SolidColorBrush x:Key="PrimaryBackgroundColorBrush" Color="{StaticResource PrimaryBackgrounColor}" />
+
     <Color x:Key="PrimaryFontColor">#000</Color>
     <SolidColorBrush x:Key="PrimaryFontColorBrush" Color="{StaticResource PrimaryFontColor}" />
 
     <Color x:Key="PrimaryFocusedFontColor">#373c3e</Color>
     <SolidColorBrush x:Key="PrimaryFocusedFontColorBrush" Color="{StaticResource PrimaryFocusedFontColor}" />
+
+    <Color x:Key="PrimaryBtnColor">#2e64d6</Color>
+    <SolidColorBrush x:Key="PrimaryButtonColorBrush" Color="{StaticResource PrimaryBtnColor}" />
+
+    <Color x:Key="PrimaryBtnHoverColor">#1c408c</Color>
+    <SolidColorBrush x:Key="PrimaryBtnHoverColorBrush" Color="{StaticResource PrimaryBtnHoverColor}" />
+
+    <Color x:Key="SecondaryBtnColor">#2e6ded</Color>
+    <SolidColorBrush x:Key="SecondaryButtonColorBrush" Color="{StaticResource SecondaryBtnColor}"></SolidColorBrush>
     <!--#endregion-->
 
 </ResourceDictionary>

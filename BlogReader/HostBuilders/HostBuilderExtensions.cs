@@ -1,6 +1,4 @@
-﻿using BlogReader.Services;
-using BlogReader.Services.Interfaces;
-using BlogReader.Stores;
+﻿using BlogReader.Stores;
 using BlogReader.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,16 +14,7 @@ namespace BlogReader.HostBuilders
                 services.AddSingleton<MainWindowViewModel>();
                 services.AddSingleton<HomeViewModel>();
                 services.AddSingleton<NotificationsLogViewModel>();
-            });
-
-            return hostBuilder;
-        }
-
-        public static IHostBuilder AddServices(this IHostBuilder hostBuilder)
-        {
-            hostBuilder.ConfigureServices(services =>
-            {
-                services.AddSingleton<IBlogPostItemService, BlogPostItemService>();
+                services.AddSingleton<BlogSourcesViewModel>();
             });
 
             return hostBuilder;

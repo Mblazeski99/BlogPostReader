@@ -2,13 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ControlTemplate x:Key="PrimaryButtonControlTemplate" TargetType="{x:Type Button}">
+        
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                 Background="{TemplateBinding Background}">
+            
             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                               Margin="{TemplateBinding Padding}" 
                               RecognizesAccessKey="True" />
         </Border>
+        
     </ControlTemplate>
 
 </ResourceDictionary>

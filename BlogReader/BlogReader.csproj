@@ -8,11 +8,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\Metric-Black.ttf" />
+    <None Remove="Assets\Fonts\Metric-BlackItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-Bold.ttf" />
+    <None Remove="Assets\Fonts\Metric-BoldItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-Light.ttf" />
+    <None Remove="Assets\Fonts\Metric-LightItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-Medium.ttf" />
+    <None Remove="Assets\Fonts\Metric-MediumItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-Regular.ttf" />
+    <None Remove="Assets\Fonts\Metric-RegularItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-SemiBold.ttf" />
+    <None Remove="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
+    <None Remove="Assets\Fonts\Metric-Thin.ttf" />
+    <None Remove="Assets\Fonts\Metric-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LoadingSpinner.WPF" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="ToastNotifications" Version="2.5.1" />
     <PackageReference Include="ToastNotifications.Messages" Version="2.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\Metric-Black.ttf" />
+    <Resource Include="Assets\Fonts\Metric-BlackItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-Bold.ttf" />
+    <Resource Include="Assets\Fonts\Metric-BoldItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-Light.ttf" />
+    <Resource Include="Assets\Fonts\Metric-LightItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-Medium.ttf" />
+    <Resource Include="Assets\Fonts\Metric-MediumItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Metric-RegularItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-SemiBold.ttf" />
+    <Resource Include="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
+    <Resource Include="Assets\Fonts\Metric-Thin.ttf" />
+    <Resource Include="Assets\Fonts\Metric-ThinItalic.ttf" />
   </ItemGroup>
 
 </Project>

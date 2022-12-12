@@ -8,6 +8,8 @@
         WindowState="Maximized"
         mc:Ignorable="d"
         Title="Blog Reader"
+        FontFamily="/Assets/Fonts/Metric-Medium.ttf #Metric"
+        FontSize="18"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 
     <Window.Resources>

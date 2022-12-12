@@ -27,7 +27,6 @@ namespace BlogReader
         public App()
         {
             _host = Host.CreateDefaultBuilder()
-                .AddServices()
                 .AddStores()
                 .AddViewModels()
                 .ConfigureServices((hostContext, services) =>

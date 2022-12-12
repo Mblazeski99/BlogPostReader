@@ -5,7 +5,7 @@ namespace BlogReader.Stores
 {
     public class NavigationStore : BaseStore
     {
-        public BaseViewModel _currentViewModel;
+        private BaseViewModel _currentViewModel;
 
         public BaseViewModel CurrentViewModel
         {

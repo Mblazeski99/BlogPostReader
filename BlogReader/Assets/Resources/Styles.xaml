@@ -7,32 +7,71 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="Arial" />
-        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Height" Value="80" />
         <Setter Property="Width" Value="800" />
         <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
         <Setter Property="Padding" Value="0 21 0 0" />
         <Setter Property="Margin" Value="0 21 0 0" />
 
     </Style>
 
     <!--#region Button -->
-    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+    <Style x:Key="ButtonStyle" TargetType="Button">
 
         <Setter Property="Padding" Value="10 5" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Height" Value="40" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template" Value="{StaticResource PrimaryButtonControlTemplate}" />
 
+    </Style>
+    
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBackgroundColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource PrimaryButtonColorBrush}" />
+
         <Style.Triggers>
-            <Trigger Property="IsMouseCaptured" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource PrimaryFocusedFontColorBrush}" />
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
             </Trigger>
         </Style.Triggers>
+
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="2" />
+            </Style>
+        </Style.Resources>
+
+    </Style>
+
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+
+        <Setter Property="Foreground" Value="{StaticResource SecondaryButtonColorBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SecondaryButtonColorBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="MinWidth" Value="160" />
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+
+                <Setter Property="Background" Value="{StaticResource SecondaryButtonColorBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource SecondaryButtonColorBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource PrimaryBackgroundColorBrush}" />
+
+            </Trigger>
+        </Style.Triggers>
+
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="17" />
+            </Style>
+        </Style.Resources>
 
     </Style>
 

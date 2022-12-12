@@ -45,6 +45,11 @@ namespace BlogReader.Commands
                             viewModel = new BlogsViewModel(_notificationsStore, _blogPostItemsStore);
                         break;
 
+                    case nameof(BlogSourcesViewModel):
+                        if (_navigationStore.CurrentViewModel?.GetType() != typeof(BlogSourcesViewModel))
+                            viewModel = new BlogSourcesViewModel(_notificationsStore, _blogPostItemsStore);
+                        break;
+
                     case nameof(NotificationsLogViewModel):
                         if (_navigationStore.CurrentViewModel.GetType() != typeof(NotificationsLogViewModel))
                             viewModel = new NotificationsLogViewModel(_notificationsStore);
