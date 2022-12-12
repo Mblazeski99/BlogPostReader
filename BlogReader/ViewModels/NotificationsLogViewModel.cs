@@ -1,18 +1,18 @@
-﻿using BlogReader.Commands.Notifications;
+﻿using BlogReader.Commands;
+using BlogReader.Commands.Notifications;
 using BlogReader.Models;
 using BlogReader.Models.Enums;
 using BlogReader.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace BlogReader.ViewModels
 {
     public class NotificationsLogViewModel : BaseViewModel
     {
         private readonly NotificationsStore _notificationsStore;
-        private readonly ObservableCollection<Notification> _notifications;
+        private readonly ObservableCollection<Notification> _notifications = new ObservableCollection<Notification>();
         private bool _isItemsGridLoading;
         private bool _isLoading;
 
@@ -41,12 +41,11 @@ namespace BlogReader.ViewModels
 
         public IEnumerable<Notification> Notifications => _notifications;
 
-        public ICommand ClearNotificationsCommand { get; }
+        public BaseCommand ClearNotificationsCommand { get; }
 
         public NotificationsLogViewModel(NotificationsStore notificationsStore)
         {
             _notificationsStore = notificationsStore;
-            _notifications = new ObservableCollection<Notification>();
             ClearNotificationsCommand = new ClearAllNotificationsCommand(notificationsStore, this);
 
             LoadNotifications();

@@ -3,17 +3,138 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d">
-        
-    <Grid>
+             xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
+             xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=viewModels:BlogSourcesViewModel, IsDesignTimeCreatable=True}">
+
+    <Grid IsHitTestVisible="{Binding EnableInput}" Margin="20">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Blog Sources" />
-        
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+
+            <Button Command="{Binding AddOrEditBlogSourceItemCommand}"
+                    HorizontalAlignment="Left"
+                    Content="Add Source" />
+
+            <customControls:LoadingSpinner IsLoading="{Binding IsLoading}" Margin="10 5 0 0" />
+
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0 10 0 0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Visibility="{Binding SelectedSourceItem, Converter={StaticResource IsValueNullToVisibilityConverter}}"
+                    Background="{StaticResource CardBackgroundColorBrush}"
+                    Height="400" Width="400"
+                    VerticalAlignment="Top"
+                    Margin="0 0 20 0"
+                    CornerRadius="10"
+                    Padding="20">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border BorderThickness="0 0 0 2" 
+                            Padding="0 0 0 16"
+                            BorderBrush="Gray">
+                        
+                        <StackPanel DataContext="{Binding SelectedSourceItem}">
+
+                            <StackPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Margin" Value="0 10 0 0" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <TextBlock Text="(* required fields)" />
+
+                            <Label Content="Name*" />
+                            <TextBox Text="{Binding SourceName, Mode=TwoWay}" />
+
+                            <Label Content="Url*" />
+                            <TextBox Text="{Binding SourceUrl, Mode=TwoWay}" />
+
+                            <Label Content="Image" />
+                            <TextBox Text="{Binding ImageUrl, Mode=TwoWay}" />
+
+                            <CheckBox IsChecked="{Binding Active, Mode=TwoWay}" 
+                                      HorizontalAlignment="Left"
+                                      Content="Active"
+                                      Margin="0 10 0 0"
+                                      Width="60" />
+
+                        </StackPanel>
+                        
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" 
+                                VerticalAlignment="Top"
+                                Margin="0 16 0 0"
+                                Grid.Row="1">
+
+                        <Button Content="Save" />
+                        
+                        <Button Style="{StaticResource TertiaryButtonStyle}"
+                                Margin="10 0 0 0"
+                                Content="Cancel" />
+
+                    </StackPanel>
+                    
+                </Grid>
+
+            </Border>
+
+            <Grid Grid.Column="1">
+                
+                <customControls:LoadingSpinner IsLoading="{Binding IsItemsGridLoading}"
+                                               Thickness="5"
+                                               Diameter="100" />
+
+                <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+
+                    <TextBlock Text="No Sources Found" />
+
+                    <DataGrid ItemsSource="{Binding BlogPostItemSources}" Style="{StaticResource PrimaryDataGridStyle}">
+
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow" BasedOn="{StaticResource PrimaryDataGridRowStyle}" />
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource PrimaryDataGridCellStyle}" />
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+                            
+                            <DataGridTextColumn Header="Name" Width="80" Binding="{Binding SourceName, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Url" Width="*" Binding="{Binding SourceUrl, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Image" Width="150" Binding="{Binding ImageUrl, Mode=OneWay}" />
+                            <DataGridCheckBoxColumn Header="Active" Width="40" Binding="{Binding Active, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Added" Width="150" Binding="{Binding DateCreated, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
+                            
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </Grid>
+                
+            </Grid>
+
+        </Grid>
+
     </Grid>
-    
+
 </UserControl>

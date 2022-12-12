@@ -4,5 +4,6 @@
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+    <converters:IsValueNullToVisibilityConverter x:Key="IsValueNullToVisibilityConverter" />
 
 </ResourceDictionary>

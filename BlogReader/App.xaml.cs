@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using ToastNotifications;
 using ToastNotifications.Core;
 using ToastNotifications.Lifetime;
@@ -102,6 +104,14 @@ namespace BlogReader
             EventManager.RegisterClassHandler(typeof(Hyperlink),
                 Hyperlink.ClickEvent,
                 new RoutedEventHandler(_appData.Hyperlink_RequestNavigate));
+
+            EventManager.RegisterClassHandler(typeof(TextBox),
+                TextBox.GotKeyboardFocusEvent,
+                new KeyboardFocusChangedEventHandler(_appData.TextBox_GotKeyboardFocus));
+
+            EventManager.RegisterClassHandler(typeof(TextBox),
+                TextBox.PreviewMouseDownEvent,
+                new MouseButtonEventHandler(_appData.TextBox_PreviewMouseDown));
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -1,6 +1,5 @@
 ﻿using BlogReader.Commands;
 using BlogReader.Stores;
-using System.Windows.Input;
 
 namespace BlogReader.ViewModels
 {
@@ -10,7 +9,7 @@ namespace BlogReader.ViewModels
 
         public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        public ICommand NavigateCommand { get; }
+        public BaseCommand NavigateCommand { get; }
 
         public MainWindowViewModel(NavigationStore navigationStore, NotificationsStore notificationsStore, BlogPostItemsStore blogPostItemsStore)
         {

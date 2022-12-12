@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogReader.Helpers;
+using System;
 
 namespace BlogReader.Models
 {
@@ -113,6 +114,11 @@ namespace BlogReader.Models
                 _markedAsIrrelevant = value;
                 OnPropertyChanged(nameof(MarkedAsIrrelevant));
             }
+        }
+
+        public static void Copy(BlogPostItem copyFrom, BlogPostItem copyTo)
+        {
+            PropertyCopier<BlogPostItem, BlogPostItem>.Copy(copyFrom, copyTo);
         }
     }
 }

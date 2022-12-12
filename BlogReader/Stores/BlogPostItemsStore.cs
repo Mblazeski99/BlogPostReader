@@ -75,10 +75,20 @@ namespace BlogReader.Stores
             }
         }
 
-        public void AddBlogPostItem(BlogPostItem blogPostItem)
+        public void AddOrUpdateBlogPostItem(BlogPostItem blogPostItem)
         {
-            blogPostItem.DateCreated = DateTime.Now;
-            _blogPostItems.Add(blogPostItem);
+            var existingBlogPostItem = _blogPostItems.SingleOrDefault(b => b.Id == blogPostItem.Id);
+            if (existingBlogPostItem == null)
+            {
+                blogPostItem.DateCreated = DateTime.Now;
+                _blogPostItems.Add(blogPostItem);
+            }
+            else
+            {
+                BlogPostItem.Copy(blogPostItem, existingBlogPostItem);
+                existingBlogPostItem.DateModified = DateTime.Now;
+            }
+
             BlogPostItemsChanged?.Invoke(_blogPostItems, EventArgs.Empty);
         }
 
@@ -99,11 +109,13 @@ namespace BlogReader.Stores
             var existingItemSource = _blogPostItemSources.SingleOrDefault(bs => bs.Id == itemSource.Id);
             if (existingItemSource == null)
             {
+                itemSource.DateCreated = DateTime.Now;
                 _blogPostItemSources.Add(itemSource);
             }
             else
             {
                 BlogPostItemSource.Copy(itemSource, existingItemSource);
+                existingItemSource.DateModified = DateTime.Now;
             }
 
             BlogPostItemSourcesChanged?.Invoke(itemSource, EventArgs.Empty);

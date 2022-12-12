@@ -8,8 +8,7 @@
         WindowState="Maximized"
         mc:Ignorable="d"
         Title="Blog Reader"
-        FontFamily="/Assets/Fonts/Metric-Medium.ttf #Metric"
-        FontSize="18"
+        Style="{StaticResource WindowViewStyle}"
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 
     <Window.Resources>
@@ -28,7 +27,7 @@
 
     </Window.Resources>
     
-    <Grid>
+    <Grid Margin="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

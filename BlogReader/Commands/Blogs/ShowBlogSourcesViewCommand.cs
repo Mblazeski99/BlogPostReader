@@ -5,17 +5,15 @@ using System.Windows;
 
 namespace BlogReader.Commands.Blogs
 {
-    public class ShowBlogSourcesView : BaseCommand
+    public class ShowBlogSourcesViewCommand : BaseCommand
     {
         private Window _blogPostSourcesWindow;
         private readonly NotificationsStore _notificationsStore;
         private readonly BlogPostItemsStore _blogPostItemsStore;
 
-        public ShowBlogSourcesView(Window blogPostSourcesWindow, 
-            NotificationsStore notificationsStore, 
+        public ShowBlogSourcesViewCommand(NotificationsStore notificationsStore, 
             BlogPostItemsStore blogPostItemsStore)
         {
-            _blogPostSourcesWindow = blogPostSourcesWindow;
             _notificationsStore = notificationsStore;
             _blogPostItemsStore = blogPostItemsStore;
         }
@@ -29,8 +27,8 @@ namespace BlogReader.Commands.Blogs
                 var content = new BlogSourcesView();
                 content.DataContext = new BlogSourcesViewModel(_notificationsStore, _blogPostItemsStore);
 
-                _blogPostSourcesWindow.Height = 450;
-                _blogPostSourcesWindow.Width = 800;
+                _blogPostSourcesWindow.Height = (SystemParameters.PrimaryScreenHeight * 0.80);
+                _blogPostSourcesWindow.Width = (SystemParameters.PrimaryScreenWidth * 0.80);
                 _blogPostSourcesWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 _blogPostSourcesWindow.Title = "Blog Sources";
                 _blogPostSourcesWindow.Show();
@@ -41,6 +39,16 @@ namespace BlogReader.Commands.Blogs
                     _blogPostSourcesWindow.Visibility = Visibility.Collapsed;
                 };
             }
+            else
+            {
+                _blogPostSourcesWindow.Focus();
+            }
+        }
+
+        public override void Dispose()
+        {
+            _blogPostSourcesWindow?.Close();
+            base.Dispose();
         }
     }
 }
