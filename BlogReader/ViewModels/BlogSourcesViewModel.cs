@@ -6,6 +6,7 @@ using BlogReader.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BlogReader.ViewModels
 {
@@ -18,6 +19,10 @@ namespace BlogReader.ViewModels
         private BlogPostItemSource _selectedSourceItem;
         private bool _isItemsGridLoading;
         private bool _isLoading;
+
+        private Dictionary<string, string> _dataPropertyErrors;
+
+        public Dictionary<string, string> DataPropertyErrors => _dataPropertyErrors;
 
         public bool IsItemsGridLoading
         {
@@ -54,19 +59,59 @@ namespace BlogReader.ViewModels
 
         public IEnumerable<BlogPostItemSource> BlogPostItemSources => _blogPostItemsSources;
 
-        public BaseCommand AddOrEditBlogSourceItemCommand { get; }
-        public BaseCommand InsertOrUpdateBlogItemSourceCommand { get; }
-        public BaseCommand RemoveBlogItemSourceCommand { get; }
+        public event Action ItemRemoved;
 
-        public BlogSourcesViewModel(NotificationsStore notificationsStore, BlogPostItemsStore blogPostItemsStore)
+        public BaseCommand AddNewSourceItemCommand { get; }
+        public BaseCommand InsertOrUpdateBlogItemSourceCommand { get; }
+        public BaseCommand CancelNewSourceItemCommand { get; }
+        public BaseCommand EditBlogSourceItemCommand { get; }        
+        public BaseCommand RemoveBlogSourceItemCommand { get; }
+
+        public BlogSourcesViewModel(NotificationsStore notificationsStore, 
+            BlogPostItemsStore blogPostItemsStore)
         {
+            _dataPropertyErrors = new Dictionary<string, string>
+            {
+                { nameof(BlogPostItemSource.SourceName), string.Empty },
+                { nameof(BlogPostItemSource.SourceUrl), string.Empty }
+            };
+
             _blogPostItemsStore = blogPostItemsStore;
             _notificationsStore = notificationsStore;
 
-            AddOrEditBlogSourceItemCommand = new AddOrEditBlogSourceItemCommand(this);
+            AddNewSourceItemCommand = new CreateNewBlogSourceItemCommand(this);
+            CancelNewSourceItemCommand = new CancelNewSourceItemCommand(this);
+            InsertOrUpdateBlogItemSourceCommand = new InsertOrUpdateBlogItemSourceCommand(this, blogPostItemsStore, notificationsStore);
+            EditBlogSourceItemCommand = new EditBlogSourceItemCommand(this, blogPostItemsStore, notificationsStore);
+            RemoveBlogSourceItemCommand = new RemoveBlogSourceItemCommand(this, blogPostItemsStore, notificationsStore);
+
+            InsertOrUpdateBlogItemSourceCommand.OnExecuted += InvokeItemRemovedEvent;
+            RemoveBlogSourceItemCommand.OnExecuted += InvokeItemRemovedEvent;
 
             LoadSources();
             _blogPostItemsStore.BlogPostItemSourcesChanged += OnSourcesUpdated;
+        }
+
+        public void AddDataPropertyError(string propertyName, string errorMessage) 
+        {
+            if (_dataPropertyErrors.ContainsKey(propertyName) == false)
+            {
+                _dataPropertyErrors.Add(propertyName, string.Empty);
+            }
+
+            _dataPropertyErrors[propertyName] = errorMessage;
+            OnPropertyChanged(nameof(DataPropertyErrors));
+        }
+
+        public void ClearDataPropertyErrors()
+        {
+            _dataPropertyErrors.Clear();
+            OnPropertyChanged(nameof(DataPropertyErrors));
+        }
+
+        public bool HasDataPropertyErrors()
+        {
+            return _dataPropertyErrors.Any(dpi => string.IsNullOrEmpty(dpi.Value) == false);
         }
 
         private void LoadSources()
@@ -78,12 +123,12 @@ namespace BlogReader.ViewModels
                 _blogPostItemsSources.Clear();
                 foreach (BlogPostItemSource source in _blogPostItemsStore.BlogPostItemSources)
                 {
-                    _blogPostItemsSources.Add(source);
+                    _blogPostItemsSources.Add(BlogPostItemSource.CreateNewCopy(source));
                 }
             }
             catch (Exception ex)
             {
-                var error = new Notification($"Failed to load blog sources: {ex}", MessageType.Error);
+                var error = new Notification(MessageType.Error, "Failed to load blog sources", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally
@@ -95,6 +140,11 @@ namespace BlogReader.ViewModels
         private void OnSourcesUpdated(object sender, EventArgs args)
         {
             LoadSources();
+        }
+    
+        private void InvokeItemRemovedEvent(object sender, EventArgs args)
+        {
+            ItemRemoved?.Invoke();
         }
     }
 }

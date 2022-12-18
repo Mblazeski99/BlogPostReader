@@ -25,7 +25,15 @@ namespace BlogReader.Commands.Blogs
             {
                 _blogPostSourcesWindow = new Window();
                 var content = new BlogSourcesView();
-                content.DataContext = new BlogSourcesViewModel(_notificationsStore, _blogPostItemsStore);
+
+                var contentViewModel = new BlogSourcesViewModel(_notificationsStore, _blogPostItemsStore);
+                contentViewModel.ItemRemoved += () =>
+                {
+                    _blogPostSourcesWindow.Topmost = true;
+                    _blogPostSourcesWindow.Topmost = false;
+                };
+
+                content.DataContext = contentViewModel;
 
                 _blogPostSourcesWindow.Height = (SystemParameters.PrimaryScreenHeight * 0.80);
                 _blogPostSourcesWindow.Width = (SystemParameters.PrimaryScreenWidth * 0.80);

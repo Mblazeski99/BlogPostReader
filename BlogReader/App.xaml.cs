@@ -6,6 +6,7 @@ using BlogReader.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -21,10 +22,10 @@ namespace BlogReader
     public partial class App : Application
     {
         private readonly IHost _host;
+        private MessageOptions _notifierMessageOptions;
         private NotificationsStore _notificationsStore;
         private BlogPostItemsStore _blogPostItemsStore;
         private Notifier _notifier;
-        private AppData _appData;
 
         public App()
         {
@@ -39,7 +40,6 @@ namespace BlogReader
                     });
             }).Build();
 
-            _appData = new AppData();
             InitializeNotifier();
             InitializeGlobalEvents();
         }
@@ -59,7 +59,7 @@ namespace BlogReader
 
         private void InitializeNotifier()
         {
-            var notifierMessageOptions = new MessageOptions() { UnfreezeOnMouseLeave = true };
+            _notifierMessageOptions = new MessageOptions() { UnfreezeOnMouseLeave = true };
 
             _notifier = new Notifier(cfg =>
             {
@@ -78,40 +78,50 @@ namespace BlogReader
 
             _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
             _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
-            _notificationsStore.NotificationAdded += (currentNotification, args) =>
+
+            _blogPostItemsStore.OnException += (messageObj, args) =>
             {
-                var notification = currentNotification as Notification;
+                string message = messageObj?.ToString();
+                string exception = (args as ErrorEventArgs)?.GetException().ToString();
 
-                switch (notification?.MessageType)
-                {
-                    case MessageType.Error:
-                        _notifier.ShowError(notification.Message, notifierMessageOptions);
-                        break;
-
-                    case MessageType.Status:
-                        _notifier.ShowInformation(notification.Message, notifierMessageOptions);
-                        break;
-
-                    case MessageType.Success:
-                        _notifier.ShowSuccess(notification.Message, notifierMessageOptions);
-                        break;
-                }
+                var notification = new Notification(MessageType.Error, message, exception);
+                ShowNotification(notification);
             };
+
+            _notificationsStore.NotificationAdded += (currentNotification, args) => ShowNotification(currentNotification as Notification);
         }
 
         private void InitializeGlobalEvents()
         {
             EventManager.RegisterClassHandler(typeof(Hyperlink),
                 Hyperlink.ClickEvent,
-                new RoutedEventHandler(_appData.Hyperlink_RequestNavigate));
+                new RoutedEventHandler(AppData.Hyperlink_RequestNavigate));
 
             EventManager.RegisterClassHandler(typeof(TextBox),
                 TextBox.GotKeyboardFocusEvent,
-                new KeyboardFocusChangedEventHandler(_appData.TextBox_GotKeyboardFocus));
+                new KeyboardFocusChangedEventHandler(AppData.TextBox_GotKeyboardFocus));
 
             EventManager.RegisterClassHandler(typeof(TextBox),
                 TextBox.PreviewMouseDownEvent,
-                new MouseButtonEventHandler(_appData.TextBox_PreviewMouseDown));
+                new MouseButtonEventHandler(AppData.TextBox_PreviewMouseDown));
+        }
+
+        private void ShowNotification(Notification notification)
+        {
+            switch (notification?.MessageType)
+            {
+                case MessageType.Error:
+                    _notifier.ShowError(notification.Message, _notifierMessageOptions);
+                    break;
+
+                case MessageType.Status:
+                    _notifier.ShowInformation(notification.Message, _notifierMessageOptions);
+                    break;
+
+                case MessageType.Success:
+                    _notifier.ShowSuccess(notification.Message, _notifierMessageOptions);
+                    break;
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

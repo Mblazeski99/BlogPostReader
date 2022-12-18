@@ -5,11 +5,15 @@ namespace BlogReader.Models
 {
     public abstract class BaseEntity : INotifyPropertyChanged
     {
-        private readonly string _id;
+        private string _id;
         private DateTime? _dateCreated;
         private DateTime? _dateModified;
 
-        public string Id => _id;
+        public string Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
         public DateTime? DateCreated
         {
@@ -24,11 +28,7 @@ namespace BlogReader.Models
         public DateTime? DateModified
         {
             get { return _dateModified; }
-            set
-            {
-                _dateModified = value;
-                OnPropertyChanged(nameof(DateModified));
-            }
+            set { _dateModified = value; }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

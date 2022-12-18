@@ -53,5 +53,12 @@ namespace BlogReader.Models
         {
             PropertyCopier<BlogPostItemSource, BlogPostItemSource>.Copy(copyFrom, copyTo);
         }
+
+        public static BlogPostItemSource CreateNewCopy(BlogPostItemSource source)
+        {
+            var newSource = new BlogPostItemSource();
+            Copy(source, newSource);
+            return newSource;
+        }
     }
 }

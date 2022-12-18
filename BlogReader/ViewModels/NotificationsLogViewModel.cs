@@ -66,7 +66,7 @@ namespace BlogReader.ViewModels
             }
             catch (Exception ex)
             {
-                var error = new Notification($"Failed to load notifications: {ex}", MessageType.Error);
+                var error = new Notification(MessageType.Error, "Failed to load notifications", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally

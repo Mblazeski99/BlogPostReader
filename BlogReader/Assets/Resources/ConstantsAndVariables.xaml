@@ -23,6 +23,9 @@
 
     <Color x:Key="CardBackgroundColor">#c2cdd6</Color>
     <SolidColorBrush x:Key="CardBackgroundColorBrush" Color="{StaticResource CardBackgroundColor}" />
+
+    <Color x:Key="ErrorColor">#d80143</Color>
+    <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
     <!--#endregion-->
 
     <sys:String x:Key="Hidden">hidden</sys:String>

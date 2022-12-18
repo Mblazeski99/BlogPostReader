@@ -21,6 +21,8 @@ namespace BlogReader.Stores
         public event EventHandler BlogPostItemSourcesChanged;
         public event EventHandler BlogPostItemsChanged;
 
+        public event EventHandler OnException;
+
         public BlogPostItemsStore() : base()
         {
             _blogPostItemsFilePath = DataItemsFolderPath + @"\BlogPostItems.txt";
@@ -62,16 +64,25 @@ namespace BlogReader.Stores
                 using (FileStream fs = File.Create(_blogPostItemSourcesFilePath)) { }
             }
 
-            GetAllBlogPostItems();
+            FetchAllBlogPostSourceData();
         }
 
-        public async void GetAllBlogPostItems()
+        public async void FetchAllBlogPostSourceData()
         {
-            var client = new HttpClient();
-
-            foreach (BlogPostItemSource source in _blogPostItemSources.Where(s => s.Active))
+            try
             {
-                var sourceResponse = await client.GetAsync(source.SourceUrl);
+                var client = new HttpClient();
+
+                foreach (BlogPostItemSource source in _blogPostItemSources.Where(s => s.Active))
+                {
+                    var response = await client.GetAsync(source.SourceUrl);
+                    var strResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "Failed to get blogs for one or all of the sources";
+                OnException?.Invoke(msg, new ErrorEventArgs(ex));
             }
         }
 
@@ -102,6 +113,11 @@ namespace BlogReader.Stores
         {
             _blogPostItems.Clear();
             BlogPostItemsChanged?.Invoke(_blogPostItems, EventArgs.Empty);
+        }
+
+        public BlogPostItemSource GetBlogItemSourceById(string id)
+        {
+            return _blogPostItemSources.SingleOrDefault(s => s.Id == id);
         }
 
         public void AddOrUpdateBlogItemSource(BlogPostItemSource itemSource)

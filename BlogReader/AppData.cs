@@ -4,18 +4,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System;
 
 namespace BlogReader
 {
-    public class AppData
+    public static class AppData
     {
         #region EventHandlers
-        public void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        public static void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             (sender as TextBox)?.SelectAll();
         }
 
-        public void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        public static void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             DependencyObject parent = e.OriginalSource as UIElement;
             while (parent != null && !(parent is TextBox))
@@ -37,7 +38,7 @@ namespace BlogReader
             }
         }
 
-        public void Hyperlink_RequestNavigate(object sender, RoutedEventArgs e)
+        public static void Hyperlink_RequestNavigate(object sender, RoutedEventArgs e)
         {
             Hyperlink link = (Hyperlink)e.OriginalSource;
             Process.Start(new ProcessStartInfo()
@@ -45,6 +46,17 @@ namespace BlogReader
                 FileName = link.NavigateUri.AbsoluteUri,
                 UseShellExecute = true
             });
+        }
+        #endregion
+
+        #region String Extension Methods
+        public static bool IsValidUri(this string uri)
+        {
+            Uri uriResult;
+            bool result = Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+            return result;
         }
         #endregion
     }

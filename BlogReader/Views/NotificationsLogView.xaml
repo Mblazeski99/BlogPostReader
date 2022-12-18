@@ -48,7 +48,7 @@
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Width="150" Binding="{Binding DateCreated, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
+                        <DataGridTextColumn Header="Date" Width="175" Binding="{Binding DateCreated, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
                         <DataGridTextColumn Header="Type" Width="80" Binding="{Binding MessageType, Mode=OneWay}" />
                         <DataGridTextColumn Header="Notification" Width="*" Binding="{Binding Message, Mode=OneWay}" />
                     </DataGrid.Columns>

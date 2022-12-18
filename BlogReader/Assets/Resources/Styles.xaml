@@ -26,6 +26,14 @@
         <Setter Property="Margin" Value="0 21 0 0" />
 
     </Style>
+
+    <Style x:Key="DataPropertyErrorTextBlock" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Bold.ttf #Metric" />
+        <Setter Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+        <Setter Property="FontSize" Value="12" />
+
+    </Style>
     <!--#endregion-->
     
     <!--#region TextBox -->
@@ -121,6 +129,16 @@
 
     </Style>
 
+    <Style x:Key="DataGridColumnPrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <Style x:Key="DataGridColumnTertiaryButtonStyle" TargetType="Button" BasedOn="{StaticResource TertiaryButtonStyle}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
     <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
     <!--#endregion-->
 
@@ -207,6 +225,11 @@
             </Setter.Value>
         </Setter>
 
+    </Style>
+
+    <Style x:Key="DataGridCheckBoxColumnStyle" TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
 
     <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle}" />

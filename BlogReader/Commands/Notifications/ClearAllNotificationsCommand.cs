@@ -32,7 +32,7 @@ namespace BlogReader.Commands.Notifications
             }
             catch (Exception ex)
             {
-                var error = new Notification($"Failed to notifications: {ex}", MessageType.Error);
+                var error = new Notification(MessageType.Error, "Failed to load notifications", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally

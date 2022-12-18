@@ -66,7 +66,7 @@ namespace BlogReader.Commands
             }
             catch (Exception ex)
             {
-                Notification error = new Notification(ex.ToString(), MessageType.Error);
+                Notification error = new Notification(MessageType.Error, ex.ToString(), ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
         }
