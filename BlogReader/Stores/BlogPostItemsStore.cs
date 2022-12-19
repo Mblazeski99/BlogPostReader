@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Windows.Media.Imaging;
 
 namespace BlogReader.Stores
 {
@@ -12,10 +13,12 @@ namespace BlogReader.Stores
     {
         private readonly string _blogPostItemsFilePath = String.Empty;
         private readonly string _blogPostItemSourcesFilePath = String.Empty;
+        private readonly string _blogPostItemSourceUploadsFolderPath = String.Empty;
         private readonly ObservableCollection<BlogPostItemSource> _blogPostItemSources = new ObservableCollection<BlogPostItemSource>();
         private readonly ObservableCollection<BlogPostItem> _blogPostItems = new ObservableCollection<BlogPostItem>();
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
+
         public ObservableCollection<BlogPostItemSource> BlogPostItemSources => _blogPostItemSources;
 
         public event EventHandler BlogPostItemSourcesChanged;
@@ -27,8 +30,8 @@ namespace BlogReader.Stores
         {
             _blogPostItemsFilePath = DataItemsFolderPath + @"\BlogPostItems.txt";
             _blogPostItemSourcesFilePath = DataItemsFolderPath + @"\BlogPostItemSources.txt";
+            _blogPostItemSourceUploadsFolderPath = DataItemsFolderPath + @"\BlogPostItemSourceUploads";
 
-            // Checks if BlogPostItems.txt exists
             if (File.Exists(_blogPostItemsFilePath))
             {
                 using (StreamReader sr = new StreamReader(_blogPostItemsFilePath))
@@ -42,11 +45,9 @@ namespace BlogReader.Stores
             }
             else
             {
-                // if not then create one
                 using (FileStream fs = File.Create(_blogPostItemsFilePath)) { }
             }
 
-            // Checks if BlogPostItemSources.txt exists
             if (File.Exists(_blogPostItemSourcesFilePath))
             {
                 using (StreamReader sr = new StreamReader(_blogPostItemSourcesFilePath))
@@ -60,30 +61,15 @@ namespace BlogReader.Stores
             }
             else
             {
-                // if not then create one
                 using (FileStream fs = File.Create(_blogPostItemSourcesFilePath)) { }
             }
 
+            if (Directory.Exists(_blogPostItemSourceUploadsFolderPath) == false)
+            {
+                Directory.CreateDirectory(_blogPostItemSourceUploadsFolderPath);
+            }
+
             FetchAllBlogPostSourceData();
-        }
-
-        public async void FetchAllBlogPostSourceData()
-        {
-            try
-            {
-                var client = new HttpClient();
-
-                foreach (BlogPostItemSource source in _blogPostItemSources.Where(s => s.Active))
-                {
-                    var response = await client.GetAsync(source.SourceUrl);
-                    var strResponse = await response.Content.ReadAsStringAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                string msg = "Failed to get blogs for one or all of the sources";
-                OnException?.Invoke(msg, new ErrorEventArgs(ex));
-            }
         }
 
         public void AddOrUpdateBlogPostItem(BlogPostItem blogPostItem)
@@ -122,33 +108,88 @@ namespace BlogReader.Stores
 
         public void AddOrUpdateBlogItemSource(BlogPostItemSource itemSource)
         {
+            string sourceImagePath = new Uri($@"{_blogPostItemSourceUploadsFolderPath}\{itemSource.ImageName}.png")
+                .ToString()
+                .Replace("file:///", String.Empty)
+                .Replace(@"//", @"/");
+
             var existingItemSource = _blogPostItemSources.SingleOrDefault(bs => bs.Id == itemSource.Id);
             if (existingItemSource == null)
             {
                 itemSource.DateCreated = DateTime.Now;
+                itemSource.ImagePath = sourceImagePath;
+
                 _blogPostItemSources.Add(itemSource);
             }
             else
             {
+                File.Delete(sourceImagePath);
+
                 BlogPostItemSource.Copy(itemSource, existingItemSource);
+                existingItemSource.ImagePath = sourceImagePath;
                 existingItemSource.DateModified = DateTime.Now;
             }
 
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(itemSource.ImageSource));
+            
+            using (var fileStream = new FileStream(sourceImagePath, FileMode.Create, FileAccess.Write))
+            {
+                encoder.Save(fileStream);
+                fileStream.Close();
+            }
+
+            SaveBlogSourcesToFile();
             BlogPostItemSourcesChanged?.Invoke(itemSource, EventArgs.Empty);
         }
 
         public void RemoveBlogItemSource(string sourceId)
         {
             var itemSourceToRemove = _blogPostItemSources.SingleOrDefault(bs => bs.Id == sourceId);
+
             _blogPostItemSources.Remove(itemSourceToRemove);
             BlogPostItemSourcesChanged?.Invoke(itemSourceToRemove, EventArgs.Empty);
+
+            string sourceImagePath = $"{_blogPostItemSourceUploadsFolderPath}/{itemSourceToRemove.ImageName}.png";
+            File.Delete(sourceImagePath);
         }
 
         public override void Dispose()
         {
             SaveItemsToFile(_blogPostItemsFilePath, _blogPostItems.ToList());
-            SaveItemsToFile(_blogPostItemSourcesFilePath, _blogPostItemSources.ToList());
+            SaveBlogSourcesToFile();
             base.Dispose();
+        }
+
+        private void FetchAllBlogPostSourceData()
+        {
+            var client = new HttpClient();
+
+            foreach (BlogPostItemSource source in _blogPostItemSources.Where(s => s.Active))
+            {
+                FetchBlogPostSourceData(source);
+            }
+        }
+
+        private async void FetchBlogPostSourceData(BlogPostItemSource source)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var response = await client.GetAsync(source.SourceUrl);
+                var strResponse = await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                string msg = $"Failed to get blogs for: '{source.SourceName}'";
+                OnException?.Invoke(msg, new ErrorEventArgs(ex));
+            }
+        }
+
+        private void SaveBlogSourcesToFile()
+        {
+            SaveItemsToFile(_blogPostItemSourcesFilePath, _blogPostItemSources.ToList());
         }
     }
 }

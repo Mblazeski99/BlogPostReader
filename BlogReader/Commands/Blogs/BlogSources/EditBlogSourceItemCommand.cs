@@ -3,6 +3,7 @@ using BlogReader.Models;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
+using System.Windows.Media.Imaging;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {
@@ -39,6 +40,14 @@ namespace BlogReader.Commands.Blogs.BlogSources
                 }
 
                 _viewModel.SelectedSourceItem = BlogPostItemSource.CreateNewCopy(itemToEdit);
+
+                var sourceImage = new BitmapImage();
+                sourceImage.BeginInit();
+                sourceImage.CacheOption = BitmapCacheOption.OnLoad;
+                sourceImage.UriSource = new Uri(itemToEdit.ImagePath);
+                sourceImage.EndInit();
+
+                _viewModel.SourceImg = sourceImage;
             }
             catch (Exception ex)
             {

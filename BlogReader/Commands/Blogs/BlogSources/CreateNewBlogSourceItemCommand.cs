@@ -14,7 +14,8 @@ namespace BlogReader.Commands.Blogs.BlogSources
 
         public override void Execute(object parameter)
         {
-            // TODO: Add default image
+            _viewModel.SourceImg = _viewModel.DefualtSourceImg;
+
             _viewModel.SelectedSourceItem = new BlogPostItemSource()
             {
                 Active = true,

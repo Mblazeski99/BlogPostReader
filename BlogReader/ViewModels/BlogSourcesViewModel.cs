@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace BlogReader.ViewModels
 {
@@ -19,8 +20,20 @@ namespace BlogReader.ViewModels
         private BlogPostItemSource _selectedSourceItem;
         private bool _isItemsGridLoading;
         private bool _isLoading;
-
+        private BitmapImage _sourceImg;
         private Dictionary<string, string> _dataPropertyErrors;
+
+        public readonly BitmapImage DefualtSourceImg = new BitmapImage(new Uri(@"\Assets\DefaultSourceImage.png", UriKind.Relative));
+
+        public BitmapImage SourceImg
+        {
+            get { return _sourceImg; }
+            set
+            {
+                _sourceImg = value;
+                OnPropertyChanged(nameof(SourceImg));
+            }
+        }
 
         public Dictionary<string, string> DataPropertyErrors => _dataPropertyErrors;
 
@@ -66,6 +79,7 @@ namespace BlogReader.ViewModels
         public BaseCommand CancelNewSourceItemCommand { get; }
         public BaseCommand EditBlogSourceItemCommand { get; }        
         public BaseCommand RemoveBlogSourceItemCommand { get; }
+        public BaseCommand UploadImageCommand { get; }
 
         public BlogSourcesViewModel(NotificationsStore notificationsStore, 
             BlogPostItemsStore blogPostItemsStore)
@@ -84,6 +98,7 @@ namespace BlogReader.ViewModels
             InsertOrUpdateBlogItemSourceCommand = new InsertOrUpdateBlogItemSourceCommand(this, blogPostItemsStore, notificationsStore);
             EditBlogSourceItemCommand = new EditBlogSourceItemCommand(this, blogPostItemsStore, notificationsStore);
             RemoveBlogSourceItemCommand = new RemoveBlogSourceItemCommand(this, blogPostItemsStore, notificationsStore);
+            UploadImageCommand = new UploadImageCommand(this, notificationsStore);
 
             InsertOrUpdateBlogItemSourceCommand.OnExecuted += InvokeItemRemovedEvent;
             RemoveBlogSourceItemCommand.OnExecuted += InvokeItemRemovedEvent;

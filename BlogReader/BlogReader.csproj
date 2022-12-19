@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\DefaultSourceImage.png" />
     <None Remove="Assets\Fonts\Metric-Black.ttf" />
     <None Remove="Assets\Fonts\Metric-BlackItalic.ttf" />
     <None Remove="Assets\Fonts\Metric-Bold.ttf" />
@@ -33,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\DefaultSourceImage.png" />
     <Resource Include="Assets\Fonts\Metric-Black.ttf" />
     <Resource Include="Assets\Fonts\Metric-BlackItalic.ttf" />
     <Resource Include="Assets\Fonts\Metric-Bold.ttf" />

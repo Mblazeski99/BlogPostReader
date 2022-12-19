@@ -11,9 +11,11 @@
     <Grid IsHitTestVisible="{Binding EnableInput}" Margin="20">
 
         <Grid.RowDefinitions>
+            
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            
         </Grid.RowDefinitions>
 
         <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Blog Sources" />
@@ -80,8 +82,20 @@
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
 
-                            <Label Content="Image" />
-                            <TextBox Text="{Binding SelectedSourceItem.ImageUrl, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                
+                                <Button HorizontalAlignment="Left" VerticalAlignment="Top"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Command="{Binding UploadImageCommand}" 
+                                        Content="Upload Image"
+                                        Margin="0 4 10 0" />
+
+                                <Image Source="{Binding SourceImg, UpdateSourceTrigger=PropertyChanged}"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       HorizontalAlignment="Left"
+                                       Width="120" Height="40" />
+                                
+                            </StackPanel>
 
                             <CheckBox IsChecked="{Binding SelectedSourceItem.Active, Mode=TwoWay}" 
                                       HorizontalAlignment="Left"

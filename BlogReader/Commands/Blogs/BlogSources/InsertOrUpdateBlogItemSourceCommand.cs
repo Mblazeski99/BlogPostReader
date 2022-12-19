@@ -47,6 +47,10 @@ namespace BlogReader.Commands.Blogs.BlogSources
 
                 if (_viewModel.HasDataPropertyErrors()) return;
 
+                string imgName = $"BlogSource_{_viewModel.SelectedSourceItem.Id}";
+                _viewModel.SelectedSourceItem.ImageName = imgName;
+                _viewModel.SelectedSourceItem.ImageSource = _viewModel.SourceImg;
+
                 _blogPostItemsStore.AddOrUpdateBlogItemSource(_viewModel.SelectedSourceItem);
 
                 var notification = new Notification(MessageType.Success, "Successfully added/edited blog source");

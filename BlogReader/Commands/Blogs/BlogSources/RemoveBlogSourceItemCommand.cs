@@ -3,7 +3,9 @@ using BlogReader.Models.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {
@@ -33,10 +35,14 @@ namespace BlogReader.Commands.Blogs.BlogSources
 
                 if (answer == MessageBoxResult.Yes)
                 {
-                    _viewModel.IsLoading = true;
                     _viewModel.IsItemsGridLoading = true;
+
+                    if (_viewModel.SelectedSourceItem?.Id == itemToRemoveId)
+                    {
+                        _viewModel.SelectedSourceItem = null;
+                    }
+
                     _blogPostItemsStore.RemoveBlogItemSource(itemToRemoveId);
-                    _viewModel.SelectedSourceItem = null;
 
                     var notification = new Notification(MessageType.Success, "Successfully deleted blog source");
                     _notificationsStore.AddNotification(notification);
@@ -51,7 +57,6 @@ namespace BlogReader.Commands.Blogs.BlogSources
             }
             finally
             {
-                _viewModel.IsLoading = false;
                 _viewModel.IsItemsGridLoading = false;
             }
         }

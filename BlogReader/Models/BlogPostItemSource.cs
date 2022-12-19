@@ -1,4 +1,5 @@
 ﻿using BlogReader.Helpers;
+using System.Windows.Media.Imaging;
 
 namespace BlogReader.Models
 {
@@ -6,7 +7,9 @@ namespace BlogReader.Models
     {
         private string _sourceName;
         private string _sourceUrl;
-        private string _imageUrl;
+        private string _imageName;
+        private string _imagePath;
+        private BitmapSource _imageSource;
         private bool _active;
 
         public string SourceName 
@@ -29,13 +32,33 @@ namespace BlogReader.Models
             }
         }
 
-        public string ImageUrl
+        public string ImageName
         {
-            get { return _imageUrl; }
+            get { return _imageName; }
             set 
             {
-                _imageUrl = value; 
-                OnPropertyChanged(nameof(ImageUrl));
+                _imageName = value; 
+                OnPropertyChanged(nameof(ImageName));
+            }
+        }
+
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set 
+            {
+                _imagePath = value; 
+                OnPropertyChanged(nameof(ImagePath));
+            }
+        }
+
+        public BitmapSource ImageSource
+        {
+            get { return _imageSource; }
+            set 
+            {
+                _imageSource = value; 
+                OnPropertyChanged(nameof(ImageSource));
             }
         }
 
