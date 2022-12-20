@@ -1,4 +1,5 @@
 ﻿using BlogReader.Models.Enums;
+using System.Windows;
 
 namespace BlogReader.Models
 {
@@ -11,9 +12,9 @@ namespace BlogReader.Models
         public string Message
         {
             get { return _message; }
-            set 
+            set
             {
-                _message = value; 
+                _message = value;
                 OnPropertyChanged(nameof(Message));
             }
         }
@@ -21,20 +22,30 @@ namespace BlogReader.Models
         public string Exception
         {
             get { return _exception; }
-            set 
+            set
             {
-                _exception = value; 
+                _exception = value;
                 OnPropertyChanged(nameof(Exception));
             }
         }
 
-        public MessageType MessageType 
+        public MessageType MessageType
         {
             get { return _messageType; }
-            set 
+            set
             {
                 _messageType = value;
                 OnPropertyChanged(nameof(MessageType));
+            }
+        }
+
+        public string MessageTypeColor
+        {
+            get
+            {
+                string messageType = MessageType.ToString();
+                string color = (Application.Current as App).Resources[$"{messageType}Color"].ToString();
+                return color;
             }
         }
 

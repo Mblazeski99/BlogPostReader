@@ -93,7 +93,7 @@
                                 <Image Source="{Binding SourceImg, UpdateSourceTrigger=PropertyChanged}"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        HorizontalAlignment="Left"
-                                       Width="120" Height="40" />
+                                       Width="40" Height="40" />
                                 
                             </StackPanel>
 
@@ -147,7 +147,20 @@
                             
                             <DataGridTextColumn Header="Name" MinWidth="100" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridHyperlinkColumn Header="Url" Width="3*" Binding="{Binding SourceUrl, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Image" Width="150" Binding="{Binding ImageUrl, Mode=OneWay}" />
+
+                            <DataGridTemplateColumn Header="Image" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+
+                                        <Image Source="{Binding ImageSource, Mode=OneWay}"
+                                               RenderOptions.BitmapScalingMode="Fant"
+                                               Width="40" Height="40" 
+                                               Margin="0 3" />
+
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                             <DataGridCheckBoxColumn Header="Active" Width="60" Binding="{Binding Active, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
                             <DataGridTextColumn Header="Last Modified" Width="175" Binding="{Binding DateModified, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
 

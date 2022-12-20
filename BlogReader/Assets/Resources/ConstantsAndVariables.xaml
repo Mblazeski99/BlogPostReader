@@ -24,6 +24,12 @@
     <Color x:Key="CardBackgroundColor">#c2cdd6</Color>
     <SolidColorBrush x:Key="CardBackgroundColorBrush" Color="{StaticResource CardBackgroundColor}" />
 
+    <Color x:Key="SuccessColor">#11ad45</Color>
+    <SolidColorBrush x:Key="SuccessColorBrush" Color="{StaticResource SuccessColor}" />
+
+    <Color x:Key="InformationColor">#147ec9</Color>
+    <SolidColorBrush x:Key="InformationColorBrush" Color="{StaticResource InformationColor}" />
+
     <Color x:Key="ErrorColor">#d80143</Color>
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
     <!--#endregion-->

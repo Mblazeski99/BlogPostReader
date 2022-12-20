@@ -7,7 +7,7 @@
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:NotificationsLogViewModel, IsDesignTimeCreatable=True}">
-
+    
     <Grid IsHitTestVisible="{Binding EnableInput}">
 
         <Grid.RowDefinitions>
@@ -49,7 +49,20 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date" Width="175" Binding="{Binding DateCreated, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
-                        <DataGridTextColumn Header="Type" Width="80" Binding="{Binding MessageType, Mode=OneWay}" />
+
+                        <DataGridTemplateColumn Header="Type" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <TextBlock Text="{Binding MessageType, Mode=OneWay}"
+                                               Foreground="{Binding MessageTypeColor}"
+                                               Margin="5 0 0 0" />
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            
+                        </DataGridTemplateColumn>
+                        
                         <DataGridTextColumn Header="Notification" Width="*" Binding="{Binding Message, Mode=OneWay}" />
                     </DataGrid.Columns>
 
