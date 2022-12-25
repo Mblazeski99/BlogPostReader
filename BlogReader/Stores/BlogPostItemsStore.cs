@@ -19,8 +19,6 @@ namespace BlogReader.Stores
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
 
-        public ObservableCollection<BlogPostItemSource> BlogPostItemSources => _blogPostItemSources;
-
         public event EventHandler BlogPostItemSourcesChanged;
         public event EventHandler BlogPostItemsChanged;
 
@@ -108,7 +106,7 @@ namespace BlogReader.Stores
 
         public void AddOrUpdateBlogItemSource(BlogPostItemSource itemSource)
         {
-            string sourceImagePath = new Uri($@"{_blogPostItemSourceUploadsFolderPath}\{itemSource.ImageName}.png")
+            string sourceImagePath = new Uri($@"{_blogPostItemSourceUploadsFolderPath}\{itemSource.ImageName}_{DateTime.Now.Ticks}.png")
                 .ToString()
                 .Replace("file:///", String.Empty)
                 .Replace(@"//", @"/");
@@ -123,7 +121,7 @@ namespace BlogReader.Stores
             }
             else
             {
-                File.Delete(sourceImagePath);
+                File.Delete(existingItemSource.ImagePath);
 
                 BlogPostItemSource.Copy(itemSource, existingItemSource);
                 existingItemSource.ImagePath = sourceImagePath;
@@ -150,8 +148,23 @@ namespace BlogReader.Stores
             _blogPostItemSources.Remove(itemSourceToRemove);
             BlogPostItemSourcesChanged?.Invoke(itemSourceToRemove, EventArgs.Empty);
 
-            string sourceImagePath = $"{_blogPostItemSourceUploadsFolderPath}/{itemSourceToRemove.ImageName}.png";
-            File.Delete(sourceImagePath);
+            File.Delete(itemSourceToRemove.ImagePath);
+        }
+
+        public ObservableCollection<BlogPostItemSource> GetAllBlogPostItemSources()
+        {
+            foreach (var sourceItem in _blogPostItemSources)
+            {
+                var sourceImage = new BitmapImage();
+                sourceImage.BeginInit();
+                sourceImage.CacheOption = BitmapCacheOption.OnLoad;
+                sourceImage.UriSource = new Uri(sourceItem.ImagePath);
+                sourceImage.EndInit();
+
+                sourceItem.ImageSource = sourceImage;
+            }
+
+            return _blogPostItemSources;
         }
 
         public override void Dispose()
@@ -189,6 +202,11 @@ namespace BlogReader.Stores
 
         private void SaveBlogSourcesToFile()
         {
+            foreach (var sourceItem in _blogPostItemSources)
+            {
+                sourceItem.ImageSource = null;
+            }
+
             SaveItemsToFile(_blogPostItemSourcesFilePath, _blogPostItemSources.ToList());
         }
     }

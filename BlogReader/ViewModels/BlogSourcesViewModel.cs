@@ -136,7 +136,7 @@ namespace BlogReader.ViewModels
             try
             {
                 _blogPostItemsSources.Clear();
-                foreach (BlogPostItemSource source in _blogPostItemsStore.BlogPostItemSources)
+                foreach (BlogPostItemSource source in _blogPostItemsStore.GetAllBlogPostItemSources())
                 {
                     _blogPostItemsSources.Add(BlogPostItemSource.CreateNewCopy(source));
                 }
