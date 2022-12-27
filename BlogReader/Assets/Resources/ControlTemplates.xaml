@@ -98,4 +98,32 @@
         
     </ControlTemplate>
 
+    <ControlTemplate x:Key="TabItemControlTemplate" TargetType="{x:Type TabItem}">
+
+        <Grid>
+            <Border BorderBrush="{StaticResource SecondaryButtonColorBrush}" BorderThickness="2" 
+                    Name="Border">
+
+                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  RecognizesAccessKey="True"
+                                  ContentSource="Header"
+                                  x:Name="ContentSite"
+                                  Margin="10 5" />
+
+            </Border>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+
+                <Setter Property="Panel.ZIndex" Value="100" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryButtonColorBrush}" />
+                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                <Setter Property="Foreground" Value="{StaticResource PrimaryBackgroundColorBrush}" />
+
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+    
 </ResourceDictionary>

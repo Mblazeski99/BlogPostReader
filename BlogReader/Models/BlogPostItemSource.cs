@@ -11,6 +11,7 @@ namespace BlogReader.Models
         private string _imagePath;
         private BitmapSource _imageSource;
         private bool _active;
+        private RssContentModel _contentModel;
 
         public string SourceName 
         {
@@ -69,6 +70,16 @@ namespace BlogReader.Models
             {
                 _active = value; 
                 OnPropertyChanged(nameof(Active));
+            }
+        }
+
+        public RssContentModel ContentModel
+        {
+            get { return _contentModel; }
+            set 
+            {
+                _contentModel = value; 
+                OnPropertyChanged(nameof(ContentModel));
             }
         }
 

@@ -8,17 +8,15 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogSourcesViewModel, IsDesignTimeCreatable=True}">
 
-    <Grid IsHitTestVisible="{Binding EnableInput}" Margin="20">
+    <Grid IsHitTestVisible="{Binding EnableInput}">
 
         <Grid.RowDefinitions>
-            
+
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            
-        </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Blog Sources" />
+        </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
@@ -52,10 +50,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Border BorderThickness="0 0 0 2" 
-                            BorderBrush="Gray"
+                    <Border BorderThickness="0 0 0 2" BorderBrush="Gray"
                             Padding="0 0 0 16">
-                        
+
                         <StackPanel>
 
                             <StackPanel.Resources>
@@ -64,7 +61,7 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Text="(* required fields)" />
+                            <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" Text="(* required fields)" />
 
                             <Label Content="Name*" />
                             <TextBox Text="{Binding SelectedSourceItem.SourceName, Mode=TwoWay}" />
@@ -83,7 +80,7 @@
                                             ConverterParameter={StaticResource Hidden}}" />
 
                             <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                                
+
                                 <Button HorizontalAlignment="Left" VerticalAlignment="Top"
                                         Style="{StaticResource SecondaryButtonStyle}"
                                         Command="{Binding UploadImageCommand}" 
@@ -94,17 +91,17 @@
                                        RenderOptions.BitmapScalingMode="Fant"
                                        HorizontalAlignment="Left"
                                        Width="40" Height="40" />
-                                
+
                             </StackPanel>
 
-                            <CheckBox IsChecked="{Binding SelectedSourceItem.Active, Mode=TwoWay}" 
+                            <CheckBox IsChecked="{Binding SelectedSourceItem.Active, Mode=TwoWay}"
                                       HorizontalAlignment="Left"
-                                      Content="Active"
                                       Margin="0 10 0 0"
+                                      Content="Active"
                                       Width="60" />
 
                         </StackPanel>
-                        
+
                     </Border>
 
                     <StackPanel Orientation="Horizontal" 
@@ -121,13 +118,13 @@
                                 Content="Cancel" />
 
                     </StackPanel>
-                    
+
                 </Grid>
 
             </Border>
 
             <Grid Grid.Column="1">
-                
+
                 <customControls:LoadingSpinner IsLoading="{Binding IsItemsGridLoading}"
                                                Thickness="5"
                                                Diameter="100" />
@@ -144,7 +141,7 @@
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
-                            
+
                             <DataGridTextColumn Header="Name" MinWidth="100" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridHyperlinkColumn Header="Url" Width="3*" Binding="{Binding SourceUrl, Mode=OneWay}" />
 
@@ -196,7 +193,7 @@
                     </DataGrid>
 
                 </Grid>
-                
+
             </Grid>
 
         </Grid>

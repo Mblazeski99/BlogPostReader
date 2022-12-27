@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
+             xmlns:views="clr-namespace:BlogReader.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogsViewModel, IsDesignTimeCreatable=True}">
 
@@ -16,11 +17,24 @@
 
         <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Blogs" />
 
-        <Button VerticalAlignment="Top" HorizontalAlignment="Left"
-                Command="{Binding ShowBlogSourcesViewCommand}"
-                Style="{StaticResource SecondaryButtonStyle}"
-                Content="Blog Sources"
-                Grid.Row="1" />
+        <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    BorderThickness="0"
+                    Padding="2 20 0 0"
+                    Grid.Row="1">
+
+            <TabItem Header="Blogs">
+                <views:BlogsListingView DataContext="{Binding BlogsListingViewModel}" />
+            </TabItem>
+            
+            <TabItem Header="Blog Sources">
+                <views:BlogSourcesView DataContext="{Binding BlogSourcesViewModel}" />
+            </TabItem>
+            
+            <TabItem Header="Content Models">
+                <views:ContentModelsView DataContext="{Binding ContentModelsViewModel}" />
+            </TabItem>
+
+        </TabControl>
 
     </Grid>
     

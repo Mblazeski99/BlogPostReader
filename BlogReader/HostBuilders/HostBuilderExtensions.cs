@@ -15,6 +15,7 @@ namespace BlogReader.HostBuilders
                 services.AddSingleton<HomeViewModel>();
                 services.AddSingleton<NotificationsLogViewModel>();
                 services.AddSingleton<BlogSourcesViewModel>();
+                services.AddSingleton<BlogsListingViewModel>();
             });
 
             return hostBuilder;

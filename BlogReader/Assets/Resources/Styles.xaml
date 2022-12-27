@@ -256,4 +256,29 @@
     <Style TargetType="RadioButton" BasedOn="{StaticResource RadioButtonStyle}" />
     <!--#endregion-->
 
+    <!--#region TabControl -->
+    <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
+
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+
+    </Style>
+
+    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource TabControlStyle}" />
+
+    <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
+        <Setter Property="Foreground" Value="{StaticResource SecondaryButtonColorBrush}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Template" Value="{StaticResource TabItemControlTemplate}" />
+
+    </Style>
+
+    <Style TargetType="TabItem" BasedOn="{StaticResource TabItemStyle}" />
+    <!--#endregion-->
+    
 </ResourceDictionary>
