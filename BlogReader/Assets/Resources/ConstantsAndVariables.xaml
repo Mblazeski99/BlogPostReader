@@ -12,6 +12,9 @@
     <Color x:Key="PrimaryFocusedFontColor">#373c3e</Color>
     <SolidColorBrush x:Key="PrimaryFocusedFontColorBrush" Color="{StaticResource PrimaryFocusedFontColor}" />
 
+    <Color x:Key="PrimaryBorderColor">#FFABADB3</Color>
+    <SolidColorBrush x:Key="PrimaryBorderColorBrush" Color="{StaticResource PrimaryBorderColor}" />
+
     <Color x:Key="PrimaryBtnColor">#2e64d6</Color>
     <SolidColorBrush x:Key="PrimaryButtonColorBrush" Color="{StaticResource PrimaryBtnColor}" />
 
@@ -24,6 +27,9 @@
     <Color x:Key="CardBackgroundColor">#c2cdd6</Color>
     <SolidColorBrush x:Key="CardBackgroundColorBrush" Color="{StaticResource CardBackgroundColor}" />
 
+    <Color x:Key="SelectedDropDownItemColor">#ccdaff</Color>
+    <SolidColorBrush x:Key="SelectedDropDownItemColorBrush" Color="{StaticResource SelectedDropDownItemColor}" />
+
     <Color x:Key="SuccessColor">#11ad45</Color>
     <SolidColorBrush x:Key="SuccessColorBrush" Color="{StaticResource SuccessColor}" />
 
@@ -35,5 +41,6 @@
     <!--#endregion-->
 
     <sys:String x:Key="Hidden">hidden</sys:String>
-
+    <sys:String x:Key="PrimaryDateFormatString">dd-MMM-yyyy: hh:mm tt</sys:String>
+    
 </ResourceDictionary>

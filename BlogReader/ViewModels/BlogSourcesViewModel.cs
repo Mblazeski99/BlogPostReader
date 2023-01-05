@@ -70,7 +70,20 @@ namespace BlogReader.ViewModels
 
         public bool EnableInput => !IsLoading;
 
-        public IEnumerable<BlogPostItemSource> BlogPostItemSources => _blogPostItemsSources;
+        public int SelectedRssContentModelIndex
+        {
+            get 
+            {
+                int index = SelectedSourceItem != null 
+                    ? RssContentModels.IndexOf(RssContentModels.SingleOrDefault(cm => cm.Id == SelectedSourceItem.ContentModel?.Id)) 
+                    : -1;
+
+                return index;
+            }
+        }
+
+        public ObservableCollection<BlogPostItemSource> BlogPostItemSources => _blogPostItemsSources;
+        public ObservableCollection<RssContentModel> RssContentModels => _blogPostItemsStore.RssContentModels;
 
         public event Action ItemRemoved;
 
@@ -87,7 +100,8 @@ namespace BlogReader.ViewModels
             _dataPropertyErrors = new Dictionary<string, string>
             {
                 { nameof(BlogPostItemSource.SourceName), string.Empty },
-                { nameof(BlogPostItemSource.SourceUrl), string.Empty }
+                { nameof(BlogPostItemSource.SourceUrl), string.Empty },
+                { nameof(BlogPostItemSource.ContentModel), string.Empty }
             };
 
             _blogPostItemsStore = blogPostItemsStore;
@@ -102,6 +116,7 @@ namespace BlogReader.ViewModels
 
             InsertOrUpdateBlogItemSourceCommand.OnExecuted += InvokeItemRemovedEvent;
             RemoveBlogSourceItemCommand.OnExecuted += InvokeItemRemovedEvent;
+            EditBlogSourceItemCommand.OnExecuted += InvokeItemSelectedEvent;
 
             LoadSources();
             _blogPostItemsStore.BlogPostItemSourcesChanged += OnSourcesUpdated;
@@ -160,6 +175,11 @@ namespace BlogReader.ViewModels
         private void InvokeItemRemovedEvent(object sender, EventArgs args)
         {
             ItemRemoved?.Invoke();
+        }
+
+        private void InvokeItemSelectedEvent(object sender, EventArgs args) 
+        {
+            OnPropertyChanged(nameof(SelectedRssContentModelIndex));
         }
     }
 }

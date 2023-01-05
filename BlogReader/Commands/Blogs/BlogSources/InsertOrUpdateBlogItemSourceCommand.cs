@@ -30,19 +30,25 @@ namespace BlogReader.Commands.Blogs.BlogSources
                 _viewModel.ClearDataPropertyErrors();
                 if (string.IsNullOrEmpty(_viewModel.SelectedSourceItem.SourceName))
                 {
-                    string errorMsg = "Name field is required!";
+                    string errorMsg = "This field is required!";
                     _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.SourceName), errorMsg);
                 }
 
                 if (string.IsNullOrEmpty(_viewModel.SelectedSourceItem.SourceUrl))
                 {
-                    string errorMsg = "Url field is required!";
+                    string errorMsg = "This field is required!";
                     _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.SourceUrl), errorMsg);
                 }
                 else if (_viewModel.SelectedSourceItem.SourceUrl.IsValidUri() == false)
                 {
                     string errorMsg = "Not a valid url!";
                     _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.SourceUrl), errorMsg);
+                }
+
+                if (_viewModel.SelectedSourceItem.ContentModel == null)
+                {
+                    string errorMsg = "This field is required!";
+                    _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.ContentModel), errorMsg);
                 }
 
                 if (_viewModel.HasDataPropertyErrors()) return;

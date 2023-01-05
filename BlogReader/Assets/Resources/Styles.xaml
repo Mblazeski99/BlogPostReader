@@ -141,6 +141,48 @@
 
     <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
     <!--#endregion-->
+    
+    <!--#region ComboBox -->
+    <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
+
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="MinWidth" Value="120" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Regular.ttf #Metric" />
+        <Setter Property="Template" Value="{StaticResource ComboBoxControlTemplate}" />
+
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}">
+
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" Value="{StaticResource ComboBoxItemControlTemplate}" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource PrimaryButtonColorBrush}" />
+            </Trigger>
+
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedDropDownItemColorBrush}" />
+            </Trigger>
+
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource SelectedDropDownItemColorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+    
+    <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxStyle}" />
+    <!--#endregion-->
 
     <!--#region DataGrid -->
     <Style x:Key="PrimaryDataGridStyle" TargetType="DataGrid">
@@ -174,7 +216,9 @@
     </Style>
 
     <Style x:Key="PrimaryDataGridCellStyle" TargetType="DataGridCell">
+
         <Setter Property="Height" Value="40" />
+        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Regular.ttf #Metric" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -188,7 +232,7 @@
 
         <Style.Triggers>
             <Trigger Property="DataGridCell.IsSelected" Value="True">
-                <Setter Property="Background" Value="#CCDAFF" />
+                <Setter Property="Background" Value="{StaticResource SelectedDropDownItemColorBrush}" />
                 <Setter Property="BorderBrush" Value="#000" />
                 <Setter Property="Foreground" Value="#000" />
             </Trigger>

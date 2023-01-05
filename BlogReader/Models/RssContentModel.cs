@@ -7,7 +7,6 @@ namespace BlogReader.Models
         public string ModelName { get; set; }
 
         public string ItemContainerTag { get; set; }
-        public string IdTag { get; set; }
         public string TitleTag { get; set; }
         public string SummaryTag { get; set; }
         public string ContentTag { get; set; }

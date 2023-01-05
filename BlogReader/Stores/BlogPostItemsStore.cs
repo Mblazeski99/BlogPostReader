@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Windows.Media.Imaging;
+using System.Xml;
 
 namespace BlogReader.Stores
 {
@@ -21,6 +22,7 @@ namespace BlogReader.Stores
         private readonly ObservableCollection<RssContentModel> _rssContentModels = new ObservableCollection<RssContentModel>();
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
+        public ObservableCollection<RssContentModel> RssContentModels => _rssContentModels;
 
         public event EventHandler BlogPostItemSourcesChanged;
         public event EventHandler BlogPostItemsChanged;
@@ -90,6 +92,18 @@ namespace BlogReader.Stores
             FetchAllBlogPostSourceData();
         }
 
+        #region Blog Post Items
+        public ObservableCollection<BlogPostItem> GetAllBlogPostItems()
+        {
+            foreach (var blogPostItem in _blogPostItems)
+            {
+                var blogPostItemSource = _blogPostItemSources.SingleOrDefault(s => s.Id == blogPostItem.SourceId);
+                blogPostItem.SourceName = blogPostItemSource?.SourceName;
+            }
+
+            return _blogPostItems;
+        }
+
         public void AddOrUpdateBlogPostItem(BlogPostItem blogPostItem)
         {
             var existingBlogPostItem = _blogPostItems.SingleOrDefault(b => b.Id == blogPostItem.Id);
@@ -113,7 +127,9 @@ namespace BlogReader.Stores
             _blogPostItems.Remove(itemToRemove);
             BlogPostItemsChanged?.Invoke(_blogPostItems, EventArgs.Empty);
         }
+        #endregion
 
+        #region Blog Post Sources
         public BlogPostItemSource GetBlogItemSourceById(string id)
         {
             return _blogPostItemSources.SingleOrDefault(s => s.Id == id);
@@ -181,7 +197,9 @@ namespace BlogReader.Stores
 
             File.Delete(itemSourceToRemove.ImagePath);
         }
+        #endregion
 
+        #region RSS Content Models
         public void AddOrUpdateRssContentModel(RssContentModel model)
         {
             var existingModel = _rssContentModels.SingleOrDefault(m => m.Id == model.Id);
@@ -232,9 +250,15 @@ namespace BlogReader.Stores
             BlogPostItemSourcesChanged?.Invoke(_blogPostItemSources, EventArgs.Empty);
         }
 
+        public RssContentModel GetRssContentModelById(string id)
+        {
+            return _rssContentModels.SingleOrDefault(cm => cm.Id == id);
+        }
+        #endregion
+
         public override void Dispose()
         {
-            SaveItemsToFile(_blogPostItemsFilePath, _blogPostItems.ToList());
+            SaveBlogPostItemsToFile();
             SaveBlogSourcesToFile();
             SaveItemsToFile(_rssContentModelsFilePath, _rssContentModels.ToList());
             base.Dispose();
@@ -256,12 +280,105 @@ namespace BlogReader.Stores
 
                 var response = await client.GetAsync(source.SourceUrl);
                 var strResponse = await response.Content.ReadAsStringAsync();
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(strResponse);
+
+                var blogItems = doc.GetElementsByTagName(source.ContentModel.ItemContainerTag);
+                foreach (XmlNode blogItem in blogItems)
+                {
+                    string title = string.Empty;
+                    string summary = string.Empty;
+                    string content = string.Empty;
+                    DateTime? date = null;
+                    string author = string.Empty;
+                    string link = string.Empty;
+                    string imageLink = string.Empty;
+
+                    foreach (XmlNode childNode in blogItem.ChildNodes)
+                    {
+                        if (childNode.Name == source.ContentModel.TitleTag)
+                        {
+                            title = childNode.InnerText;
+                        }
+
+                        if (childNode.Name == source.ContentModel.SummaryTag)
+                        {
+                            summary = childNode.InnerText;
+                        }
+
+                        if (childNode.Name == source.ContentModel.ContentTag)
+                        {
+                            content = childNode.InnerText;
+                        }
+
+                        if (childNode.Name == source.ContentModel.DateTag)
+                        {
+                            bool success = DateTime.TryParse(childNode.InnerText, out var blogPostDate);
+                            date = success ? blogPostDate : null;
+                        }
+
+                        if (childNode.Name == source.ContentModel.AuthorTag)
+                        {
+                            author = childNode.InnerText;
+                        }
+
+                        if (childNode.Name == source.ContentModel.ItemLinkTag)
+                        {
+                            if (string.IsNullOrEmpty(childNode.InnerText))
+                            {
+                                foreach (XmlAttribute attribute in childNode.Attributes)
+                                {
+                                    if (attribute.Name == "href")
+                                    {
+                                        link = attribute.InnerText;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                link = childNode.InnerText;
+                            }
+                        }
+
+                        if (childNode.Name == source.ContentModel.ItemImageTag)
+                        {
+                            imageLink = childNode.InnerText;
+                        }
+                    }
+
+                    var blogPostItem = _blogPostItems.SingleOrDefault(bpi => bpi.SourceId == source.Id
+                    && bpi.Title == title);
+
+                    if (blogPostItem == null)
+                    {
+                        blogPostItem = new BlogPostItem();
+                    }
+
+                    blogPostItem.Author = author;
+                    blogPostItem.Content = content;
+                    blogPostItem.Date = date;
+                    blogPostItem.ImageLink = imageLink;
+                    blogPostItem.Link = link;
+                    blogPostItem.Summary = summary;
+                    blogPostItem.Title = title;
+                    blogPostItem.SourceId = source.Id;
+
+                    AddOrUpdateBlogPostItem(blogPostItem);
+                }
+
+                SaveBlogPostItemsToFile();
             }
             catch (Exception ex)
             {
                 string msg = $"Failed to get blogs for: '{source.SourceName}'";
                 OnException?.Invoke(msg, new ErrorEventArgs(ex));
             }
+        }
+
+        private void SaveBlogPostItemsToFile()
+        {
+            SaveItemsToFile(_blogPostItemsFilePath, _blogPostItems.ToList());
         }
 
         private void SaveBlogSourcesToFile()

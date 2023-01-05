@@ -6,11 +6,13 @@ namespace BlogReader.Models
     public class BlogPostItem : BaseEntity
     {
         private string _title;
+        private string _summary;
         private string _content;
-        private DateTime _date;
+        private DateTime? _date;
         private string _imageLink;
         private string _link;
-        private string _source;
+        private string _sourceId;
+        private string _sourceName;
         private string _author;
         private bool _markedAsWatchLater;
         private bool _isVisited;
@@ -26,6 +28,16 @@ namespace BlogReader.Models
             }
         }
 
+        public string Summary
+        { 
+            get { return _summary; }
+            set
+            {
+                _summary = value;
+                OnPropertyChanged(nameof(Summary));
+            }
+        }
+
         public string Content
         { 
             get { return _content; }
@@ -36,7 +48,7 @@ namespace BlogReader.Models
             }
         }
 
-        public DateTime Date
+        public DateTime? Date
         { 
             get { return _date; }
             set
@@ -66,13 +78,23 @@ namespace BlogReader.Models
             }
         }
 
-        public string Source
+        public string SourceId
         { 
-            get { return _source; }
+            get { return _sourceId; }
             set
             {
-                _source = value;
-                OnPropertyChanged(nameof(Source));
+                _sourceId = value;
+                OnPropertyChanged(nameof(SourceId));
+            }
+        }
+
+        public string SourceName
+        { 
+            get { return _sourceName; }
+            set
+            {
+                _sourceName = value;
+                OnPropertyChanged(nameof(SourceName));
             }
         }
 
@@ -119,6 +141,13 @@ namespace BlogReader.Models
         public static void Copy(BlogPostItem copyFrom, BlogPostItem copyTo)
         {
             PropertyCopier<BlogPostItem, BlogPostItem>.Copy(copyFrom, copyTo);
+        }
+
+        public static BlogPostItem CreateNewCopy(BlogPostItem item)
+        {
+            var newItem = new BlogPostItem();
+            Copy(item, newItem);
+            return newItem;
         }
     }
 }

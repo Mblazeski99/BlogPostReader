@@ -1,20 +1,20 @@
-﻿using BlogReader.Models;
-using BlogReader.Models.Enums;
+﻿using BlogReader.Models.Enums;
+using BlogReader.Models;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
-using System;
 using System.Windows;
+using System;
 
-namespace BlogReader.Commands.Blogs.BlogSources
+namespace BlogReader.Commands.Blogs.ContentModels
 {
-    public class RemoveBlogSourceItemCommand : BaseCommand
+    public class RemoveContentModelCommand : BaseCommand
     {
-        private readonly BlogSourcesViewModel _viewModel;
+        private readonly ContentModelsViewModel _viewModel;
         private readonly BlogPostItemsStore _blogPostItemsStore;
         private readonly NotificationsStore _notificationsStore;
 
-        public RemoveBlogSourceItemCommand(BlogSourcesViewModel viewModel,
-            BlogPostItemsStore blogPostItemsStore,
+        public RemoveContentModelCommand(ContentModelsViewModel viewModel, 
+            BlogPostItemsStore blogPostItemsStore, 
             NotificationsStore notificationsStore)
         {
             _viewModel = viewModel;
@@ -29,20 +29,23 @@ namespace BlogReader.Commands.Blogs.BlogSources
             try
             {
                 string itemToRemoveId = parameter.ToString();
-                MessageBoxResult answer = MessageBox.Show("Are you sure you want to delete this source?", "Delete Source", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                // TODO: If model is being used by a source add warning.
+                string msg = "Are you sure you want to delete this content model?";
+                MessageBoxResult answer = MessageBox.Show(msg, "Delete Content Model", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (answer == MessageBoxResult.Yes)
                 {
                     _viewModel.IsItemsGridLoading = true;
 
-                    if (_viewModel.SelectedSourceItem?.Id == itemToRemoveId)
+                    if (_viewModel.SelectedContentModel?.Id == itemToRemoveId)
                     {
-                        _viewModel.SelectedSourceItem = null;
+                        _viewModel.SelectedContentModel = null;
                     }
 
-                    _blogPostItemsStore.RemoveBlogItemSource(itemToRemoveId);
+                    _blogPostItemsStore.RemoveRssContentModel(itemToRemoveId);
 
-                    var notification = new Notification(MessageType.Success, "Successfully deleted blog source");
+                    var notification = new Notification(MessageType.Success, "Successfully deleted content model");
                     _notificationsStore.AddNotification(notification);
 
                     base.Execute(parameter);
@@ -50,7 +53,7 @@ namespace BlogReader.Commands.Blogs.BlogSources
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to delete blog source", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to delete content model", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally

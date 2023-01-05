@@ -3,18 +3,17 @@ using BlogReader.Models;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
-using System.Windows.Media.Imaging;
 
-namespace BlogReader.Commands.Blogs.BlogSources
+namespace BlogReader.Commands.Blogs.ContentModels
 {
-    public class EditBlogSourceItemCommand : BaseCommand
+    public class EditContentModelCommand : BaseCommand
     {
-        private readonly BlogSourcesViewModel _viewModel;
+        private readonly ContentModelsViewModel _viewModel;
         private readonly BlogPostItemsStore _blogPostItemsStore;
         private readonly NotificationsStore _notificationsStore;
 
-        public EditBlogSourceItemCommand(BlogSourcesViewModel viewModel,
-            BlogPostItemsStore blogPostItemsStore,
+        public EditContentModelCommand(ContentModelsViewModel viewModel, 
+            BlogPostItemsStore blogPostItemsStore, 
             NotificationsStore notificationsStore)
         {
             _viewModel = viewModel;
@@ -32,28 +31,18 @@ namespace BlogReader.Commands.Blogs.BlogSources
                 _viewModel.IsItemsGridLoading = true;
 
                 string itemToEditId = parameter.ToString();
-                var itemToEdit = _blogPostItemsStore.GetBlogItemSourceById(itemToEditId);
+                var itemToEdit = _blogPostItemsStore.GetRssContentModelById(itemToEditId);
 
-                if (itemToEdit == null) 
+                if (itemToEdit == null)
                 {
-                    throw new Exception($"Could not find BlogPostItemSource with id: {itemToEditId}");
+                    throw new Exception($"Could not find RssContentModel with id: {itemToEditId}");
                 }
 
-                _viewModel.SelectedSourceItem = BlogPostItemSource.CreateNewCopy(itemToEdit);
-
-                var sourceImage = new BitmapImage();
-                sourceImage.BeginInit();
-                sourceImage.CacheOption = BitmapCacheOption.OnLoad;
-                sourceImage.UriSource = new Uri(itemToEdit.ImagePath);
-                sourceImage.EndInit();
-
-                _viewModel.SourceImg = sourceImage;
-
-                base.Execute(parameter);
+                _viewModel.SelectedContentModel = RssContentModel.CreateNewCopy(itemToEdit);
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Could not find blog source", ex.ToString());
+                var error = new Notification(MessageType.Error, "Could not find content model", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally

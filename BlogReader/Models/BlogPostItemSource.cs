@@ -86,6 +86,10 @@ namespace BlogReader.Models
         public static void Copy(BlogPostItemSource copyFrom, BlogPostItemSource copyTo)
         {
             PropertyCopier<BlogPostItemSource, BlogPostItemSource>.Copy(copyFrom, copyTo);
+            if (copyFrom.ContentModel != null)
+            {
+                copyTo.ContentModel = RssContentModel.CreateNewCopy(copyFrom.ContentModel);
+            }
         }
 
         public static BlogPostItemSource CreateNewCopy(BlogPostItemSource source)

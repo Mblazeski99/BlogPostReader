@@ -10,9 +10,9 @@ namespace BlogReader.ViewModels
 
         public BlogsViewModel(NotificationsStore notificationsStore, BlogPostItemsStore blogPostItemsStore)
         {
-            BlogsListingViewModel = new BlogsListingViewModel();
+            BlogsListingViewModel = new BlogsListingViewModel(notificationsStore, blogPostItemsStore);
             BlogSourcesViewModel = new BlogSourcesViewModel(notificationsStore, blogPostItemsStore);
-            ContentModelsViewModel = new ContentModelsViewModel();
+            ContentModelsViewModel = new ContentModelsViewModel(notificationsStore, blogPostItemsStore);
         }
     }
 }

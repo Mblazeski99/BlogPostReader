@@ -48,7 +48,7 @@
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Width="175" Binding="{Binding DateCreated, Mode=OneWay, StringFormat='dd-MMM-yyyy: hh:mm tt'}" />
+                        <DataGridTextColumn Header="Date" Width="175" Binding="{Binding DateCreated, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
                         <DataGridTemplateColumn Header="Type" Width="80">
                             <DataGridTemplateColumn.CellTemplate>
