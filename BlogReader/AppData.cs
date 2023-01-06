@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace BlogReader
 {
@@ -49,7 +51,7 @@ namespace BlogReader
         }
         #endregion
 
-        #region String Extension Methods
+        #region Extension Methods
         public static bool IsValidUri(this string uri)
         {
             Uri uriResult;
@@ -57,6 +59,17 @@ namespace BlogReader
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
             return result;
+        }
+
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> collection)
+        {
+            var observableCollection = new ObservableCollection<T>();
+            foreach (T item in collection)
+            {
+                observableCollection.Add(item);
+            }
+
+            return observableCollection;
         }
         #endregion
     }

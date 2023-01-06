@@ -20,7 +20,8 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
-            <Button Command="{Binding ClearAllBlogPostItemsCommand}"
+            <Button Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding ClearAllBlogPostItemsCommand}"
                     Content="Clear All Blog Posts"
                     HorizontalAlignment="Left" />
 
@@ -30,69 +31,7 @@
 
         <Grid Grid.Row="2" Margin="0 10 0 0">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Border Visibility="{Binding SelectedBlogPostItem, Converter={StaticResource IsValueNullToVisibilityConverter}}"
-                    Background="{StaticResource CardBackgroundColorBrush}"
-                    VerticalAlignment="Top"
-                    Margin="0 0 20 0"
-                    CornerRadius="10"
-                    Padding="20"
-                    Width="490">
-
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0 0 10 0">
-
-                    <Grid>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Border BorderThickness="0 0 0 2" BorderBrush="Gray"
-                                Padding="0 0 0 16">
-
-                            <StackPanel>
-
-                                <StackPanel.Resources>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Margin" Value="0 10 0 0" />
-                                    </Style>
-
-                                    <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
-                                        <Setter Property="Width" Value="200" />
-                                        <Setter Property="HorizontalAlignment" Value="Left" />
-                                    </Style>
-                                </StackPanel.Resources>
-
-                                <!--Content-->
-
-                            </StackPanel>
-
-                        </Border>
-
-                        <StackPanel Orientation="Horizontal" 
-                                    VerticalAlignment="Top"
-                                    Margin="0 16 0 0"
-                                    Grid.Row="1">
-
-                            <Button Command="{Binding CancelPreviewBlogPostItemCommand}"
-                                    Style="{StaticResource TertiaryButtonStyle}"
-                                    Margin="10 0 0 0"
-                                    Content="Done" />
-
-                        </StackPanel>
-
-                    </Grid>
-
-                </ScrollViewer>
-
-            </Border>
-
-            <Grid Grid.Column="1">
+            <Grid>
 
                 <customControls:LoadingSpinner IsLoading="{Binding IsItemsGridLoading}"
                                                Thickness="5"
@@ -100,8 +39,10 @@
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                    <TextBlock Text="No Sources Found" />
-
+                    <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" 
+                               FontFamily="/Assets/Fonts/Metric-Medium.ttf #Metric"
+                               Text="No Blog Posts Found" />
+    
                     <DataGrid ItemsSource="{Binding BlogPostItems}" Style="{StaticResource PrimaryDataGridStyle}">
 
                         <DataGrid.Resources>
@@ -112,10 +53,10 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Title" MinWidth="100" Width="3*" Binding="{Binding Title, Mode=OneWay}" />
+                            <DataGridHyperlinkColumn Header="Link" MinWidth="200" Width="2*" Binding="{Binding Link, Mode=OneWay}" />
                             <DataGridTextColumn Header="Author" MinWidth="150" Width="1*" Binding="{Binding Author, Mode=OneWay}" />
                             <DataGridTextColumn Header="Source" MinWidth="150" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridTextColumn Header="Published" Width="175" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
-                            <DataGridTextColumn Header="Modified" Width="175" Binding="{Binding DateModified, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
                             <DataGridTemplateColumn Header="Actions" Width="150">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -123,7 +64,7 @@
 
                                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                                            <Button Style="{StaticResource DataGridColumnPrimaryButtonStyle}"
+                                            <Button Style="{StaticResource DataGridColumnSecondaryButtonStyle}"
                                                     Content="Preview"
                                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                         AncestorType={x:Type UserControl}}, 

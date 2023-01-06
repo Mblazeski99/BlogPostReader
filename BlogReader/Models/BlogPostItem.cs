@@ -17,6 +17,7 @@ namespace BlogReader.Models
         private bool _markedAsWatchLater;
         private bool _isVisited;
         private bool _markedAsIrrelevant;
+        private bool _isDeleted;
 
         public string Title 
         { 
@@ -135,6 +136,16 @@ namespace BlogReader.Models
             {
                 _markedAsIrrelevant = value;
                 OnPropertyChanged(nameof(MarkedAsIrrelevant));
+            }
+        }
+
+        public bool IsDeleted
+        { 
+            get { return _isDeleted; }
+            set
+            {
+                _isDeleted = value;
+                OnPropertyChanged(nameof(IsDeleted));
             }
         }
 

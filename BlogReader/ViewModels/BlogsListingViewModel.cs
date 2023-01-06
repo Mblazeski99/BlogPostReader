@@ -4,6 +4,8 @@ using BlogReader.Models;
 using BlogReader.Stores;
 using System.Collections.ObjectModel;
 using System;
+using System.Linq;
+using BlogReader.Commands.Blogs.BlogsListing;
 
 namespace BlogReader.ViewModels
 {
@@ -49,6 +51,7 @@ namespace BlogReader.ViewModels
         }
 
         public bool EnableInput => !IsLoading;
+        public bool HasItems => _blogPostItems.Any();
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
 
@@ -63,10 +66,9 @@ namespace BlogReader.ViewModels
             _blogPostItemsStore = blogPostItemsStore;
             _notificationsStore = notificationsStore;
 
-            //ClearAllBlogPostItemsCommand = new ClearAllBlogPostItemsCommand(this, blogPostItemsStore, notificationsStore);
-            //PreviewBlogPostItemCommand = new PreviewBlogPostItemCommand(this, blogPostItemsStore, notificationsStore);
-            //RemoveBlogPostItemCommand = new RemoveBlogPostItemCommand(this, blogPostItemsStore, notificationsStore);
-            //CancelPreviewBlogPostItemCommand = new CancelPreviewBlogPostItemCommand(this);
+            ClearAllBlogPostItemsCommand = new ClearAllBlogPostItemsCommand(this, notificationsStore, blogPostItemsStore);
+            PreviewBlogPostItemCommand = new PreviewBlogPostItemCommand(notificationsStore, blogPostItemsStore);
+            RemoveBlogPostItemCommand = new RemoveBlogPostItemCommand(this, notificationsStore, blogPostItemsStore);
 
             LoadBlogPostItems();
             _blogPostItemsStore.BlogPostItemsChanged += OnBlogPostItemsChanged;
@@ -79,10 +81,12 @@ namespace BlogReader.ViewModels
             try
             {
                 _blogPostItems.Clear();
-                foreach (BlogPostItem model in _blogPostItemsStore.GetAllBlogPostItems())
+                foreach (BlogPostItem model in _blogPostItemsStore.GetAllBlogPostItems().OrderByDescending(b => b.Date))
                 {
                     _blogPostItems.Add(BlogPostItem.CreateNewCopy(model));
                 }
+
+                OnPropertyChanged(nameof(HasItems));
             }
             catch (Exception ex)
             {

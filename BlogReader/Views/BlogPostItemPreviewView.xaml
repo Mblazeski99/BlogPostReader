@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="BlogReader.Views.BlogPostItemPreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
+             xmlns:webView2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=viewModels:BlogPostItemPreviewViewModel, IsDesignTimeCreatable=True}">
+    
+    <webView2:WebView2 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                       x:Name="WebView2">
+
+        <interactivity:Interaction.Triggers>
+            <interactivity:EventTrigger EventName="Loaded">
+
+                <interactivity:InvokeCommandAction Command="{Binding NavigateToContentCommand}"
+                                                   CommandParameter="{Binding ElementName=WebView2}"/>
+
+            </interactivity:EventTrigger>
+        </interactivity:Interaction.Triggers>
+
+    </webView2:WebView2>
+
+</UserControl>

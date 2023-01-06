@@ -6,6 +6,7 @@ using BlogReader.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BlogReader.ViewModels
 {
@@ -39,6 +40,8 @@ namespace BlogReader.ViewModels
 
         public bool EnableInput => !IsLoading;
 
+        public bool HasItems => _notifications.Any();
+
         public IEnumerable<Notification> Notifications => _notifications;
 
         public BaseCommand ClearNotificationsCommand { get; }
@@ -63,6 +66,8 @@ namespace BlogReader.ViewModels
                 {
                     _notifications.Add(notification);
                 }
+
+                OnPropertyChanged(nameof(HasItems));
             }
             catch (Exception ex)
             {

@@ -101,7 +101,12 @@ namespace BlogReader.Stores
                 blogPostItem.SourceName = blogPostItemSource?.SourceName;
             }
 
-            return _blogPostItems;
+            return _blogPostItems.Where(b => b.IsDeleted == false).ToObservableCollection();
+        }
+
+        public BlogPostItem GetBlogPostItemById(string blogPostItemId)
+        {
+            return _blogPostItems.SingleOrDefault(b => b.Id == blogPostItemId);
         }
 
         public void AddOrUpdateBlogPostItem(BlogPostItem blogPostItem)
@@ -124,7 +129,19 @@ namespace BlogReader.Stores
         public void RemoveBlogPostItem(string blogPostItemId)
         {
             var itemToRemove = _blogPostItems.SingleOrDefault(bpi => bpi.Id == blogPostItemId);
-            _blogPostItems.Remove(itemToRemove);
+            itemToRemove.IsDeleted = true;
+            SaveBlogPostItemsToFile();
+            BlogPostItemsChanged?.Invoke(_blogPostItems, EventArgs.Empty);
+        }
+        
+        public void ClearBlogPostItems()
+        {
+            foreach (var blogPostItem in _blogPostItems)
+            {
+                blogPostItem.IsDeleted = true;
+            }
+
+            SaveBlogPostItemsToFile();
             BlogPostItemsChanged?.Invoke(_blogPostItems, EventArgs.Empty);
         }
         #endregion

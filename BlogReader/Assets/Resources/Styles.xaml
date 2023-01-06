@@ -134,6 +134,12 @@
         <Setter Property="Height" Value="30" />
     </Style>
 
+    <Style x:Key="DataGridColumnSecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="0" />
+    </Style>
+
     <Style x:Key="DataGridColumnTertiaryButtonStyle" TargetType="Button" BasedOn="{StaticResource TertiaryButtonStyle}">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Height" Value="30" />

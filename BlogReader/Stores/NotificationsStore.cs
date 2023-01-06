@@ -21,7 +21,6 @@ namespace BlogReader.Stores
             _notificationsFilePath = DataItemsFolderPath + @"\Notifications.txt";
             _notifications = new ObservableCollection<Notification>();
 
-            // Checks if Notifications.txt exists
             if (File.Exists(_notificationsFilePath))
             {
                 using (StreamReader sr = new StreamReader(_notificationsFilePath))
@@ -35,7 +34,6 @@ namespace BlogReader.Stores
             }
             else
             {
-                // if not then create one
                 using (FileStream fs = File.Create(_notificationsFilePath)) { }
             }
         }
