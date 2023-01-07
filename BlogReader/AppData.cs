@@ -12,6 +12,8 @@ namespace BlogReader
 {
     public static class AppData
     {
+        private static readonly App _app = Application.Current as App;
+
         #region EventHandlers
         public static void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -71,6 +73,12 @@ namespace BlogReader
 
             return observableCollection;
         }
+        #endregion
+
+        #region Colors
+        public static Brush PrimaryBackgroundColorBrush => _app.Resources[nameof(PrimaryBackgroundColorBrush)] as Brush;
+        public static Brush PrimaryFontColorBrush => _app.Resources[nameof(PrimaryFontColorBrush)] as Brush;
+        public static Brush PrimaryButtonColorBrush => _app.Resources[nameof(PrimaryButtonColorBrush)] as Brush;
         #endregion
     }
 }

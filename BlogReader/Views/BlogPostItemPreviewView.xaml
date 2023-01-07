@@ -8,15 +8,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogPostItemPreviewViewModel, IsDesignTimeCreatable=True}">
-    
+
     <webView2:WebView2 ScrollViewer.VerticalScrollBarVisibility="Auto"
                        x:Name="WebView2">
 
         <interactivity:Interaction.Triggers>
             <interactivity:EventTrigger EventName="Loaded">
 
-                <interactivity:InvokeCommandAction Command="{Binding NavigateToContentCommand}"
-                                                   CommandParameter="{Binding ElementName=WebView2}"/>
+                <interactivity:InvokeCommandAction CommandParameter="{Binding ElementName=WebView2}"
+                                                   Command="{Binding NavigateToContentCommand}" />
 
             </interactivity:EventTrigger>
         </interactivity:Interaction.Triggers>

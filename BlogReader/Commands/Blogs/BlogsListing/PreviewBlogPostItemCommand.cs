@@ -40,6 +40,10 @@ namespace BlogReader.Commands.Blogs.BlogsListing
                 _previewBlogPostWindow = new Window();
                 _previewBlogPostWindow.WindowState = WindowState.Maximized;
                 _previewBlogPostWindow.Title = selectedBlogPostItem.Title;
+
+                var itemSource = _blogPostItemsStore.GetBlogItemSourceById(selectedBlogPostItem.SourceId);
+                _previewBlogPostWindow.Icon = itemSource?.ImageSource;
+
                 _previewBlogPostWindow.Content = view;
 
                 _previewBlogPostWindow.Show();

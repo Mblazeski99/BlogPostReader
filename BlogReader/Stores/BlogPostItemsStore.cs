@@ -149,7 +149,17 @@ namespace BlogReader.Stores
         #region Blog Post Sources
         public BlogPostItemSource GetBlogItemSourceById(string id)
         {
-            return _blogPostItemSources.SingleOrDefault(s => s.Id == id);
+            var selectedSource = _blogPostItemSources.SingleOrDefault(s => s.Id == id);
+
+            var sourceImage = new BitmapImage();
+            sourceImage.BeginInit();
+            sourceImage.CacheOption = BitmapCacheOption.OnLoad;
+            sourceImage.UriSource = new Uri(selectedSource.ImagePath);
+            sourceImage.EndInit();
+
+            selectedSource.ImageSource = sourceImage;
+
+            return selectedSource;
         }
         
         public ObservableCollection<BlogPostItemSource> GetAllBlogPostItemSources()

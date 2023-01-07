@@ -40,7 +40,11 @@ namespace BlogReader
                     });
             }).Build();
 
-            InitializeNotifier();
+            Current.Dispatcher.BeginInvoke(() =>
+            {
+                InitializeNotifier();
+            });
+
             InitializeGlobalEvents();
         }
 
@@ -63,20 +67,17 @@ namespace BlogReader
 
             _notifier = new Notifier(cfg =>
             {
-                Current.Dispatcher.BeginInvoke(() =>
-                {
-                    cfg.PositionProvider = new WindowPositionProvider(
-                        parentWindow: Current.MainWindow,
-                        corner: Corner.TopLeft,
-                        offsetX: 0,
-                        offsetY: 0);
+                cfg.PositionProvider = new WindowPositionProvider(
+                    parentWindow: Current.MainWindow,
+                    corner: Corner.TopLeft,
+                    offsetX: 0,
+                    offsetY: 0);
 
-                    cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                        notificationLifetime: TimeSpan.FromSeconds(5),
-                        maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(5),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
-                    cfg.Dispatcher = Current.Dispatcher;
-                });
+                cfg.Dispatcher = Current.Dispatcher;
             });
 
             _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
