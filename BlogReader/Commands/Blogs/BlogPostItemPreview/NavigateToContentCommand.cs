@@ -4,6 +4,7 @@ using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
 using Microsoft.Web.WebView2.Wpf;
+using System.IO;
 
 namespace BlogReader.Commands.Blogs.BlogPostItemPreview
 {
@@ -35,13 +36,21 @@ namespace BlogReader.Commands.Blogs.BlogPostItemPreview
                                                 window.onerror = noError;
                                               </script>";
 
-                string head = "<head> \n" + DisableScriptError + "<meta charset = \"UTF-8\"> \n" + "</head> \n";
+                string head = $@"<head>
+                                     {DisableScriptError}
+                                     <meta charset = ""UTF-8"">
+                                 </head>";
 
                 string backgroundColor = AppData.PrimaryBackgroundColorBrush.ToString();
                 string fontColor = AppData.PrimaryFontColorBrush.ToString().Replace("FF", "");
                 string primaryBtnColor = AppData.PrimaryButtonColorBrush.ToString().Replace("FF", "");
 
-                string css = @"<style> 
+                string codeStylesCssFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Assets\Css\preview-blog.css";
+                string codeStylesCss = File.Exists(codeStylesCssFilePath) ? File.ReadAllText(codeStylesCssFilePath) : string.Empty;
+
+                string css = @"<style>
+
+                                " + codeStylesCss + @"
 
                                 body { 
                                     font: 400 20px/1.25 Metric,Arial,Gadget,sans-serif;
@@ -50,40 +59,7 @@ namespace BlogReader.Commands.Blogs.BlogPostItemPreview
                                     padding: 10px;
                                 }
 
-                                div, p, a {
-                                    font: 400 20px/1.25 Metric,Arial,Gadget,sans-serif;
-                                    color: " + fontColor + @";
-                                }
-                                
-                                a { 
-                                    color: #0066cc; 
-                                    text-decoration: none;
-                                }
-
-                                a:hover { 
-                                    text-decoration: underline;
-                                    color: #ff0000; 
-                                }
-
-                                img { max-width: 90vw; }
-
-                                .blog-post-title { 
-                                    font-size: 52px; 
-                                    margin-bottom: 0;
-                                }
-
-                                .blog-post-info { 
-                                    font-weight: 300;
-                                    margin-top: 10px;
-                                    margin-bottom: 50px;
-                                }
-
                                 .blog-post-author { color: " + primaryBtnColor + @"; }
-                                
-                                .blog-post-info-seperator {  
-                                    color: #d9d9d9;
-                                    margin: 0 0.75em;
-                                }
 
                                </style>";
 
@@ -95,7 +71,7 @@ namespace BlogReader.Commands.Blogs.BlogPostItemPreview
                             by: <span class=""blog-post-author"">{_viewModel.BlogPostItem.Author} </span> 
                             <span class=""blog-post-info-seperator"">|</span>";
 
-                postInfoHtml += "<span>January 06, 2023</span> </h4>";
+                postInfoHtml += $"<span>{_viewModel.BlogPostItem.Date.Value.ToString("MMMM dd, yyyy")}</span> </h4>";
 
                 string mainContent = $@"<body>
                                             {titleHtml}

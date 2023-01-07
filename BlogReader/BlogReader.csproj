@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Css\preview-blog.css" />
     <None Remove="Assets\DefaultSourceImage.png" />
     <None Remove="Assets\Fonts\Metric-Black.ttf" />
     <None Remove="Assets\Fonts\Metric-BlackItalic.ttf" />
@@ -51,6 +52,12 @@
     <Resource Include="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
     <Resource Include="Assets\Fonts\Metric-Thin.ttf" />
     <Resource Include="Assets\Fonts\Metric-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Css\preview-blog.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
