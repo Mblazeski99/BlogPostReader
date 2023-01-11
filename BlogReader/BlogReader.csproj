@@ -24,6 +24,7 @@
     <None Remove="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
     <None Remove="Assets\Fonts\Metric-Thin.ttf" />
     <None Remove="Assets\Fonts\Metric-ThinItalic.ttf" />
+    <None Remove="Assets\Icons\clock-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +53,9 @@
     <Resource Include="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
     <Resource Include="Assets\Fonts\Metric-Thin.ttf" />
     <Resource Include="Assets\Fonts\Metric-ThinItalic.ttf" />
+    <Resource Include="Assets\Icons\clock-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
