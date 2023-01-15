@@ -40,8 +40,8 @@
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
                     <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" 
-                               FontFamily="/Assets/Fonts/Metric-Medium.ttf #Metric"
-                               Text="No Blog Posts Found" />
+                               Text="No Blog Posts Found"
+                               FontWeight="Bold" />
     
                     <DataGrid ItemsSource="{Binding BlogPostItems}" Style="{StaticResource PrimaryDataGridStyle}">
 
@@ -54,11 +54,11 @@
 
                             <DataGridTextColumn Header="Title" MinWidth="100" Width="3*" Binding="{Binding Title, Mode=OneWay}" />
                             <DataGridHyperlinkColumn Header="Link" MinWidth="200" Width="2*" Binding="{Binding Link, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Author" MinWidth="150" Width="1*" Binding="{Binding Author, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Source" MinWidth="150" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Published" Width="175" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                            <DataGridTextColumn Header="Author" MinWidth="180" Width="1*" Binding="{Binding Author, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Source" MinWidth="180" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Published" Width="205" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
-                            <DataGridTemplateColumn Header="Actions" Width="150">
+                            <DataGridTemplateColumn Header="Actions" Width="170">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 

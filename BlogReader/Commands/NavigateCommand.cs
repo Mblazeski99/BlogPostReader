@@ -32,7 +32,7 @@ namespace BlogReader.Commands
                 {
                     case nameof(HomeViewModel):
                         if (_navigationStore.CurrentViewModel.GetType() != typeof(HomeViewModel))
-                            viewModel = new HomeViewModel();
+                            viewModel = new HomeViewModel(_blogPostItemsStore, _notificationsStore);
                         break;
 
                     case nameof(MainWindowViewModel):

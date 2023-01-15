@@ -39,7 +39,7 @@
 
             <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                <TextBlock Text="No Notifications Found" />
+                <TextBlock Text="No Notifications Found" FontWeight="Bold" />
 
                 <DataGrid ItemsSource="{Binding Notifications}" Style="{StaticResource PrimaryDataGridStyle}">
 
@@ -49,9 +49,9 @@
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Width="175" Binding="{Binding DateCreated, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                        <DataGridTextColumn Header="Date" Width="205" Binding="{Binding DateCreated, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
-                        <DataGridTemplateColumn Header="Type" Width="80">
+                        <DataGridTemplateColumn Header="Type" Width="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 

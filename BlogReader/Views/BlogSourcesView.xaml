@@ -155,7 +155,7 @@
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                    <TextBlock Text="No Sources Found" />
+                    <TextBlock Text="No Sources Found" FontWeight="Bold" />
 
                     <DataGrid ItemsSource="{Binding BlogPostItemSources}" Style="{StaticResource PrimaryDataGridStyle}">
 
@@ -169,7 +169,7 @@
                             <DataGridTextColumn Header="Name" MinWidth="100" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridHyperlinkColumn Header="Url" Width="3*" Binding="{Binding SourceUrl, Mode=OneWay}" />
 
-                            <DataGridTemplateColumn Header="Image" Width="60">
+                            <DataGridTemplateColumn Header="Image" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
@@ -182,8 +182,8 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridCheckBoxColumn Header="Active" Width="60" Binding="{Binding Active, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
-                            <DataGridTextColumn Header="Last Modified" Width="175" Binding="{Binding DateModified, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                            <DataGridCheckBoxColumn Header="Active" Width="80" Binding="{Binding Active, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
+                            <DataGridTextColumn Header="Last Modified" Width="205" Binding="{Binding DateModified, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
                             <DataGridTemplateColumn Header="Actions" Width="150">
                                 <DataGridTemplateColumn.CellTemplate>

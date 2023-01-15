@@ -9,8 +9,47 @@
 
     <Grid>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
         <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Home" />
 
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding BlogPostItems}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Padding="5" Background="{StaticResource PrimaryButtonColorBrush}">
+                            
+                            <TextBlock Text="{Binding SourceName}" 
+                                       FontWeight="DemiBold"
+                                       Foreground="#fff" />
+                            
+                        </Border>
+
+                        <TextBlock Text="{Binding Title}"
+                                   FontWeight="Bold"
+                                   Margin="0 5 0 0" 
+                                   FontSize="24"
+                                   Grid.Row="1" />
+
+                    </Grid>
+                    
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
+        
     </Grid>
 
 </UserControl>

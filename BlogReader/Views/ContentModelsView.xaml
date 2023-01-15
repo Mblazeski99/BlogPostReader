@@ -41,7 +41,7 @@
                     Margin="0 0 20 0"
                     CornerRadius="10"
                     Padding="20"
-                    Width="490">
+                    Width="510">
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0 0 10 0">
                     
@@ -167,7 +167,7 @@
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                    <TextBlock Text="No Sources Found" />
+                    <TextBlock Text="No Sources Found" FontWeight="Bold" />
 
                     <DataGrid ItemsSource="{Binding RssContentModels}" Style="{StaticResource PrimaryDataGridStyle}">
 
@@ -179,14 +179,14 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Model Name" MinWidth="100" Width="3*" Binding="{Binding ModelName, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Container Tag Name" MinWidth="160" Width="2*" Binding="{Binding ItemContainerTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Title Tag Name" MinWidth="120" Width="2*" Binding="{Binding TitleTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Summary Tag Name" Width="2*" Binding="{Binding SummaryTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Content Tag Name" Width="2*" Binding="{Binding ContentTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Author Tag Name" Width="140" Binding="{Binding AuthorTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Item Link Tag Name" Width="160" Binding="{Binding ItemLinkTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Item Image Tag Name" Width="170" Binding="{Binding ItemImageTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Date Tag Name" Width="125" Binding="{Binding DateTag, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                            <DataGridTextColumn Header="Container Tag" MinWidth="160" Width="2*" Binding="{Binding ItemContainerTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Title Tag" MinWidth="120" Width="2*" Binding="{Binding TitleTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Summary Tag" Width="2*" Binding="{Binding SummaryTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Content Tag" Width="2*" Binding="{Binding ContentTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Author Tag" Width="140" Binding="{Binding AuthorTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Item Link Tag" Width="160" Binding="{Binding ItemLinkTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Item Image Tag" Width="170" Binding="{Binding ItemImageTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Date Tag" Width="125" Binding="{Binding DateTag, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
                             <DataGridTemplateColumn Header="Actions" Width="150">
                                 <DataGridTemplateColumn.CellTemplate>

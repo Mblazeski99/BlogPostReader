@@ -4,8 +4,9 @@
 
     <!--#region Window -->
     <Style x:Key="WindowViewStyle" TargetType="Window">
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Medium.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Medium" />
     </Style>
 
     <Style TargetType="Window" BasedOn="{StaticResource WindowViewStyle}" />
@@ -21,7 +22,8 @@
         <Setter Property="Height" Value="80" />
         <Setter Property="Width" Value="800" />
         <Setter Property="FontSize" Value="32" />
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
         <Setter Property="Padding" Value="0 21 0 0" />
         <Setter Property="Margin" Value="0 21 0 0" />
 
@@ -29,8 +31,9 @@
 
     <Style x:Key="DataPropertyErrorTextBlock" TargetType="TextBlock">
 
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Bold.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+        <Setter Property="FontWeight" Value="Heavy" />
         <Setter Property="FontSize" Value="12" />
 
     </Style>
@@ -39,7 +42,7 @@
     <!--#region TextBox -->
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
 
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Regular.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="Height" Value="36" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="5 0" />
@@ -64,7 +67,8 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Height" Value="40" />
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template" Value="{StaticResource ButtonControlTemplate}" />
@@ -158,7 +162,8 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="MinHeight" Value="20" />
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Regular.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Template" Value="{StaticResource ComboBoxControlTemplate}" />
 
     </Style>
@@ -204,6 +209,16 @@
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="AlternatingRowBackground" Value="#e8e8e8" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="ColumnHeaderStyle">
+
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontWeight" Value="ExtraBold" />
+                </Style>
+            </Setter.Value>
+            
+        </Setter>
 
         <Setter Property="Visibility" Value="Visible" />
         <Style.Triggers>
@@ -224,7 +239,7 @@
     <Style x:Key="PrimaryDataGridCellStyle" TargetType="DataGridCell">
 
         <Setter Property="Height" Value="40" />
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-Regular.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -263,6 +278,7 @@
 
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="BorderThickness" Value="1" />
@@ -311,6 +327,7 @@
 
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
 
@@ -321,7 +338,7 @@
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
 
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontFamily" Value="/Assets/Fonts/Metric-SemiBold.ttf #Metric" />
+        <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="Foreground" Value="{StaticResource SecondaryButtonColorBrush}" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Template" Value="{StaticResource TabItemControlTemplate}" />

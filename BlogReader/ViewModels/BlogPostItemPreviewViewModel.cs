@@ -45,7 +45,7 @@ namespace BlogReader.ViewModels
                                 " + codeStylesCss + @"
 
                                 body { 
-                                    font: 400 20px/1.25 Metric,Arial,Gadget,sans-serif;
+                                    font: 400 20px/1.25 Arial,Gadget,sans-serif;
                                     color: " + fontColor + @";
                                     background-color: " + backgroundColor + @";
                                     padding: 10px;

@@ -15,7 +15,6 @@ namespace BlogReader.ViewModels
         private readonly NotificationsStore _notificationsStore;
         private readonly ObservableCollection<BlogPostItem> _blogPostItems = new ObservableCollection<BlogPostItem>();
 
-        private BlogPostItem _selectedBlogPostItem;
         private bool _isItemsGridLoading;
         private bool _isLoading;
 
@@ -37,16 +36,6 @@ namespace BlogReader.ViewModels
                 _isLoading = value;
                 OnPropertyChanged(nameof(IsLoading));
                 OnPropertyChanged(nameof(EnableInput));
-            }
-        }
-
-        public BlogPostItem SelectedBlogPostItem
-        {
-            get { return _selectedBlogPostItem; }
-            set
-            {
-                _selectedBlogPostItem = value;
-                OnPropertyChanged(nameof(SelectedBlogPostItem));
             }
         }
 

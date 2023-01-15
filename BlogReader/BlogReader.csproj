@@ -10,20 +10,6 @@
   <ItemGroup>
     <None Remove="Assets\Css\preview-blog.css" />
     <None Remove="Assets\DefaultSourceImage.png" />
-    <None Remove="Assets\Fonts\Metric-Black.ttf" />
-    <None Remove="Assets\Fonts\Metric-BlackItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-Bold.ttf" />
-    <None Remove="Assets\Fonts\Metric-BoldItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-Light.ttf" />
-    <None Remove="Assets\Fonts\Metric-LightItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-Medium.ttf" />
-    <None Remove="Assets\Fonts\Metric-MediumItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-Regular.ttf" />
-    <None Remove="Assets\Fonts\Metric-RegularItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-SemiBold.ttf" />
-    <None Remove="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
-    <None Remove="Assets\Fonts\Metric-Thin.ttf" />
-    <None Remove="Assets\Fonts\Metric-ThinItalic.ttf" />
     <None Remove="Assets\Icons\clock-icon.png" />
   </ItemGroup>
 
@@ -39,20 +25,6 @@
 
   <ItemGroup>
     <Resource Include="Assets\DefaultSourceImage.png" />
-    <Resource Include="Assets\Fonts\Metric-Black.ttf" />
-    <Resource Include="Assets\Fonts\Metric-BlackItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-Bold.ttf" />
-    <Resource Include="Assets\Fonts\Metric-BoldItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-Light.ttf" />
-    <Resource Include="Assets\Fonts\Metric-LightItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-Medium.ttf" />
-    <Resource Include="Assets\Fonts\Metric-MediumItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-Regular.ttf" />
-    <Resource Include="Assets\Fonts\Metric-RegularItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-SemiBold.ttf" />
-    <Resource Include="Assets\Fonts\Metric-SemiBoldItalic.ttf" />
-    <Resource Include="Assets\Fonts\Metric-Thin.ttf" />
-    <Resource Include="Assets\Fonts\Metric-ThinItalic.ttf" />
     <Resource Include="Assets\Icons\clock-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

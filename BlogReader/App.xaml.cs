@@ -53,7 +53,10 @@ namespace BlogReader
             _host.Start();
 
             var navigationStore = _host.Services.GetRequiredService<NavigationStore>();
-            navigationStore.CurrentViewModel = new HomeViewModel();
+            _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
+            _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
+
+            navigationStore.CurrentViewModel = new HomeViewModel(_blogPostItemsStore, _notificationsStore);
 
             MainWindow = _host.Services.GetRequiredService<MainWindow>();
             MainWindow.Show();
@@ -79,9 +82,6 @@ namespace BlogReader
 
                 cfg.Dispatcher = Current.Dispatcher;
             });
-
-            _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
-            _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
 
             _blogPostItemsStore.OnException += (messageObj, args) =>
             {
