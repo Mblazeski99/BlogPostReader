@@ -14,41 +14,104 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Home" />
+        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource PrimaryBorderColorBrush}"
+                Padding="0 0 0 20" Margin="0 0 0 20">
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding BlogPostItems}">
+            <TextBlock FontWeight="Bold"
+                       Text="Latest" 
+                       FontSize="28" />
 
-            <ItemsControl.ItemTemplate>
+        </Border>
+
+        <ListView ItemsSource="{Binding BlogPostItems}"
+                  ScrollViewer.CanContentScroll="False"
+                  BorderThickness="0"
+                  Grid.Row="1">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
+                    
+                    <Setter Property="Height" Value="280" />
+                    <Setter Property="Margin" Value="0 0 0 20" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
                 <DataTemplate>
 
                     <Grid>
 
                         <Grid.RowDefinitions>
+                            
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
+                            
                         </Grid.RowDefinitions>
 
-                        <Border Padding="5" Background="{StaticResource PrimaryButtonColorBrush}">
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Border Padding="10 5" Background="{StaticResource PrimaryButtonColorBrush}">
                             
-                            <TextBlock Text="{Binding SourceName}" 
+                            <TextBlock Text="{Binding SourceName}"
                                        FontWeight="DemiBold"
+                                       TextAlignment="Left"
                                        Foreground="#fff" />
                             
                         </Border>
 
-                        <TextBlock Text="{Binding Title}"
-                                   FontWeight="Bold"
-                                   Margin="0 5 0 0" 
-                                   FontSize="24"
-                                   Grid.Row="1" />
+                        <TextBlock Text="{Binding Title}">
+
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+
+                                    <Setter Property="Grid.Row" Value="1" />
+                                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                                    <Setter Property="TextAlignment" Value="Left" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Margin" Value="0 10 0 0" />
+                                    <Setter Property="Cursor" Value="Hand" />
+                                    <Setter Property="FontSize" Value="24" />
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+
+                                </Style>
+                            </TextBlock.Style>
+                            
+                        </TextBlock>
+
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource PrimaryBorderColorBrush}"
+                                Grid.Row="2" Grid.ColumnSpan="2"
+                                Padding="20">
+                            
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                            
+                            </Grid>
+                            
+                        </Border>
 
                     </Grid>
                     
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ListView.ItemTemplate>
             
-        </ItemsControl>
+        </ListView>
         
     </Grid>
 
