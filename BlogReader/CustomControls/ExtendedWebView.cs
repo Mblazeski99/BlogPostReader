@@ -7,16 +7,37 @@ namespace BlogReader.CustomControls
     {
         public string HTMLContent
         {
-            get { return (string)GetValue(HTMLContentProperty); }
+            get 
+            {
+                string value = string.Empty;
+
+                if (string.IsNullOrEmpty((string)GetValue(HTMLContentProperty)) == false)
+                {
+                    value = (string)GetValue(HTMLContentProperty);
+                }
+
+                return value;
+            }
             set
             {
                 SetValue(HTMLContentProperty, value);
-                NavigateToString(HTMLContent);
             }
         }
 
         public static readonly DependencyProperty HTMLContentProperty =
-            DependencyProperty.Register(nameof(HTMLContent), typeof(string), typeof(ExtendedWebView), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(HTMLContent), 
+                typeof(string), 
+                typeof(ExtendedWebView), 
+                new PropertyMetadata(default(ExtendedWebView), OnHTMLContentPropertyChanged));
+
+        private async static void OnHTMLContentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var webView = d as ExtendedWebView;
+            string htmlContent = e.NewValue?.ToString() != null ? e.NewValue?.ToString() : "";
+
+            await webView.EnsureCoreWebView2Async();
+            webView.NavigateToString(htmlContent);
+        }
 
         public ExtendedWebView() : base()
         {

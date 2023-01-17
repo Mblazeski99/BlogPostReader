@@ -1,4 +1,6 @@
-﻿using BlogReader.Models;
+﻿using BlogReader.Commands;
+using BlogReader.Commands.Home;
+using BlogReader.Models;
 using BlogReader.Models.Enums;
 using BlogReader.Stores;
 using System;
@@ -13,7 +15,7 @@ namespace BlogReader.ViewModels
         private readonly NotificationsStore _notificationsStore;
         private readonly ObservableCollection<BlogPostItem> _blogPostItems = new ObservableCollection<BlogPostItem>();
 
-        private BlogPostItem _selectedBlogPostItem;
+        private BlogPostItemPreviewViewModel _selectedBlogPostItemDataContext;
         private bool _isLoading;
 
         public bool IsLoading
@@ -27,13 +29,13 @@ namespace BlogReader.ViewModels
             }
         }
 
-        public BlogPostItem SelectedBlogPostItem
+        public BlogPostItemPreviewViewModel SelectedBlogPostItemDataContext
         {
-            get { return _selectedBlogPostItem; }
+            get { return _selectedBlogPostItemDataContext; }
             set
             {
-                _selectedBlogPostItem = value;
-                OnPropertyChanged(nameof(SelectedBlogPostItem));
+                _selectedBlogPostItemDataContext = value;
+                OnPropertyChanged(nameof(SelectedBlogPostItemDataContext));
             }
         }
 
@@ -42,11 +44,17 @@ namespace BlogReader.ViewModels
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
 
+        public BaseCommand SelectBlogPostItemCommand { get; }
+
         public HomeViewModel(BlogPostItemsStore blogPostItemsStore, 
             NotificationsStore notificationsStore)
         {
             _blogPostItemsStore = blogPostItemsStore;
             _notificationsStore = notificationsStore;
+
+            SelectBlogPostItemCommand = new SelectBlogPostItemCommand(this);
+
+            SelectedBlogPostItemDataContext = new BlogPostItemPreviewViewModel();
 
             LoadBlogPostItems();
             _blogPostItemsStore.BlogPostItemsChanged += OnBlogPostItemsChanged;

@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
+             xmlns:views="clr-namespace:BlogReader.Views"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel, IsDesignTimeCreatable=True}">
 
@@ -13,9 +15,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
         <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource PrimaryBorderColorBrush}"
-                Padding="0 0 0 20" Margin="0 0 0 20">
+                Padding="0 0 0 20" Margin="0 0 0 20"
+                Grid.ColumnSpan="2">
 
             <TextBlock FontWeight="Bold"
                        Text="Latest" 
@@ -23,18 +31,19 @@
 
         </Border>
 
-        <ListView ItemsSource="{Binding BlogPostItems}"
+        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ItemsSource="{Binding BlogPostItems}"
                   ScrollViewer.CanContentScroll="False"
                   BorderThickness="0"
                   Grid.Row="1">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
-                    
+
                     <Setter Property="Height" Value="280" />
                     <Setter Property="Margin" Value="0 0 0 20" />
                     <Setter Property="BorderThickness" Value="0" />
-                    
+
                 </Style>
             </ListView.ItemContainerStyle>
 
@@ -44,30 +53,38 @@
                     <Grid>
 
                         <Grid.RowDefinitions>
-                            
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
-                            
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-
                         </Grid.ColumnDefinitions>
 
                         <Border Padding="10 5" Background="{StaticResource PrimaryButtonColorBrush}">
-                            
+
                             <TextBlock Text="{Binding SourceName}"
                                        FontWeight="DemiBold"
                                        TextAlignment="Left"
                                        Foreground="#fff" />
-                            
+
                         </Border>
 
                         <TextBlock Text="{Binding Title}">
+                            
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    
+                                    <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
+                                                                                Mode=FindAncestor,
+                                                                                AncestorType=UserControl},
+                                                                                Path=DataContext.SelectBlogPostItemCommand}"
+                                                                       CommandParameter="{Binding }" />
+                                    
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
 
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -76,6 +93,7 @@
                                     <Setter Property="Grid.ColumnSpan" Value="2" />
                                     <Setter Property="TextAlignment" Value="Left" />
                                     <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="TextWrapping" Value="Wrap" />
                                     <Setter Property="Margin" Value="0 10 0 0" />
                                     <Setter Property="Cursor" Value="Hand" />
                                     <Setter Property="FontSize" Value="24" />
@@ -88,31 +106,39 @@
 
                                 </Style>
                             </TextBlock.Style>
-                            
+
                         </TextBlock>
 
                         <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource PrimaryBorderColorBrush}"
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Padding="20">
-                            
+
                             <Grid>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                            
+
                             </Grid>
-                            
+
                         </Border>
 
                     </Grid>
-                    
+
                 </DataTemplate>
             </ListView.ItemTemplate>
-            
+
         </ListView>
-        
+
+        <Grid Visibility="{Binding SelectedBlogPostItemDataContext, 
+                                    Converter={StaticResource IsValueNullToVisibilityConverter}}"
+              Grid.Row="1" Grid.Column="1">
+            
+            <views:BlogPostItemPreviewView DataContext="{Binding SelectedBlogPostItemDataContext}" />
+            
+        </Grid>
+
     </Grid>
 
 </UserControl>

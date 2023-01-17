@@ -3,13 +3,16 @@ using BlogReader.Models.Enums;
 using BlogReader.Stores;
 using System;
 using System.IO;
+using System.Net.Http;
 
 namespace BlogReader.ViewModels
 {
     public class BlogPostItemPreviewViewModel : BaseViewModel
     {
-        private readonly BlogPostItem _blogPostItem;
-        private readonly string _htmlContent = string.Empty;
+        private readonly NotificationsStore _notificationsStore;
+
+        private BlogPostItem _blogPostItem;
+        private string _htmlContent = string.Empty;
 
         public string HtmlContent => _htmlContent;
 
@@ -18,9 +21,16 @@ namespace BlogReader.ViewModels
         public BlogPostItemPreviewViewModel(BlogPostItem blogPostItem,
             NotificationsStore notificationsStore)
         {
-            _blogPostItem = blogPostItem;
+            _notificationsStore = notificationsStore;
+            RenderBlogPostItem(blogPostItem);
+        }
+
+        public void RenderBlogPostItem(BlogPostItem blogPostItem) 
+        {
             try
             {
+                _blogPostItem = blogPostItem;
+
                 string html = string.Empty;
 
                 string DisableScriptError = @"<script> 
@@ -79,7 +89,7 @@ namespace BlogReader.ViewModels
             catch (Exception ex)
             {
                 var error = new Notification(MessageType.Error, "Failed to load blog post", ex.ToString());
-                notificationsStore.AddNotification(error);
+                _notificationsStore.AddNotification(error);
             }
         }
     }

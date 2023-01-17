@@ -43,9 +43,7 @@ namespace BlogReader.Commands.Blogs.BlogsListing
 
                 var itemSource = _blogPostItemsStore.GetBlogItemSourceById(selectedBlogPostItem.SourceId);
                 _previewBlogPostWindow.Icon = itemSource?.ImageSource;
-
                 _previewBlogPostWindow.Content = view;
-
                 _previewBlogPostWindow.Show();
             }
             catch (Exception ex)
