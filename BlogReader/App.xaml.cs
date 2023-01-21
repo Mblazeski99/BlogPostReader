@@ -6,6 +6,7 @@ using BlogReader.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -108,6 +109,10 @@ namespace BlogReader
             EventManager.RegisterClassHandler(typeof(TextBox),
                 TextBox.PreviewMouseDownEvent,
                 new MouseButtonEventHandler(AppData.TextBox_PreviewMouseDown));
+
+            EventManager.RegisterClassHandler(typeof(TextBlock),
+                TextBlock.PreviewMouseLeftButtonUpEvent,
+                new MouseButtonEventHandler(AppData.HyperLinkTextBlock_PreviewMouseLeftButtonUp));
         }
 
         private void ShowNotification(Notification notification)

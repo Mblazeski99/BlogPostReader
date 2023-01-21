@@ -222,7 +222,7 @@
 
         <Setter Property="Visibility" Value="Visible" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Items.Count}"
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ItemsSource.Count}"
                          Value="0">
 
                 <Setter Property="Visibility" Value="Collapsed" />
@@ -258,6 +258,23 @@
                 <Setter Property="Foreground" Value="#000" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="HyperLinkTextCellStyle" TargetType="DataGridCell" BasedOn="{StaticResource PrimaryDataGridCellStyle}">
+
+        <Setter Property="Foreground" Value="{StaticResource HyperlinkColorBrush}" />
+        <Setter Property="Tag" Value="HyperLinkTextBlock" />
+        
+        <Style.Triggers>
+            <Trigger Property="DataGridCell.IsSelected" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource HyperlinkColorBrush}" />
+            </Trigger>
+            
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource HyperlinkHoverColorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+
     </Style>
     <!--#endregion-->
 

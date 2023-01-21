@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogReader", "BlogReader.csproj", "{5940916B-C656-4994-81EC-D25D697FE09D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogReader", "BlogReader.csproj", "{5940916B-C656-4994-81EC-D25D697FE09D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{823C348D-E08C-46F5-A0B1-63B04C122D72}"
 	ProjectSection(SolutionItems) = preProject

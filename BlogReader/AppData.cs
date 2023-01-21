@@ -51,6 +51,22 @@ namespace BlogReader
                 UseShellExecute = true
             });
         }
+
+        public static void HyperLinkTextBlock_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var textBlock = (sender as TextBlock);
+            var parent = textBlock?.Parent as Control;
+
+            if (textBlock?.Tag?.ToString() == "HyperLinkTextBlock"
+                || parent?.Tag?.ToString() == "HyperLinkTextBlock")
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = textBlock.Text,
+                    UseShellExecute = true
+                });
+            }
+        }
         #endregion
 
         #region Extension Methods

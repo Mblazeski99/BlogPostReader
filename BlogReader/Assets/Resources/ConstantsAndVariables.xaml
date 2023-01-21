@@ -38,6 +38,12 @@
 
     <Color x:Key="ErrorColor">#d80143</Color>
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
+
+    <Color x:Key="HyperlinkColor">#0066cc</Color>
+    <SolidColorBrush x:Key="HyperlinkColorBrush" Color="{StaticResource HyperlinkColor}" />
+    
+    <Color x:Key="HyperlinkHoverColor">#ff0000</Color>
+    <SolidColorBrush x:Key="HyperlinkHoverColorBrush" Color="{StaticResource HyperlinkHoverColor}" />
     <!--#endregion-->
 
     <sys:String x:Key="Hidden">hidden</sys:String>

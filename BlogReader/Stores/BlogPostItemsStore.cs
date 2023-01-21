@@ -150,14 +150,16 @@ namespace BlogReader.Stores
         public BlogPostItemSource GetBlogItemSourceById(string id)
         {
             var selectedSource = _blogPostItemSources.SingleOrDefault(s => s.Id == id);
+            if (File.Exists(selectedSource?.ImagePath))
+            {
+                var sourceImage = new BitmapImage();
+                sourceImage.BeginInit();
+                sourceImage.CacheOption = BitmapCacheOption.OnLoad;
+                sourceImage.UriSource = new Uri(selectedSource?.ImagePath);
+                sourceImage.EndInit();
 
-            var sourceImage = new BitmapImage();
-            sourceImage.BeginInit();
-            sourceImage.CacheOption = BitmapCacheOption.OnLoad;
-            sourceImage.UriSource = new Uri(selectedSource.ImagePath);
-            sourceImage.EndInit();
-
-            selectedSource.ImageSource = sourceImage;
+                selectedSource.ImageSource = sourceImage;
+            }
 
             return selectedSource;
         }
@@ -166,13 +168,16 @@ namespace BlogReader.Stores
         {
             foreach (var sourceItem in _blogPostItemSources)
             {
-                var sourceImage = new BitmapImage();
-                sourceImage.BeginInit();
-                sourceImage.CacheOption = BitmapCacheOption.OnLoad;
-                sourceImage.UriSource = new Uri(sourceItem.ImagePath);
-                sourceImage.EndInit();
+                if (File.Exists(sourceItem?.ImagePath))
+                { 
+                    var sourceImage = new BitmapImage();
+                    sourceImage.BeginInit();
+                    sourceImage.CacheOption = BitmapCacheOption.OnLoad;
+                    sourceImage.UriSource = new Uri(sourceItem.ImagePath);
+                    sourceImage.EndInit();
 
-                sourceItem.ImageSource = sourceImage;
+                    sourceItem.ImageSource = sourceImage;
+                }
             }
 
             return _blogPostItemSources;

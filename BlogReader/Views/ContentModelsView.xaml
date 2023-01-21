@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
+             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:ContentModelsViewModel, IsDesignTimeCreatable=True}">
 
@@ -169,7 +170,9 @@
 
                     <TextBlock Text="No Sources Found" FontWeight="Bold" />
 
-                    <DataGrid ItemsSource="{Binding RssContentModels}" Style="{StaticResource PrimaryDataGridStyle}">
+                    <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
+                              dgx:DataGridFilter.IsAutoFilterEnabled="True"
+                              ItemsSource="{Binding RssContentModels}">
 
                         <DataGrid.Resources>
                             <Style TargetType="DataGridRow" BasedOn="{StaticResource PrimaryDataGridRowStyle}" />
@@ -179,16 +182,16 @@
                         <DataGrid.Columns>
 
                             <DataGridTextColumn Header="Model Name" MinWidth="100" Width="3*" Binding="{Binding ModelName, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Container Tag" MinWidth="160" Width="2*" Binding="{Binding ItemContainerTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Title Tag" MinWidth="120" Width="2*" Binding="{Binding TitleTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Container Tag" MinWidth="175" Width="2*" Binding="{Binding ItemContainerTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Title Tag" MinWidth="125" Width="2*" Binding="{Binding TitleTag, Mode=OneWay}" />
                             <DataGridTextColumn Header="Summary Tag" Width="2*" Binding="{Binding SummaryTag, Mode=OneWay}" />
                             <DataGridTextColumn Header="Content Tag" Width="2*" Binding="{Binding ContentTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Author Tag" Width="140" Binding="{Binding AuthorTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Item Link Tag" Width="160" Binding="{Binding ItemLinkTag, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Item Image Tag" Width="170" Binding="{Binding ItemImageTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Author Tag" Width="145" Binding="{Binding AuthorTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Item Link Tag" Width="170" Binding="{Binding ItemLinkTag, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Image Tag" Width="140" Binding="{Binding ItemImageTag, Mode=OneWay}" />
                             <DataGridTextColumn Header="Date Tag" Width="125" Binding="{Binding DateTag, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
-                            <DataGridTemplateColumn Header="Actions" Width="160">
+                            <DataGridTemplateColumn Header="Actions" Width="160" dgx:DataGridFilterColumn.IsFilterVisible="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
