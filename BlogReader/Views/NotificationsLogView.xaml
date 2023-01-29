@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
-             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:NotificationsLogViewModel, IsDesignTimeCreatable=True}">
     
@@ -43,7 +42,6 @@
                 <TextBlock Text="No Notifications Found" FontWeight="Bold" />
 
                 <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
-                          dgx:DataGridFilter.IsAutoFilterEnabled="True"
                           ItemsSource="{Binding Notifications}">
 
                     <DataGrid.Resources>
@@ -56,7 +54,7 @@
                                             Header="Date" 
                                             Width="205" />
 
-                        <DataGridTemplateColumn Header="Type" Width="100" dgx:DataGridFilterColumn.IsFilterVisible="False">
+                        <DataGridTemplateColumn Header="Type" Width="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 

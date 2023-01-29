@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
-             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogSourcesViewModel, IsDesignTimeCreatable=True}">
 
@@ -37,7 +36,7 @@
             </Grid.ColumnDefinitions>
 
             <Border Visibility="{Binding SelectedSourceItem, Converter={StaticResource IsValueNullToVisibilityConverter}}"
-                    Background="{StaticResource CardBackgroundColorBrush}"
+                    Background="{StaticResource SecondaryBackgroundColorBrush}"
                     Height="510" Width="400"
                     VerticalAlignment="Top"
                     Margin="0 0 20 0"
@@ -57,14 +56,15 @@
                         <StackPanel>
 
                             <StackPanel.Resources>
-                                <Style TargetType="Label">
+                                <Style TargetType="TextBlock">
                                     <Setter Property="Margin" Value="0 10 0 0" />
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
                                 </Style>
                             </StackPanel.Resources>
 
                             <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" Text="(* required fields)" />
 
-                            <Label Content="Name*" />
+                            <TextBlock Text="Name*" />
                             <TextBox Text="{Binding SelectedSourceItem.SourceName, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                        Text="{Binding DataPropertyErrors[SourceName]}"
@@ -72,15 +72,15 @@
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
 
-                            <Label Content="Url*" />
+                            <TextBlock Text="Url*" />
                             <TextBox Text="{Binding SelectedSourceItem.SourceUrl, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                        Text="{Binding DataPropertyErrors[SourceUrl]}"
                                        Visibility="{Binding DataPropertyErrors[SourceUrl], 
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
-                            
-                            <Label Content="Content Model*" />
+
+                            <TextBlock Text="Content Model*" />
                             
                             <ComboBox ItemsSource="{Binding RssContentModels, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedIndex="{Binding SelectedRssContentModelIndex, Mode=OneWay}"
@@ -159,7 +159,6 @@
                     <TextBlock Text="No Sources Found" FontWeight="Bold" />
 
                     <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
-                              dgx:DataGridFilter.IsAutoFilterEnabled="True"
                               ItemsSource="{Binding BlogPostItemSources}">
 
                         <DataGrid.Resources>
@@ -172,7 +171,7 @@
                             <DataGridTextColumn Header="Name" MinWidth="100" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridTextColumn Header="Url" Width="3*" CellStyle="{StaticResource HyperLinkTextCellStyle}" Binding="{Binding SourceUrl, Mode=OneWay}" />
 
-                            <DataGridTemplateColumn Header="Image" Width="80" dgx:DataGridFilterColumn.IsFilterVisible="False">
+                            <DataGridTemplateColumn Header="Image" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
 
@@ -188,8 +187,7 @@
                             <DataGridCheckBoxColumn Header="Active" Width="100" Binding="{Binding Active, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
                             <DataGridTextColumn Header="Last Modified" Width="205" Binding="{Binding DateModified, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
-                            <DataGridTemplateColumn dgx:DataGridFilterColumn.IsFilterVisible="False"
-                                                    Header="Actions" 
+                            <DataGridTemplateColumn Header="Actions" 
                                                     Width="150">
                                 
                                 <DataGridTemplateColumn.CellTemplate>

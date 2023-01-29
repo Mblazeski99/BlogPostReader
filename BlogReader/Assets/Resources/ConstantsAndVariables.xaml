@@ -3,32 +3,27 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--#region Colors -->
-    <Color x:Key="PrimaryBackgrounColor">#FFF</Color>
-    <SolidColorBrush x:Key="PrimaryBackgroundColorBrush" Color="{StaticResource PrimaryBackgrounColor}" />
+    <sys:String x:Key="PrimaryBackgroundColorHexString">#212121</sys:String>
+    <Color x:Key="PrimaryBackgroundColor">#212121</Color>
+    <SolidColorBrush x:Key="PrimaryBackgroundColorBrush" Color="{StaticResource PrimaryBackgroundColor}" />
 
-    <Color x:Key="PrimaryFontColor">#000</Color>
+    <Color x:Key="SecondaryBackgrounColor">#303030</Color>
+    <SolidColorBrush x:Key="SecondaryBackgroundColorBrush" Color="{StaticResource SecondaryBackgrounColor}" />
+
+    <Color x:Key="BackgrounHighlightColor">#555555</Color>
+    <SolidColorBrush x:Key="BackgrounHighlightColorBrush" Color="{StaticResource BackgrounHighlightColor}" />
+
+    <Color x:Key="PrimaryFontColor">#ededed</Color>
     <SolidColorBrush x:Key="PrimaryFontColorBrush" Color="{StaticResource PrimaryFontColor}" />
 
-    <Color x:Key="PrimaryFocusedFontColor">#373c3e</Color>
-    <SolidColorBrush x:Key="PrimaryFocusedFontColorBrush" Color="{StaticResource PrimaryFocusedFontColor}" />
-
-    <Color x:Key="PrimaryBorderColor">#FFABADB3</Color>
-    <SolidColorBrush x:Key="PrimaryBorderColorBrush" Color="{StaticResource PrimaryBorderColor}" />
-
-    <Color x:Key="PrimaryBtnColor">#2e64d6</Color>
+    <Color x:Key="PrimaryBtnColor">#2e6ded</Color>
     <SolidColorBrush x:Key="PrimaryButtonColorBrush" Color="{StaticResource PrimaryBtnColor}" />
 
-    <Color x:Key="PrimaryBtnHoverColor">#1c408c</Color>
+    <Color x:Key="PrimaryBtnHoverColor">#144e80</Color>
     <SolidColorBrush x:Key="PrimaryBtnHoverColorBrush" Color="{StaticResource PrimaryBtnHoverColor}" />
 
-    <Color x:Key="SecondaryBtnColor">#2e6ded</Color>
-    <SolidColorBrush x:Key="SecondaryButtonColorBrush" Color="{StaticResource SecondaryBtnColor}"></SolidColorBrush>
-
-    <Color x:Key="CardBackgroundColor">#c2cdd6</Color>
-    <SolidColorBrush x:Key="CardBackgroundColorBrush" Color="{StaticResource CardBackgroundColor}" />
-
-    <Color x:Key="SelectedDropDownItemColor">#ccdaff</Color>
-    <SolidColorBrush x:Key="SelectedDropDownItemColorBrush" Color="{StaticResource SelectedDropDownItemColor}" />
+    <Color x:Key="PrimaryAccentBtnColor">#00b0ff</Color>
+    <SolidColorBrush x:Key="PrimaryAccentBtnColorBrush" Color="{StaticResource PrimaryAccentBtnColor}"></SolidColorBrush>
 
     <Color x:Key="SuccessColor">#11ad45</Color>
     <SolidColorBrush x:Key="SuccessColorBrush" Color="{StaticResource SuccessColor}" />
@@ -38,12 +33,6 @@
 
     <Color x:Key="ErrorColor">#d80143</Color>
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
-
-    <Color x:Key="HyperlinkColor">#0066cc</Color>
-    <SolidColorBrush x:Key="HyperlinkColorBrush" Color="{StaticResource HyperlinkColor}" />
-    
-    <Color x:Key="HyperlinkHoverColor">#ff0000</Color>
-    <SolidColorBrush x:Key="HyperlinkHoverColorBrush" Color="{StaticResource HyperlinkHoverColor}" />
     <!--#endregion-->
 
     <sys:String x:Key="Hidden">hidden</sys:String>

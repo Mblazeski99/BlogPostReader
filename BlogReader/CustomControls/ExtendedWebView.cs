@@ -1,10 +1,37 @@
 ﻿using Microsoft.Web.WebView2.Wpf;
+using System.Drawing;
 using System.Windows;
 
 namespace BlogReader.CustomControls
 {
     public class ExtendedWebView : WebView2
     {
+        public string BackgroundColor
+        {
+            get
+            {
+                return (string)GetValue(BackgroundColorProperty);
+            }
+            set
+            {
+                SetValue(BackgroundColorProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty BackgroundColorProperty =
+            DependencyProperty.Register(nameof(BackgroundColor),
+                typeof(string),
+                typeof(ExtendedWebView),
+                new PropertyMetadata(default(ExtendedWebView), OnBackgroundColorPropertyChanged));
+
+        private async static void OnBackgroundColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var webView = d as ExtendedWebView;
+            string color = e.NewValue?.ToString();
+
+            webView.DefaultBackgroundColor = ColorTranslator.FromHtml(color);
+        }
+
         public string HTMLContent
         {
             get 

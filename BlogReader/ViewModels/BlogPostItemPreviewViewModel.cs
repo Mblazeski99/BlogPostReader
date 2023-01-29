@@ -3,7 +3,6 @@ using BlogReader.Models.Enums;
 using BlogReader.Stores;
 using System;
 using System.IO;
-using System.Net.Http;
 
 namespace BlogReader.ViewModels
 {
@@ -43,27 +42,26 @@ namespace BlogReader.ViewModels
                                      <meta charset = ""UTF-8"">
                                  </head>";
 
-                string backgroundColor = AppData.PrimaryBackgroundColorBrush.ToString();
-                string fontColor = AppData.PrimaryFontColorBrush.ToString().Replace("FF", "");
-                string primaryBtnColor = AppData.PrimaryButtonColorBrush.ToString().Replace("FF", "");
+                string backgroundColor = AppData.PrimaryBackgroundColorBrush.ToString().Replace("#FF", "#");
+                string secondaryBackgroundColor = AppData.SecondaryBackgroundColorBrush.ToString().Replace("#FF", "#");
+                string fontColor = AppData.PrimaryFontColorBrush.ToString().Replace("#FF", "#");
+                string primaryBtnColor = AppData.PrimaryButtonColorBrush.ToString().Replace("#FF", "#");
+                string infoColor = AppData.InformationColorBrush.ToString().Replace("#FF", "#");
+                string accentColor = AppData.PrimaryAccentBtnColorBrush.ToString().Replace("#FF", "#");
+                string backgrounHighlightColor = AppData.BackgrounHighlightColorBrush.ToString().Replace("#FF", "#");
 
                 string codeStylesCssFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Assets\Css\preview-blog.css";
                 string codeStylesCss = File.Exists(codeStylesCssFilePath) ? File.ReadAllText(codeStylesCssFilePath) : string.Empty;
 
-                string css = @"<style>
+                codeStylesCss = codeStylesCss.Replace(nameof(fontColor), fontColor)
+                                                .Replace(nameof(backgroundColor), backgroundColor)
+                                                .Replace(nameof(backgrounHighlightColor), backgrounHighlightColor)
+                                                .Replace(nameof(primaryBtnColor), primaryBtnColor)
+                                                .Replace(nameof(accentColor), accentColor)
+                                                .Replace(nameof(secondaryBackgroundColor), secondaryBackgroundColor)
+                                                .Replace(nameof(infoColor), infoColor);
 
-                                " + codeStylesCss + @"
-
-                                body { 
-                                    font: 400 20px/1.25 Arial,Gadget,sans-serif;
-                                    color: " + fontColor + @";
-                                    background-color: " + backgroundColor + @";
-                                    padding: 10px;
-                                }
-
-                                .blog-post-author { color: " + primaryBtnColor + @"; }
-
-                               </style>";
+                string css = @"<style>" + codeStylesCss + @"</style>";
 
                 string titleHtml = $@"<h1 class=""blog-post-title"">{_blogPostItem.Title}</h1>";
 

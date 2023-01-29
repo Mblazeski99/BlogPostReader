@@ -8,7 +8,9 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogPostItemPreviewViewModel, IsDesignTimeCreatable=True}">
 
-    <customControls:ExtendedWebView ScrollViewer.VerticalScrollBarVisibility="Auto"
+    <customControls:ExtendedWebView Visibility="{Binding HtmlContent, Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter}}"
+                                    BackgroundColor="{StaticResource PrimaryBackgroundColorHexString}" 
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
                                     HTMLContent="{Binding HtmlContent}" />
 
 </UserControl>

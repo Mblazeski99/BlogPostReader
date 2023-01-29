@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
-             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogsListingViewModel, IsDesignTimeCreatable=True}">
 
@@ -45,7 +44,6 @@
                                FontWeight="Bold" />
     
                     <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
-                              dgx:DataGridFilter.IsAutoFilterEnabled="True"
                               ItemsSource="{Binding BlogPostItems}">
 
                         <DataGrid.Resources>
@@ -61,9 +59,7 @@
                             <DataGridTextColumn Header="Source" MinWidth="180" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridTextColumn Header="Published" Width="205" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
 
-                            <DataGridTemplateColumn dgx:DataGridFilterColumn.IsFilterVisible="False"
-                                                    Header="Actions" 
-                                                    Width="170">
+                            <DataGridTemplateColumn Header="Actions" Width="170">
                                 
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

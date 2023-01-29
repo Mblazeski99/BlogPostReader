@@ -93,10 +93,12 @@ namespace BlogReader
 
         #region Colors
         public static Brush PrimaryBackgroundColorBrush => _app.Resources[nameof(PrimaryBackgroundColorBrush)] as Brush;
+        public static Brush SecondaryBackgroundColorBrush => _app.Resources[nameof(SecondaryBackgroundColorBrush)] as Brush;
         public static Brush PrimaryFontColorBrush => _app.Resources[nameof(PrimaryFontColorBrush)] as Brush;
         public static Brush PrimaryButtonColorBrush => _app.Resources[nameof(PrimaryButtonColorBrush)] as Brush;
+        public static Brush PrimaryAccentBtnColorBrush => _app.Resources[nameof(PrimaryAccentBtnColorBrush)] as Brush;
         public static Brush InformationColorBrush => _app.Resources[nameof(InformationColorBrush)] as Brush;
-        public static Brush CardBackgroundColorBrush => _app.Resources[nameof(CardBackgroundColorBrush)] as Brush;
+        public static Brush BackgrounHighlightColorBrush => _app.Resources[nameof(BackgrounHighlightColorBrush)] as Brush;
         #endregion
     }
 }

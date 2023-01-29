@@ -19,15 +19,15 @@
             
             <BulletDecorator.Bullet>
                 
-                <Border BorderBrush="{StaticResource SecondaryButtonColorBrush}"
-                        Background="#C0C0C0"
+                <Border BorderBrush="{StaticResource PrimaryButtonColorBrush}"
+                        Background="{TemplateBinding Background}"
                         BorderThickness="1"
                         CornerRadius="0" 
                         x:Name="Border" 
                         Width="13" 
                         Height="13">
-                    
-                    <Path Stroke="{StaticResource SecondaryButtonColorBrush}"
+
+                    <Path Stroke="{StaticResource PrimaryButtonColorBrush}"
                           Data="F1 M 0.468732,4.66838L 3.03345,7.95443L 7.28127,0.420569"
                           SnapsToDevicePixels="False" 
                           Width="8" Height="9"
@@ -101,7 +101,7 @@
     <ControlTemplate x:Key="TabItemControlTemplate" TargetType="{x:Type TabItem}">
 
         <Grid>
-            <Border BorderBrush="{StaticResource SecondaryButtonColorBrush}" BorderThickness="2" 
+            <Border BorderBrush="{StaticResource PrimaryButtonColorBrush}" BorderThickness="2" 
                     Name="Border">
 
                 <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -117,7 +117,7 @@
             <Trigger Property="IsSelected" Value="True">
 
                 <Setter Property="Panel.ZIndex" Value="100" />
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryButtonColorBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryButtonColorBrush}" />
                 <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
                 <Setter Property="Foreground" Value="{StaticResource PrimaryBackgroundColorBrush}" />
 
@@ -125,7 +125,7 @@
         </ControlTemplate.Triggers>
 
     </ControlTemplate>
-    
+
     <!--#region ComboBox -->
     <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="ComboBoxToggleButton">
         
@@ -163,19 +163,19 @@
 
                     <Style TargetType="Border">
 
-                        <Setter Property="Background" Value="{StaticResource PrimaryBackgroundColorBrush}" />
+                        <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
                         <Setter Property="BorderThickness" Value="2" />
-                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBorderColorBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryFontColorBrush}" />
                         <Setter Property="CornerRadius" Value="2" />
                         <Setter Property="Grid.ColumnSpan" Value="2" />
 
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryButtonColorBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                             </Trigger>
 
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                             </Trigger>
                         </Style.Triggers>
 
@@ -192,18 +192,18 @@
                     <Style TargetType="Border">
 
                         <Setter Property="BorderThickness" Value="2" />
-                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBorderColorBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource PrimaryFontColorBrush}" />
                         <Setter Property="CornerRadius" Value="2" />
                         <Setter Property="Grid.Column" Value="1" />
                         <Setter Property="Height" Value="40" />
 
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryButtonColorBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding ElementName=Border, Path=IsFocused}" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
 
@@ -222,11 +222,11 @@
 
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
-                                    <Setter Property="Fill" Value="{StaticResource PrimaryButtonColorBrush}" />
+                                    <Setter Property="Fill" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                                 </DataTrigger>
 
                                 <DataTrigger Binding="{Binding ElementName=Border, Path=IsFocused}" Value="True">
-                                    <Setter Property="Fill" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
+                                    <Setter Property="Fill" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -242,7 +242,7 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
-        
+
         <Border Background="{TemplateBinding Background}"
                 x:Name="PART_ContentHost"
                 Focusable="False" />
@@ -305,10 +305,11 @@
                               IsHitTestVisible="False"
                               x:Name="ContentSite" />
 
-            <TextBox Template="{StaticResource ComboBoxTextBox}"
+            <TextBox Foreground="{StaticResource PrimaryFontColorBrush}"
+                     Background="Transparent"
+                     Template="{StaticResource ComboBoxTextBox}"
                      IsReadOnly="{TemplateBinding IsReadOnly}"
                      x:Name="PART_EditableTextBox"
-                     Background="Transparent"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Center"
                      Visibility="Hidden"
@@ -327,8 +328,8 @@
                       SnapsToDevicePixels="True"
                       x:Name="DropDown">
 
-                    <Border BorderThickness="2 0 2 2" BorderBrush="{StaticResource PrimaryBorderColorBrush}"
-                            Background="{StaticResource PrimaryBackgroundColorBrush}"
+                    <Border BorderThickness="2 0 2 2" BorderBrush="{StaticResource PrimaryBackgroundColorBrush}"
+                            Background="{StaticResource SecondaryBackgroundColorBrush}"
                             x:Name="DropDownBorder" />
 
                     <ScrollViewer Margin="0" Padding="2 0 2 2"
@@ -380,7 +381,7 @@
                             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                                                           Storyboard.TargetName="Border">
 
-                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedDropDownItemColor}" />
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource BackgrounHighlightColor}" />
 
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
