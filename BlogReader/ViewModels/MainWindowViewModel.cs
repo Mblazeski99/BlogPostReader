@@ -1,33 +1,12 @@
 ﻿using BlogReader.Commands;
+using BlogReader.Commands.App;
+using BlogReader.Models;
 using BlogReader.Stores;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace BlogReader.ViewModels
 {
-    public class NavigationMenuItem : INotifyPropertyChanged
-    {
-        private bool _isSelected = false;
-
-        public string Title { get; set; }
-        public string Icon { get; set; }
-        public string ViewModelType { get; set; }
-        public bool IsExitItem { get; set; }
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
     public class MainWindowViewModel : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
@@ -47,8 +26,10 @@ namespace BlogReader.ViewModels
         public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
 
         public BaseCommand NavigateCommand { get; }
+        public BaseCommand ExitAppCommand { get; }
 
-        public ObservableCollection<NavigationMenuItem> MenuItems { get; set; }
+        public ObservableCollection<NavigationMenuItem> TopMenuItems { get; set; }
+        public ObservableCollection<NavigationMenuItem> BottomMenuItems { get; set; }
 
         public MainWindowViewModel(NavigationStore navigationStore, NotificationsStore notificationsStore, BlogPostItemsStore blogPostItemsStore)
         {
@@ -56,39 +37,48 @@ namespace BlogReader.ViewModels
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
 
             NavigateCommand = new NavigateCommand(navigationStore: navigationStore, notificationsStore: notificationsStore, blogPostItemsStore);
+            ExitAppCommand = new ExitAppCommand();
 
-            MenuItems = new ObservableCollection<NavigationMenuItem>()
+            TopMenuItems = new ObservableCollection<NavigationMenuItem>()
             {
                 new NavigationMenuItem()
                 {
                     Title = "Home",
                     Icon = "Home",
-                    ViewModelType = nameof(HomeViewModel),
+                    Command = NavigateCommand,
+                    CommandParameter = nameof(HomeViewModel),
                     IsSelected = true,
                 },
                 new NavigationMenuItem()
                 {
                     Title = "Blogs",
                     Icon = "NewspaperOutline",
-                    ViewModelType = nameof(BlogsViewModel)
+                    Command = NavigateCommand,
+                    CommandParameter = nameof(BlogsViewModel)
                 },
                 new NavigationMenuItem()
                 {
                     Title = "Notifications",
                     Icon = "BellOutline",
-                    ViewModelType = nameof(NotificationsLogViewModel)
+                    Command = NavigateCommand,
+                    CommandParameter = nameof(NotificationsLogViewModel)
                 },
                 new NavigationMenuItem()
                 {
                     Title = "Settings",
                     Icon = "Cog",
-                    ViewModelType = nameof(NotificationsLogViewModel)
-                },
+                    Command = NavigateCommand,
+                    CommandParameter = nameof(NotificationsLogViewModel)
+                }
+            };
+
+            BottomMenuItems = new ObservableCollection<NavigationMenuItem>()
+            {
                 new NavigationMenuItem()
                 {
                     Title = "Exit",
                     Icon = "PowerOff",
-                    ViewModelType = nameof(NotificationsLogViewModel),
+                    Command = ExitAppCommand,
                     IsExitItem = true
                 }
             };
@@ -98,12 +88,14 @@ namespace BlogReader.ViewModels
         {
             OnPropertyChanged(nameof(CurrentViewModel));
 
-            MenuItems.ForEach(mi => mi.IsSelected = false);
+            TopMenuItems.ForEach(mi => mi.IsSelected = false);
 
             var currentViewModelType = CurrentViewModel.GetType().Name;
 
             // TODO: Change to SingleOrDefault
-            var menuItem = MenuItems.FirstOrDefault(mi => mi.ViewModelType == currentViewModelType);
+            var menuItem = TopMenuItems.FirstOrDefault(mi => mi.CommandParameter == currentViewModelType);
+            if (menuItem == null) menuItem = BottomMenuItems.FirstOrDefault(mi => mi.CommandParameter == currentViewModelType);
+
             menuItem.IsSelected = true;
         }
     }

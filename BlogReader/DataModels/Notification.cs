@@ -1,7 +1,7 @@
-﻿using BlogReader.Models.Enums;
+﻿using BlogReader.DataModels.Enums;
 using System.Windows;
 
-namespace BlogReader.Models
+namespace BlogReader.DataModels
 {
     public class Notification : BaseEntity
     {

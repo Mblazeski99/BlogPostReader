@@ -1,5 +1,5 @@
 ﻿using System;
-using BlogReader.Models;
+using BlogReader.DataModels;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;

@@ -1,4 +1,4 @@
-﻿namespace BlogReader.Models.Enums
+﻿namespace BlogReader.DataModels.Enums
 {
     public enum MessageType
     {

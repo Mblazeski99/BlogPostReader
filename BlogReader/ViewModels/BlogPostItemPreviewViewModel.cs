@@ -1,5 +1,5 @@
-﻿using BlogReader.Models;
-using BlogReader.Models.Enums;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using System;
 using System.IO;

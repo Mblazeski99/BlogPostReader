@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace BlogReader.Models
+namespace BlogReader.DataModels
 {
     public abstract class BaseEntity : INotifyPropertyChanged
     {

@@ -1,4 +1,4 @@
-﻿using BlogReader.Models;
+﻿using BlogReader.DataModels;
 using BlogReader.ViewModels;
 
 namespace BlogReader.Commands.Blogs.BlogSources

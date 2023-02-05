@@ -1,6 +1,6 @@
 ﻿using BlogReader.HostBuilders;
-using BlogReader.Models;
-using BlogReader.Models.Enums;
+using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

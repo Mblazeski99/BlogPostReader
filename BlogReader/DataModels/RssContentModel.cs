@@ -1,6 +1,6 @@
 ﻿using BlogReader.Helpers;
 
-namespace BlogReader.Models
+namespace BlogReader.DataModels
 {
     public class RssContentModel : BaseEntity
     {

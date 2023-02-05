@@ -7,6 +7,7 @@
         xmlns:views="clr-namespace:BlogReader.Views"
         xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
+        xmlns:models="clr-namespace:BlogReader.Models"
         WindowState="Maximized"
         mc:Ignorable="d"
         Title="Blog Reader"
@@ -14,18 +15,6 @@
         d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 
     <Window.Resources>
-
-        <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
-            <views:HomeView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type viewModels:BlogsViewModel}">
-            <views:BlogsView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type viewModels:NotificationsLogViewModel}">
-            <views:NotificationsView />
-        </DataTemplate>
 
         <Style x:Key="FaImageAwesomeStyle" TargetType="{x:Type fontAwesome:ImageAwesome}">
 
@@ -44,6 +33,168 @@
 
         <Style TargetType="{x:Type fontAwesome:ImageAwesome}" BasedOn="{StaticResource FaImageAwesomeStyle}" />
 
+        <Style x:Key="NavManuListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
+
+            <Style.Resources>
+
+                <Style TargetType="ListViewItem">
+
+                    <Setter Property="FontWeight" Value="Bold"  />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+
+                    <Setter Property="Template">
+
+                        <Setter.Value>
+
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        Background="{TemplateBinding Background}"
+                                        Padding="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="True"
+                                        Height="50">
+
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                    </Trigger>
+
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                    </Trigger>
+
+                                    <MultiDataTrigger>
+
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext.IsExitItem}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+
+                                    </MultiDataTrigger>
+
+                                </ControlTemplate.Triggers>
+
+                            </ControlTemplate>
+
+                        </Setter.Value>
+
+                    </Setter>
+
+                    <Style.Resources>
+
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Width" Value="230" />
+                            <Setter Property="Margin" Value="11,0,0,0" />
+                        </Style>
+
+                        <Style TargetType="fontAwesome:ImageAwesome" BasedOn="{StaticResource FaImageAwesomeStyle}">
+
+                            <Style.Triggers>
+
+                                <Trigger Property="IsHitTestVisible" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag.IsSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                </DataTrigger>
+
+                                <MultiDataTrigger>
+
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsHitTestVisible}" Value="True" />
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag.IsExitItem}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+
+                                    <Setter Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+
+                                </MultiDataTrigger>
+
+                            </Style.Triggers>
+
+                        </Style>
+
+                    </Style.Resources>
+
+                </Style>
+
+            </Style.Resources>
+
+        </Style>
+
+        <Style x:Key="NavManuListViewStyle" TargetType="{x:Type ListView}">
+
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource NavManuListViewItemStyle}" />
+
+        </Style>
+
+        <DataTemplate x:Key="NavMenuItemDataTemplate" DataType="{x:Type models:NavigationMenuItem}">
+
+            <ListViewItem Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType=Window}, 
+                                        Path=DataContext}"
+                          IsSelected="{Binding IsSelected}">
+
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                        <interactivity:InvokeCommandAction Command="{Binding Command}" CommandParameter="{Binding CommandParameter}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+
+                <TextBlock>
+                                    
+                    <fontAwesome:ImageAwesome Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                            AncestorType=ListViewItem}, 
+                                                            Path=DataContext}"
+                                              IsHitTestVisible="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                            AncestorType=ListViewItem},
+                                                            Path=IsMouseOver}"
+                                              Icon="{Binding Icon}" />
+                                    
+                    <Run Text=" " BaselineAlignment="Center" />
+                    <Run Text="{Binding Title}" BaselineAlignment="Center" />
+
+                </TextBlock>
+
+                <ListViewItem.ToolTip>
+
+                    <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
+                             Visibility="{Binding Path=Tag.IsMenuExpanded, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                             Content="{Binding Path=DataContext.Title}" />
+
+                </ListViewItem.ToolTip>
+
+            </ListViewItem>
+
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
+            <views:HomeView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:BlogsViewModel}">
+            <views:BlogsView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:NotificationsLogViewModel}">
+            <views:NotificationsView />
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>
@@ -57,7 +208,15 @@
 
                 <Border BorderThickness="1 0" BorderBrush="{StaticResource BackgrounHighlightColorBrush}">
                     
-                    <StackPanel>
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            
+                        </Grid.RowDefinitions>
 
                         <Grid Height="90">
 
@@ -155,141 +314,18 @@
 
                         </Grid>
 
-                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                  Background="Transparent" BorderBrush="Transparent"
-                                  ItemsSource="{Binding MenuItems}">
+                        <ListView ItemTemplate="{StaticResource NavMenuItemDataTemplate}"
+                                  Style="{StaticResource NavManuListViewStyle}"
+                                  ItemsSource="{Binding TopMenuItems}"
+                                  Grid.Row="1" />
 
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
+                        <ListView ItemTemplate="{StaticResource NavMenuItemDataTemplate}"
+                                  Style="{StaticResource NavManuListViewStyle}"
+                                  ItemsSource="{Binding BottomMenuItems}"
+                                  VerticalAlignment="Bottom"
+                                  Grid.Row="2" />
 
-                                    <ListViewItem Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                            AncestorType=Window}, 
-                                                            Path=DataContext}"
-                                                  IsSelected="{Binding IsSelected}">
-
-                                        <interactivity:Interaction.Triggers>
-                                            <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                                
-                                                <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                                AncestorType=Window},
-                                                                                                Path=DataContext.NavigateCommand}" 
-                                                                                   CommandParameter="{Binding ViewModelType}" />
-                                                
-                                            </interactivity:EventTrigger>
-                                        </interactivity:Interaction.Triggers>
-
-                                        <TextBlock>
-                                    
-                                            <fontAwesome:ImageAwesome Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                        AncestorType=ListViewItem}, 
-                                                                        Path=IsSelected}"
-                                                                      IsHitTestVisible="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                        AncestorType=ListViewItem},
-                                                                        Path=IsMouseOver}"
-                                                                      Icon="{Binding Icon}" />
-                                    
-                                            <Run Text=" " BaselineAlignment="Center" />
-                                            <Run Text="{Binding Title}" BaselineAlignment="Center" />
-
-                                        </TextBlock>
-
-                                        <ListViewItem.ToolTip>
-                                            
-                                            <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                                     Visibility="{Binding Path=Tag.IsMenuExpanded, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                                                     Content="{Binding Path=DataContext.Title}" />
-                                            
-                                        </ListViewItem.ToolTip>
-
-                                    </ListViewItem>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-                            <ListView.ItemContainerStyle>
-
-                                <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
-
-                                    <Style.Resources>
-
-                                        <Style TargetType="ListViewItem">
-
-                                            <Setter Property="FontWeight" Value="Bold"  />
-                                            <Setter Property="Cursor" Value="Hand" />
-                                            <Setter Property="HorizontalAlignment" Value="Left" />
-
-                                            <Setter Property="Template">
-
-                                                <Setter.Value>
-
-                                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-
-                                                        <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                Background="{TemplateBinding Background}"
-                                                                Padding="{TemplateBinding Padding}"
-                                                                SnapsToDevicePixels="True"
-                                                                Height="50">
-
-                                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                                                        </Border>
-
-                                                        <ControlTemplate.Triggers>
-
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                                            </Trigger>
-
-                                                            <Trigger Property="IsSelected" Value="True">
-                                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                                            </Trigger>
-
-                                                        </ControlTemplate.Triggers>
-
-                                                    </ControlTemplate>
-
-                                                </Setter.Value>
-
-                                            </Setter>
-
-                                            <Style.Resources>
-
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Width" Value="230" />
-                                                    <Setter Property="Margin" Value="11,0,0,0" />
-                                                </Style>
-
-                                                <Style TargetType="fontAwesome:ImageAwesome" BasedOn="{StaticResource FaImageAwesomeStyle}">
-
-                                                    <Style.Triggers>
-
-                                                        <Trigger Property="IsHitTestVisible" Value="True">
-                                                            <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                                        </Trigger>
-
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}" Value="True">
-                                                            <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                                        </DataTrigger>
-
-                                                    </Style.Triggers>
-
-                                                </Style>
-
-                                            </Style.Resources>
-
-                                        </Style>
-
-                                    </Style.Resources>
-
-                                </Style>
-
-                            </ListView.ItemContainerStyle>
-
-                        </ListView>
-
-                    </StackPanel>
+                    </Grid>
                     
                 </Border>
 
@@ -300,7 +336,7 @@
         <Grid Margin="65 0 0 0">
 
             <ContentControl Content="{Binding CurrentViewModel}"
-                            Grid.Row="1" 
+                            Grid.Row="1"
                             Margin="20" />
 
         </Grid>

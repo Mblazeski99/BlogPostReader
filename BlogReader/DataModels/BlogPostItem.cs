@@ -1,7 +1,7 @@
 ﻿using BlogReader.Helpers;
 using System;
 
-namespace BlogReader.Models
+namespace BlogReader.DataModels
 {
     public class BlogPostItem : BaseEntity
     {

@@ -1,6 +1,6 @@
 ﻿using BlogReader.Commands;
-using BlogReader.Models.Enums;
-using BlogReader.Models;
+using BlogReader.DataModels.Enums;
+using BlogReader.DataModels;
 using BlogReader.Stores;
 using System.Collections.ObjectModel;
 using System;

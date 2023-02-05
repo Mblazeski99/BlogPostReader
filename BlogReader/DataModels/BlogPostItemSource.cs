@@ -1,7 +1,7 @@
 ﻿using BlogReader.Helpers;
 using System.Windows.Media.Imaging;
 
-namespace BlogReader.Models
+namespace BlogReader.DataModels
 {
     public class BlogPostItemSource : BaseEntity
     {
