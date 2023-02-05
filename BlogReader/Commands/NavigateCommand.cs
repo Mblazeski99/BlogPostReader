@@ -55,6 +55,11 @@ namespace BlogReader.Commands
                             viewModel = new NotificationsLogViewModel(_notificationsStore);
                         break;
 
+                    case nameof(SettingsViewModel):
+                        if (_navigationStore.CurrentViewModel.GetType() != typeof(SettingsViewModel))
+                            viewModel = new SettingsViewModel();
+                        break;
+
                     default:
                         throw new Exception("ViewModel type does not exist");
                 }

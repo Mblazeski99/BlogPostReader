@@ -68,7 +68,7 @@ namespace BlogReader.ViewModels
                     Title = "Settings",
                     Icon = "Cog",
                     Command = NavigateCommand,
-                    CommandParameter = nameof(NotificationsLogViewModel)
+                    CommandParameter = nameof(SettingsViewModel)
                 }
             };
 
