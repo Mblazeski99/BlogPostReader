@@ -10,17 +10,9 @@
 
     <Grid>
         
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Blogs" />
-
         <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                     BorderThickness="0"
-                    Padding="2 20 0 0"
-                    Grid.Row="1">
+                    Padding="2 20 0 0">
 
             <TabItem Header="Blogs">
                 <views:BlogsListingView DataContext="{Binding BlogsListingViewModel}" />

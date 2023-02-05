@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
                 <ResourceDictionary Source="/Assets/Resources/ConstantsAndVariables.xaml" />
+                <ResourceDictionary Source="/Assets/Resources/Fonts.xaml" />
                 <ResourceDictionary Source="/Assets/Resources/ControlTemplates.xaml" />
                 <ResourceDictionary Source="/Assets/Resources/Styles.xaml" />
                 <ResourceDictionary Source="/Assets/Resources/ValueConverters.xaml" />

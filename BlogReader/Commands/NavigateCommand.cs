@@ -25,7 +25,7 @@ namespace BlogReader.Commands
             {
                 if (parameter == null) throw new ArgumentNullException(nameof(parameter), "Parameter Was Null");
 
-                string viewModelType = (parameter as dynamic).Name;
+                string viewModelType = parameter.ToString();
                 BaseViewModel? viewModel = null;
 
                 switch (viewModelType)

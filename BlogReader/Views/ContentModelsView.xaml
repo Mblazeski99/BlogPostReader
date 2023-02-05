@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
-             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:ContentModelsViewModel, IsDesignTimeCreatable=True}">
 

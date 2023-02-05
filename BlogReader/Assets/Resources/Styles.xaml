@@ -17,22 +17,6 @@
     <!--#endregion-->
 
     <!--#region TextBlock -->
-    <Style x:Key="ViewHeaderTextBlock" TargetType="TextBlock">
-
-        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="TextAlignment" Value="Center" />
-        <Setter Property="Height" Value="80" />
-        <Setter Property="Width" Value="800" />
-        <Setter Property="FontSize" Value="32" />
-        <Setter Property="FontFamily" Value="Arial" />
-        <Setter Property="FontWeight" Value="ExtraBold" />
-        <Setter Property="Padding" Value="0 21 0 0" />
-        <Setter Property="Margin" Value="0 21 0 0" />
-
-    </Style>
-
     <Style x:Key="DataPropertyErrorTextBlock" TargetType="TextBlock">
 
         <Setter Property="FontFamily" Value="Arial" />
@@ -70,9 +54,9 @@
     <Style x:Key="ButtonStyle" TargetType="Button">
 
         <Setter Property="Padding" Value="10 5" />
-        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Height" Value="40" />
         <Setter Property="FontSize" Value="18" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Background" Value="Transparent" />
@@ -156,6 +140,21 @@
     </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
+    <!--#endregion-->
+    
+    <!--#region ToggleButton -->
+    <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+        <Setter Property="Template" Value="{StaticResource ToggleButtonControlTemplate}" />
+        
+    </Style>
+    
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonStyle}" />
     <!--#endregion-->
     
     <!--#region ComboBox -->
@@ -508,5 +507,28 @@
         
     </Style>
     <!--#endregion-->
-    
+
+    <!--#region ToolTip -->
+    <Style TargetType="ToolTip" x:Key="ToolTipStyle">
+
+        <Setter Property="Placement" Value="Right" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Margin" Value="20,0,0,0" />
+        <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BackgrounHighlightColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="PlacementRectangle" Value="60,0,0,0" />
+        <Setter Property="HorizontalOffset" Value="15" />
+        <Setter Property="VerticalOffset" Value="6" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+    </Style>
+
+    <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource ToolTipStyle}" />
+    <!--#endregion-->
+
 </ResourceDictionary>

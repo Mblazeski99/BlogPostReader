@@ -12,13 +12,10 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource ViewHeaderTextBlock}" Text="Notifications" />
-        
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
 
             <Button Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Command="{Binding ClearNotificationsCommand}"
@@ -31,7 +28,7 @@
                 
         </StackPanel>
 
-        <Grid Grid.Row="2" Margin="0 10 0 0">
+        <Grid Grid.Row="1" Margin="0 10 0 0">
 
             <customControls:LoadingSpinner IsLoading="{Binding IsItemsGridLoading}"
                                            Diameter="100"

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
         xmlns:views="clr-namespace:BlogReader.Views"
+        xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
         WindowState="Maximized"
         mc:Ignorable="d"
         Title="Blog Reader"
@@ -25,32 +27,284 @@
             <views:NotificationsView />
         </DataTemplate>
 
+        <Style x:Key="FaImageAwesomeStyle" TargetType="{x:Type fontAwesome:ImageAwesome}">
+
+            <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
+            <Setter Property="Width" Value="28" />
+
+            <Style.Triggers>
+
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <Style TargetType="{x:Type fontAwesome:ImageAwesome}" BasedOn="{StaticResource FaImageAwesomeStyle}" />
+
     </Window.Resources>
-    
-    <Grid Margin="20">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid>
 
-        <StackPanel Orientation="Horizontal">
+        <Grid Panel.ZIndex="1">
 
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:HomeViewModel}"
-                    Content="Home" />
+            <Grid Background="{StaticResource SecondaryBackgroundColorBrush}"
+                  HorizontalAlignment="Left"
+                  x:Name="nav_pnl"
+                  Width="65">
 
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:BlogsViewModel}"
-                    Content="Blogs" />
+                <Border BorderThickness="1 0" BorderBrush="{StaticResource BackgrounHighlightColorBrush}">
+                    
+                    <StackPanel>
 
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type viewModels:NotificationsLogViewModel}"
-                    Content="Notifications" />
+                        <Grid Height="90">
 
-        </StackPanel>
-        
-        <ContentControl Content="{Binding CurrentViewModel}"
-                        Grid.Row="1" 
-                        Margin="20" />
-        
+                            <ToggleButton IsChecked="{Binding IsMenuExpanded}">
+
+                                <ToggleButton.Style>
+
+                                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonStyle}">
+
+                                        <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                        <Setter Property="Margin" Value="18,-20,0,0" />
+                                        <Setter Property="FontSize" Value="26" />
+
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <fontAwesome:ImageAwesome Icon="Navicon">
+
+                                                    <fontAwesome:ImageAwesome.Style>
+                                                        <Style TargetType="{x:Type fontAwesome:ImageAwesome}" BasedOn="{StaticResource FaImageAwesomeStyle}">
+
+                                                            <Style.Triggers>
+
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                        AncestorType=ToggleButton}, 
+                                                                                        Path=IsPressed}"
+                                                                             Value="True">
+
+                                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+
+                                                                </DataTrigger>
+
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                        AncestorType=ToggleButton}, 
+                                                                                        Path=IsChecked}"
+                                                                             Value="True">
+
+                                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+
+                                                                </DataTrigger>
+                                                                
+                                                            </Style.Triggers>
+                                                            
+                                                        </Style>
+                                                    </fontAwesome:ImageAwesome.Style>
+                                                    
+                                                </fontAwesome:ImageAwesome>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                            </Trigger>
+
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </ToggleButton.Style>
+
+                                <ToggleButton.Triggers>
+
+                                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+
+                                                <DoubleAnimation Storyboard.TargetName="nav_pnl" Storyboard.TargetProperty="Width"
+                                                                 BeginTime="0:0:0" Duration="0:0:0.2"
+                                                                 From="230" To="65" />
+
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+
+                                                <DoubleAnimation Storyboard.TargetName="nav_pnl" Storyboard.TargetProperty="Width"
+                                                                 BeginTime="0:0:0" Duration="0:0:0.3"
+                                                                 From="65" To="230" />
+
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                </ToggleButton.Triggers>
+
+                            </ToggleButton>
+
+                        </Grid>
+
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  Background="Transparent" BorderBrush="Transparent"
+                                  ItemsSource="{Binding MenuItems}">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <ListViewItem Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                            AncestorType=Window}, 
+                                                            Path=DataContext}"
+                                                  IsSelected="{Binding IsSelected}">
+
+                                        <interactivity:Interaction.Triggers>
+                                            <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                
+                                                <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                                AncestorType=Window},
+                                                                                                Path=DataContext.NavigateCommand}" 
+                                                                                   CommandParameter="{Binding ViewModelType}" />
+                                                
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
+
+                                        <TextBlock>
+                                    
+                                            <fontAwesome:ImageAwesome Tag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                        AncestorType=ListViewItem}, 
+                                                                        Path=IsSelected}"
+                                                                      IsHitTestVisible="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                        AncestorType=ListViewItem},
+                                                                        Path=IsMouseOver}"
+                                                                      Icon="{Binding Icon}" />
+                                    
+                                            <Run Text=" " BaselineAlignment="Center" />
+                                            <Run Text="{Binding Title}" BaselineAlignment="Center" />
+
+                                        </TextBlock>
+
+                                        <ListViewItem.ToolTip>
+                                            
+                                            <ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
+                                                     Visibility="{Binding Path=Tag.IsMenuExpanded, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                                     Content="{Binding Path=DataContext.Title}" />
+                                            
+                                        </ListViewItem.ToolTip>
+
+                                    </ListViewItem>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.ItemContainerStyle>
+
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
+
+                                    <Style.Resources>
+
+                                        <Style TargetType="ListViewItem">
+
+                                            <Setter Property="FontWeight" Value="Bold"  />
+                                            <Setter Property="Cursor" Value="Hand" />
+                                            <Setter Property="HorizontalAlignment" Value="Left" />
+
+                                            <Setter Property="Template">
+
+                                                <Setter.Value>
+
+                                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                                        <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                Background="{TemplateBinding Background}"
+                                                                Padding="{TemplateBinding Padding}"
+                                                                SnapsToDevicePixels="True"
+                                                                Height="50">
+
+                                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                                        </Border>
+
+                                                        <ControlTemplate.Triggers>
+
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                                            </Trigger>
+
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                                            </Trigger>
+
+                                                        </ControlTemplate.Triggers>
+
+                                                    </ControlTemplate>
+
+                                                </Setter.Value>
+
+                                            </Setter>
+
+                                            <Style.Resources>
+
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Width" Value="230" />
+                                                    <Setter Property="Margin" Value="11,0,0,0" />
+                                                </Style>
+
+                                                <Style TargetType="fontAwesome:ImageAwesome" BasedOn="{StaticResource FaImageAwesomeStyle}">
+
+                                                    <Style.Triggers>
+
+                                                        <Trigger Property="IsHitTestVisible" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                                        </Trigger>
+
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+
+                                                </Style>
+
+                                            </Style.Resources>
+
+                                        </Style>
+
+                                    </Style.Resources>
+
+                                </Style>
+
+                            </ListView.ItemContainerStyle>
+
+                        </ListView>
+
+                    </StackPanel>
+                    
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+        <Grid Margin="65 0 0 0">
+
+            <ContentControl Content="{Binding CurrentViewModel}"
+                            Grid.Row="1" 
+                            Margin="20" />
+
+        </Grid>
+
     </Grid>
-    
+
 </Window>

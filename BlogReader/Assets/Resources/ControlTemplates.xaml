@@ -401,4 +401,12 @@
     </ControlTemplate>
     <!--#endregion-->
 
+    <ControlTemplate x:Key="ToggleButtonControlTemplate" TargetType="{x:Type ToggleButton}">
+
+        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+
+    </ControlTemplate>
+    
 </ResourceDictionary>
