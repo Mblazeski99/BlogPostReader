@@ -8,14 +8,8 @@ namespace BlogReader.CustomControls
     {
         public string BackgroundColor
         {
-            get
-            {
-                return (string)GetValue(BackgroundColorProperty);
-            }
-            set
-            {
-                SetValue(BackgroundColorProperty, value);
-            }
+            get { return (string)GetValue(BackgroundColorProperty); }
+            set { SetValue(BackgroundColorProperty, value); }
         }
 
         public static readonly DependencyProperty BackgroundColorProperty =

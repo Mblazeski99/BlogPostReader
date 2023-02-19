@@ -1,0 +1,291 @@
+﻿<Window x:Class="BlogReader.CustomControls.ExtendedMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
+        xmlns:enums="clr-namespace:BlogReader.Enums"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Height="180" Width="340"
+        FontFamily="Arial"
+        ResizeMode="NoResize"
+        FontSize="14"
+        Background="{StaticResource SecondaryBackgroundColorBrush}"
+        Foreground="{StaticResource PrimaryFontColorBrush}">
+
+    <Window.Resources>
+
+        <Style TargetType="Button" x:Key="ApproveBtnStyle" BasedOn="{StaticResource PrimaryButtonStyle}">
+
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Visibility" Value="Collapsed" />
+
+        </Style>
+
+        <Style TargetType="Button" x:Key="CancelBtnStyle" BasedOn="{StaticResource TertiaryButtonStyle}">
+
+            <Setter Property="Margin" Value="5,0,5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Visibility" Value="Collapsed" />
+
+        </Style>
+
+        <!-- Control template for the images -->
+        <ControlTemplate x:Key="imgControlTemplate">
+
+            <fontAwesome:ImageAwesome Foreground="{StaticResource InformationColorBrush}"
+                                      x:Name="imgDlgType"
+                                      Margin="0 10 0 0"
+                                      Width="30" />
+
+            <ControlTemplate.Triggers>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Asterisk</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="Asterisk" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Error</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="Close" />
+                    <Setter TargetName="imgDlgType" Property="Width" Value="24" />
+                    <Setter TargetName="imgDlgType" Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Exclamation</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="ExclamationCircle" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Hand</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="HandStopOutline" />
+                    <Setter TargetName="imgDlgType" Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Information</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="InfoCircle" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>None</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="None" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Question</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="QuestionCircle" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Stop</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="Ban" />
+                    <Setter TargetName="imgDlgType" Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogImage}">
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxImage>Warning</enums:ExtendedMessageBoxImage>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="imgDlgType" Property="Icon" Value="Warning" />
+                    <Setter TargetName="imgDlgType" Property="Foreground" Value="{StaticResource WarningColorBrush}" />
+                </DataTrigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <!-- Control template for the buttons -->
+        <ControlTemplate x:Key="btnControlTemplate">
+
+            <Grid Margin="0,0,0,5">
+                
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                            Orientation="Horizontal" 
+                            Width="Auto">
+
+                    <Button Name="btnYes" Content="Yes" Click="BtnYes_Click" Style="{StaticResource ApproveBtnStyle}" />
+                    <Button Name="btnNo" Content="No" Click="BtnNo_Click" Style="{StaticResource CancelBtnStyle}" />
+
+                    <Button Name="btnOk" Content="Ok" Click="BtnOk_Click" IsDefault="True" Style="{StaticResource ApproveBtnStyle}" />
+                    <Button Name="btnCancel" Click="BtnCancel_Click" IsCancel="True" Style="{StaticResource CancelBtnStyle}" />
+
+                    <Button Name="btnApprove" Content="Approve" Click="BtnApprove_Click" Style="{StaticResource ApproveBtnStyle}" />
+                    <Button Name="btnReject" Content="Reject" Click="BtnReject_Click" Style="{StaticResource CancelBtnStyle}" />
+
+                </StackPanel>
+                
+            </Grid>
+            
+            <ControlTemplate.Triggers>
+                
+                <DataTrigger x:Uid="DataTrigger_10" Binding="{Binding Buttons}">
+
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxButton>OK</enums:ExtendedMessageBoxButton>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="btnOk" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnOk" Property="IsDefault" Value="true" />
+                    <Setter TargetName="btnYes" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnYes" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnNo" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnNo" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnCancel" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnApprove" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnApprove" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnReject" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnReject" Property="IsDefault" Value="false" />
+               
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Buttons}">
+
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxButton>OKCancel</enums:ExtendedMessageBoxButton>
+                    </DataTrigger.Value>
+
+                    <Setter TargetName="btnOk" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnOk" Property="IsDefault" Value="true" />
+                    <Setter TargetName="btnYes" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnYes" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnNo" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnNo" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnCancel" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="IsCancel" Value="true" />
+                    <Setter TargetName="btnApprove" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnApprove" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnReject" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnReject" Property="IsDefault" Value="false" />
+                    
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Buttons}">
+                    
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxButton>YesNo</enums:ExtendedMessageBoxButton>
+                    </DataTrigger.Value>
+                    
+                    <Setter TargetName="btnOk" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnOk" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnYes" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnYes" Property="IsDefault" Value="true" />
+                    <Setter TargetName="btnNo" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnNo" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnCancel" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="IsCancel" Value="false" />
+                    <Setter TargetName="btnApprove" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnApprove" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnReject" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnReject" Property="IsDefault" Value="false" />
+                
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Buttons}">
+                    
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxButton>YesNoCancel</enums:ExtendedMessageBoxButton>
+                    </DataTrigger.Value>
+                    
+                    <Setter TargetName="btnOk" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnOk" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnYes" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnYes" Property="IsDefault" Value="true" />
+                    <Setter TargetName="btnNo" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnNo" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnCancel" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="IsCancel" Value="true" />
+                    <Setter TargetName="btnApprove" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnApprove" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnReject" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnReject" Property="IsDefault" Value="false" />
+                
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Buttons}">
+                    
+                    <DataTrigger.Value>
+                        <enums:ExtendedMessageBoxButton>ApproveReject</enums:ExtendedMessageBoxButton>
+                    </DataTrigger.Value>
+                    
+                    <Setter TargetName="btnOk" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnOk" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnYes" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnYes" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnNo" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnNo" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="btnCancel" Property="IsDefault" Value="false" />
+                    <Setter TargetName="btnCancel" Property="IsCancel" Value="false" />
+                    <Setter TargetName="btnApprove" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnApprove" Property="IsDefault" Value="true" />
+                    <Setter TargetName="btnReject" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="btnReject" Property="IsDefault" Value="false" />
+                
+                </DataTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" 
+                        Template="{StaticResource imgControlTemplate}" />
+        
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" 
+                   TextWrapping="Wrap"
+                   Name="txtMessage" 
+                   Margin="0,10,5,0" 
+                   Grid.Column="1" />
+        
+        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Bottom" HorizontalContentAlignment="Center"
+                        Template="{StaticResource btnControlTemplate}" 
+                        Grid.Row="1" Grid.Column="1"  />
+
+    </Grid>
+
+</Window>

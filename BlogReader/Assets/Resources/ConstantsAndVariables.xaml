@@ -31,6 +31,9 @@
     <Color x:Key="InformationColor">#147ec9</Color>
     <SolidColorBrush x:Key="InformationColorBrush" Color="{StaticResource InformationColor}" />
 
+    <Color x:Key="WarningColor">#e6c00a</Color>
+    <SolidColorBrush x:Key="WarningColorBrush" Color="{StaticResource WarningColor}" />
+
     <Color x:Key="ErrorColor">#d80143</Color>
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
     <!--#endregion-->

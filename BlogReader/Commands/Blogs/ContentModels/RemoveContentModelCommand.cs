@@ -2,8 +2,9 @@
 using BlogReader.DataModels;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
-using System.Windows;
 using System;
+using BlogReader.CustomControls;
+using BlogReader.Enums;
 
 namespace BlogReader.Commands.Blogs.ContentModels
 {
@@ -32,9 +33,9 @@ namespace BlogReader.Commands.Blogs.ContentModels
 
                 // TODO: If model is being used by a source add warning.
                 string msg = "Are you sure you want to delete this content model?";
-                MessageBoxResult answer = MessageBox.Show(msg, "Delete Content Model", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                ExtendedMessageBoxResult answer = ExtendedMessageBox.Show(msg, "Delete Content Model", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
 
-                if (answer == MessageBoxResult.Yes)
+                if (answer == ExtendedMessageBoxResult.Yes)
                 {
                     _viewModel.IsItemsGridLoading = true;
 

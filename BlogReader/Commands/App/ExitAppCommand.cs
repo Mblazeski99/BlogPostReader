@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using BlogReader.CustomControls;
+using BlogReader.Enums;
+using System.Windows;
 
 namespace BlogReader.Commands.App
 {
@@ -6,8 +8,8 @@ namespace BlogReader.Commands.App
     {
         public override void Execute(object parameter)
         {
-            MessageBoxResult answer = MessageBox.Show("Are you sure you want to exit this application?", "Exit Blog Reader?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (answer == MessageBoxResult.Yes) Application.Current.Shutdown();
+            ExtendedMessageBoxResult answer = ExtendedMessageBox.Show("Are you sure you want to exit this application?", "Exit Blog Reader?", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
+            if (answer == ExtendedMessageBoxResult.Yes) Application.Current.Shutdown();
         }
     }
 }

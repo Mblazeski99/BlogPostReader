@@ -2,8 +2,9 @@
 using BlogReader.DataModels;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
-using System.Windows;
 using System;
+using BlogReader.Enums;
+using BlogReader.CustomControls;
 
 namespace BlogReader.Commands.Blogs.BlogsListing
 {
@@ -31,9 +32,9 @@ namespace BlogReader.Commands.Blogs.BlogsListing
                     throw new ArgumentNullException(nameof(parameter));
                 }
 
-                MessageBoxResult answer = MessageBox.Show("Are you sure you want to delete this blog post?", "Delete Blog Post", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                ExtendedMessageBoxResult answer = ExtendedMessageBox.Show("Are you sure you want to delete this blog post?", "Delete Blog Post", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
 
-                if (answer == MessageBoxResult.Yes)
+                if (answer == ExtendedMessageBoxResult.Yes)
                 {
                     _viewModel.IsLoading = true;
                     _blogPostItemsStore.RemoveBlogPostItem(parameter.ToString());

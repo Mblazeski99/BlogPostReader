@@ -1,9 +1,10 @@
-﻿using BlogReader.DataModels;
+﻿using BlogReader.CustomControls;
+using BlogReader.DataModels;
 using BlogReader.DataModels.Enums;
+using BlogReader.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
-using System.Windows;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {
@@ -29,9 +30,9 @@ namespace BlogReader.Commands.Blogs.BlogSources
             try
             {
                 string itemToRemoveId = parameter.ToString();
-                MessageBoxResult answer = MessageBox.Show("Are you sure you want to delete this source?", "Delete Source", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                ExtendedMessageBoxResult answer = ExtendedMessageBox.Show("Are you sure you want to delete this source?", "Delete Source", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
 
-                if (answer == MessageBoxResult.Yes)
+                if (answer == ExtendedMessageBoxResult.Yes)
                 {
                     _viewModel.IsItemsGridLoading = true;
 

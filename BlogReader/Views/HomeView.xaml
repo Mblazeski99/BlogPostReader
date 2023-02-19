@@ -151,8 +151,8 @@
                                 </TextBlock>
 
                                 <fontAwesome:ImageAwesome Foreground="{StaticResource PrimaryFontColorBrush}"
-                                                              Icon="ClockOutline"
-                                                              Width="20" />
+                                                          Icon="ClockOutline"
+                                                          Width="20" />
 
                                 <TextBlock Margin="10 0 0 0" Text="{Binding Date, Mode=OneWay, StringFormat={StaticResource SecondaryDateFormatString}}" />
 

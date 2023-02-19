@@ -2,8 +2,10 @@
 using BlogReader.DataModels;
 using BlogReader.Stores;
 using System;
-using System.Windows;
 using BlogReader.ViewModels;
+using BlogReader.CustomControls;
+using BlogReader.Enums;
+using System.Windows;
 
 namespace BlogReader.Commands.Notifications
 {
@@ -22,9 +24,9 @@ namespace BlogReader.Commands.Notifications
         {
             try
             {
-                MessageBoxResult answer = MessageBox.Show("Are you sure you want to clear the log?", "Clear Notifications", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                ExtendedMessageBoxResult answer = ExtendedMessageBox.Show("Are you sure you want to clear the log?", "Clear Notifications", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
 
-                if (answer == MessageBoxResult.Yes)
+                if (answer == ExtendedMessageBoxResult.Yes)
                 {
                     _notificationsLogViewModel.IsLoading = true;
                     _notificationsStore.ClearNotifications();
