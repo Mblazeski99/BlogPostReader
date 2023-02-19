@@ -63,6 +63,12 @@ namespace BlogReader.ViewModels
             _blogPostItemsStore.BlogPostItemsChanged += OnBlogPostItemsChanged;
         }
 
+        public override void Dispose()
+        {
+            PreviewBlogPostItemCommand.Dispose();
+            base.Dispose();
+        }
+
         private void LoadBlogPostItems()
         {
             IsItemsGridLoading = true;

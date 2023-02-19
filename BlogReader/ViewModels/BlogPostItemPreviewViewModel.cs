@@ -49,6 +49,7 @@ namespace BlogReader.ViewModels
                 string infoColor = AppData.InformationColorBrush.ToString().Replace("#FF", "#");
                 string accentColor = AppData.PrimaryAccentBtnColorBrush.ToString().Replace("#FF", "#");
                 string backgrounHighlightColor = AppData.BackgrounHighlightColorBrush.ToString().Replace("#FF", "#");
+                string secondaryDateFormatString = AppData.SecondaryDateFormatString;
 
                 string codeStylesCssFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Assets\Css\preview-blog.css";
                 string codeStylesCss = File.Exists(codeStylesCssFilePath) ? File.ReadAllText(codeStylesCssFilePath) : string.Empty;
@@ -71,7 +72,7 @@ namespace BlogReader.ViewModels
                             by: <span class=""blog-post-author"">{_blogPostItem.Author} </span> 
                             <span class=""blog-post-info-seperator"">|</span>";
 
-                postInfoHtml += $"<span>{_blogPostItem.Date.Value.ToString("MMMM dd, yyyy")}</span> </h4>";
+                postInfoHtml += $"<span>{_blogPostItem.Date.Value.ToString(secondaryDateFormatString)}</span> </h4>";
 
                 string mainContent = $@"<body>
                                             {titleHtml}

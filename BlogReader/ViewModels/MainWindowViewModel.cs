@@ -92,9 +92,8 @@ namespace BlogReader.ViewModels
 
             var currentViewModelType = CurrentViewModel.GetType().Name;
 
-            // TODO: Change to SingleOrDefault
-            var menuItem = TopMenuItems.FirstOrDefault(mi => mi.CommandParameter == currentViewModelType);
-            if (menuItem == null) menuItem = BottomMenuItems.FirstOrDefault(mi => mi.CommandParameter == currentViewModelType);
+            var menuItem = TopMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
+            if (menuItem == null) menuItem = BottomMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
 
             menuItem.IsSelected = true;
         }

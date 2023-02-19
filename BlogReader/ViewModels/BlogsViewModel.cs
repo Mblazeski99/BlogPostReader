@@ -14,5 +14,13 @@ namespace BlogReader.ViewModels
             BlogSourcesViewModel = new BlogSourcesViewModel(notificationsStore, blogPostItemsStore);
             ContentModelsViewModel = new ContentModelsViewModel(notificationsStore, blogPostItemsStore);
         }
+
+        public override void Dispose()
+        {
+            BlogsListingViewModel.Dispose();
+            BlogSourcesViewModel.Dispose();
+            ContentModelsViewModel.Dispose();
+            base.Dispose();
+        }
     }
 }

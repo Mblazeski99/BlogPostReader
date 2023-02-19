@@ -31,8 +31,6 @@
 
         </Style>
 
-        <Style TargetType="{x:Type fontAwesome:ImageAwesome}" BasedOn="{StaticResource FaImageAwesomeStyle}" />
-
         <Style x:Key="NavManuListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
 
             <Style.Resources>

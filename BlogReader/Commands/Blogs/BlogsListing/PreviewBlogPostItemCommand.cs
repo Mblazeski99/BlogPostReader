@@ -52,5 +52,11 @@ namespace BlogReader.Commands.Blogs.BlogsListing
                 _notificationsStore.AddNotification(error);
             }
         }
+
+        public override void Dispose()
+        {
+            if (_previewBlogPostWindow != null) _previewBlogPostWindow.Close();
+            base.Dispose();
+        }
     }
 }

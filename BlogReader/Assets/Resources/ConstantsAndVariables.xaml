@@ -35,7 +35,10 @@
     <SolidColorBrush x:Key="ErrorColorBrush" Color="{StaticResource ErrorColor}" />
     <!--#endregion-->
 
+    <BitmapImage x:Key="DefaultSourceImage" UriSource="/Assets/DefaultSourceImage.png" />
+
     <sys:String x:Key="Hidden">hidden</sys:String>
     <sys:String x:Key="PrimaryDateFormatString">dd-MMM-yyyy: hh:mm tt</sys:String>
+    <sys:String x:Key="SecondaryDateFormatString">MMMM dd, yyyy</sys:String>
     
 </ResourceDictionary>

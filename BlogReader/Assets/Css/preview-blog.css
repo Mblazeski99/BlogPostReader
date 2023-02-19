@@ -109,6 +109,7 @@ pre:has(code) {
 pre[class*=language-],
 pre:has(code),
 pre {
+    /*TODO: Add from settings*/
     background: #000;
     border-radius: 10px;
     width: max-content;

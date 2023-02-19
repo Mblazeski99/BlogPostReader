@@ -107,6 +107,7 @@ namespace BlogReader
         public static Brush PrimaryAccentBtnColorBrush => _app.Resources[nameof(PrimaryAccentBtnColorBrush)] as Brush;
         public static Brush InformationColorBrush => _app.Resources[nameof(InformationColorBrush)] as Brush;
         public static Brush BackgrounHighlightColorBrush => _app.Resources[nameof(BackgrounHighlightColorBrush)] as Brush;
+        public static string SecondaryDateFormatString => _app.Resources[nameof(SecondaryDateFormatString)].ToString();
         #endregion
     }
 }

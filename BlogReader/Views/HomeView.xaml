@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:views="clr-namespace:BlogReader.Views"
              xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:HomeViewModel, IsDesignTimeCreatable=True}">
 
@@ -28,15 +29,30 @@
         <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding BlogPostItems}"
                   ScrollViewer.CanContentScroll="False"
+                  x:Name="blogPostItemsListView"
                   BorderThickness="0"
                   Grid.Row="1">
+
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="SelectionChanged">
+
+                    <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
+                                                                    Mode=FindAncestor,
+                                                                    AncestorType=UserControl},
+                                                                    Path=DataContext.SelectBlogPostItemCommand}"
+                                                       CommandParameter="{Binding ElementName=blogPostItemsListView, 
+                                                                            Path=SelectedItem}" />
+
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
 
-                    <Setter Property="Height" Value="280" />
+                    <Setter Property="MinHeight" Value="320" />
                     <Setter Property="Margin" Value="0 0 0 20" />
                     <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Cursor" Value="Hand" />
 
                 </Style>
             </ListView.ItemContainerStyle>
@@ -44,87 +60,107 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
 
-                    <Grid>
+                    <Border BorderThickness="0 0 0 2" BorderBrush="{StaticResource SecondaryBackgroundColorBrush}">
+                        
+                        <Grid>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                
+                            </Grid.RowDefinitions>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                        <Border Padding="10 5" Background="{StaticResource PrimaryButtonColorBrush}">
+                            <Border Background="{StaticResource PrimaryButtonColorBrush}"
+                                    ToolTip="{Binding SourceName}"
+                                    ToolTipService.Placement="Top"
+                                    HorizontalAlignment="Left"
+                                    Padding="10 5"
+                                    MaxWidth="270">
 
-                            <TextBlock Text="{Binding SourceName}"
-                                       FontWeight="DemiBold"
-                                       TextAlignment="Left"
-                                       Foreground="#fff" />
+                                <TextBlock Text="{Binding SourceName}"
+                                           FontWeight="DemiBold"
+                                           TextAlignment="Left"
+                                           Foreground="#fff" />
 
-                        </Border>
+                            </Border>
 
-                        <TextBlock Text="{Binding Title}">
-                            
-                            <interactivity:Interaction.Triggers>
-                                <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                    
-                                    <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
-                                                                                Mode=FindAncestor,
-                                                                                AncestorType=UserControl},
-                                                                                Path=DataContext.SelectBlogPostItemCommand}"
-                                                                       CommandParameter="{Binding }" />
-                                    
-                                </interactivity:EventTrigger>
-                            </interactivity:Interaction.Triggers>
+                            <TextBlock Text="{Binding Title}" Margin="0 20">
 
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
 
-                                    <Setter Property="Grid.Row" Value="1" />
-                                    <Setter Property="Grid.ColumnSpan" Value="2" />
-                                    <Setter Property="TextAlignment" Value="Left" />
-                                    <Setter Property="FontWeight" Value="Bold" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="Margin" Value="0 10 0 0" />
-                                    <Setter Property="Cursor" Value="Hand" />
-                                    <Setter Property="FontSize" Value="24" />
+                                        <Setter Property="Grid.Row" Value="1" />
+                                        <Setter Property="Grid.ColumnSpan" Value="2" />
+                                        <Setter Property="TextAlignment" Value="Left" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="FontSize" Value="24" />
 
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                        </Trigger>
-                                    </Style.Triggers>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                            </Trigger>
 
-                                </Style>
-                            </TextBlock.Style>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                            AncestorType=ListViewItem},
+                                                            Path=IsSelected}"
+                                                         Value="True">
 
-                        </TextBlock>
+                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
 
-                        <TextBlock Grid.Row="2" Grid.ColumnSpan="2"
-                                   Text="{Binding Summary}"
-                                   TextWrapping="Wrap"
-                                   Margin="0 20 0 0" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
 
-                        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource SecondaryBackgroundColorBrush}"
-                                Grid.Row="3" Grid.ColumnSpan="2"
-                                Padding="20">
+                                    </Style>
+                                </TextBlock.Style>
 
-                            <Grid>
+                            </TextBlock>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Image Source="{Binding ImageLink, FallbackValue={StaticResource DefaultSourceImage}}"
+                                   MaxWidth="230"
+                                   Grid.Row="2" />
 
+                            <Grid Grid.Row="2" Grid.Column="1"
+                                  Margin="20 0 0 0">
+
+                                <TextBlock Text="{Binding Summary}"
+                                           TextWrapping="Wrap"
+                                           Margin="0 0 10 0" />
+                        
                             </Grid>
 
-                        </Border>
+                            <StackPanel Grid.Row="3" Grid.ColumnSpan="2"
+                                        Orientation="Horizontal" 
+                                        Margin="0 15 0 15">
 
-                    </Grid>
+                                <TextBlock Visibility="{Binding Author, Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter}}"
+                                           TextWrapping="Wrap">
+                                        
+                                        <Run Text="by " />
+                                        <Run Text="{Binding Author}" Foreground="{StaticResource InformationColorBrush}" />
+                                        <Run Text=" |  " />
+
+                                </TextBlock>
+
+                                <fontAwesome:ImageAwesome Foreground="{StaticResource PrimaryFontColorBrush}"
+                                                              Icon="ClockOutline"
+                                                              Width="20" />
+
+                                <TextBlock Margin="10 0 0 0" Text="{Binding Date, Mode=OneWay, StringFormat={StaticResource SecondaryDateFormatString}}" />
+
+                            </StackPanel>
+
+                        </Grid>
+                        
+                    </Border>
 
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -132,7 +168,7 @@
         </ListView>
 
         <Grid Visibility="{Binding SelectedBlogPostItemDataContext, 
-                                    Converter={StaticResource IsValueNullToVisibilityConverter}}"
+                          Converter={StaticResource IsValueNullToVisibilityConverter}}"
               Grid.Row="1" Grid.Column="1">
             
             <views:BlogPostItemPreviewView DataContext="{Binding SelectedBlogPostItemDataContext}" />
