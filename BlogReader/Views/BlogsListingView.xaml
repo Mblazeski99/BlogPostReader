@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
-             xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
+             xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogsListingViewModel, IsDesignTimeCreatable=True}">
 
@@ -25,7 +25,9 @@
                     Content="Clear All Blog Posts"
                     HorizontalAlignment="Left" />
 
-            <customControls:LoadingSpinner IsLoading="{Binding IsLoading}" Margin="10 5 0 0" />
+            <fontAwesome:ImageAwesome Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      Style="{StaticResource LoadingSpinnerStyle}"
+                                      Margin="10 0 0 0" />
 
         </StackPanel>
 
@@ -33,9 +35,8 @@
 
             <Grid>
 
-                <customControls:LoadingSpinner IsLoading="{Binding IsItemsGridLoading}"
-                                               Diameter="100"
-                                               Thickness="5" />
+                <fontAwesome:ImageAwesome Visibility="{Binding IsItemsGridLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                          Style="{StaticResource LoadingSpinnerStyle}" />
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:customControls="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl">
+                    xmlns:fontAwesome="http://schemas.fontawesome.io/icons/">
 
     <!--#region Window -->
     <Style x:Key="WindowViewStyle" TargetType="Window">
@@ -308,15 +308,17 @@
     <!--#endregion-->
 
     <!--#region LoadingSpinner -->
-    <Style x:Key="LoadingSpinnerStyle" TargetType="customControls:LoadingSpinner">
+    <Style x:Key="LoadingSpinnerStyle" TargetType="fontAwesome:ImageAwesome">
 
-        <Setter Property="Color" Value="{StaticResource PrimaryButtonColorBrush}" />
-        <Setter Property="Thickness" Value="2" />
-        <Setter Property="Diameter" Value="36" />
-        
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBtnHoverColorBrush}" />
+        <Setter Property="Spin" Value="True" />
+        <Setter Property="SpinDuration" Value="1.3" />
+        <Setter Property="Icon" Value="CircleOutlineNotch" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Width" Value="36" />
+
+
     </Style>
-
-    <Style TargetType="customControls:LoadingSpinner" BasedOn="{StaticResource LoadingSpinnerStyle}"></Style>
     <!--#endregion-->
 
     <!--#region CheckBox -->
