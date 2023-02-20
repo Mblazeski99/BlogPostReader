@@ -17,6 +17,7 @@ namespace BlogReader.ViewModels
 
         private BlogPostItemPreviewViewModel _selectedBlogPostItemDataContext;
         private bool _isLoading;
+        private bool _isExpanded;
 
         public bool IsLoading
         {
@@ -26,6 +27,16 @@ namespace BlogReader.ViewModels
                 _isLoading = value;
                 OnPropertyChanged(nameof(IsLoading));
                 OnPropertyChanged(nameof(EnableInput));
+            }
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                _isExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));
             }
         }
 
@@ -45,6 +56,8 @@ namespace BlogReader.ViewModels
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
 
         public BaseCommand SelectBlogPostItemCommand { get; }
+        public BaseCommand DeSelectBlogPostItemCommand { get; }
+        public BaseCommand ToggleIsExpandedCommand { get; }
 
         public HomeViewModel(BlogPostItemsStore blogPostItemsStore, 
             NotificationsStore notificationsStore)
@@ -53,6 +66,8 @@ namespace BlogReader.ViewModels
             _notificationsStore = notificationsStore;
 
             SelectBlogPostItemCommand = new SelectBlogPostItemCommand(this);
+            DeSelectBlogPostItemCommand = new DeSelectBlogPostItemCommand(this);
+            ToggleIsExpandedCommand = new ToggleIsExpandedCommand(this);
 
             SelectedBlogPostItemDataContext = new BlogPostItemPreviewViewModel();
 

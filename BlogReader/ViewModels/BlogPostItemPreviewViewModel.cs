@@ -13,7 +13,25 @@ namespace BlogReader.ViewModels
         private BlogPostItem _blogPostItem;
         private string _htmlContent = string.Empty;
 
-        public string HtmlContent => _htmlContent;
+        public BlogPostItem BlogPostItem
+        {
+            get { return _blogPostItem; }
+            set 
+            { 
+                _blogPostItem = value;
+                OnPropertyChanged(nameof(BlogPostItem));
+            }
+        }
+
+        public string HtmlContent
+        {
+            get { return _htmlContent; }
+            set 
+            {
+                _htmlContent = value;
+                OnPropertyChanged(nameof(HtmlContent));
+            }
+        }
 
         public BlogPostItemPreviewViewModel() { }
 
@@ -28,7 +46,7 @@ namespace BlogReader.ViewModels
         {
             try
             {
-                _blogPostItem = blogPostItem;
+                BlogPostItem = blogPostItem;
 
                 string html = string.Empty;
 
@@ -81,9 +99,7 @@ namespace BlogReader.ViewModels
                                         </body>";
 
                 html = head + css + mainContent;
-
-                _htmlContent = html;
-                OnPropertyChanged(nameof(HtmlContent));
+                HtmlContent = html;
             }
             catch (Exception ex)
             {

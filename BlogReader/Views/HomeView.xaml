@@ -26,26 +26,39 @@
                         Grid.ColumnSpan="2"
                         Content="Latest" />
 
-        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  ItemsSource="{Binding BlogPostItems}"
-                  ScrollViewer.CanContentScroll="False"
-                  x:Name="blogPostItemsListView"
-                  BorderThickness="0"
-                  Grid.Row="1">
+        <ListView x:Name="blogPostItemsListView" ItemsSource="{Binding BlogPostItems}">
 
-            <interactivity:Interaction.Triggers>
-                <interactivity:EventTrigger EventName="SelectionChanged">
+            <ListView.Style>
+                <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource ListViewStyle}">
 
-                    <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
-                                                                    Mode=FindAncestor,
-                                                                    AncestorType=UserControl},
-                                                                    Path=DataContext.SelectBlogPostItemCommand}"
-                                                       CommandParameter="{Binding ElementName=blogPostItemsListView, 
-                                                                            Path=SelectedItem}" />
+                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Visibility" Value="Visible" />
 
-                </interactivity:EventTrigger>
-            </interactivity:Interaction.Triggers>
+                    <Style.Triggers>
 
+                        <MultiDataTrigger>
+
+                            <MultiDataTrigger.Conditions>
+
+                                <Condition Binding="{Binding IsExpanded}" Value="True" />
+                                <Condition Binding="{Binding SelectedBlogPostItemDataContext.BlogPostItem, 
+                                                Converter={StaticResource IsValueNullToBooleanConverter}}" 
+                                           Value="False" />
+
+                            </MultiDataTrigger.Conditions>
+
+                            <Setter Property="Visibility" Value="Collapsed" />
+
+                        </MultiDataTrigger>
+                        
+                    </Style.Triggers>
+
+                </Style>
+            </ListView.Style>
+            
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
 
@@ -61,7 +74,19 @@
                 <DataTemplate>
 
                     <Border BorderThickness="0 0 0 2" BorderBrush="{StaticResource SecondaryBackgroundColorBrush}">
-                        
+
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+
+                                <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
+                                                                       Mode=FindAncestor,
+                                                                       AncestorType=views:HomeView},
+                                                                       Path=DataContext.SelectBlogPostItemCommand}"
+                                                                   CommandParameter="{Binding }" />
+
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+
                         <Grid>
 
                             <Grid.RowDefinitions>
@@ -109,14 +134,27 @@
                                                 <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
                                             </Trigger>
 
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                            AncestorType=ListViewItem},
-                                                            Path=IsSelected}"
-                                                         Value="True">
+                                            <MultiDataTrigger>
+
+                                                <MultiDataTrigger.Conditions>
+                                                    
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                   AncestorType=ListViewItem},
+                                                                   Path=IsSelected}"
+                                                               Value="True" />
+
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                   AncestorType=views:HomeView},
+                                                                   Path=DataContext.SelectedBlogPostItemDataContext.BlogPostItem,
+                                                                    Converter={StaticResource IsValueNullToBooleanConverter}}"
+                                                               Value="False" />
+
+                                                </MultiDataTrigger.Conditions>
 
                                                 <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
 
-                                            </DataTrigger>
+                                            </MultiDataTrigger>
+                                            
                                         </Style.Triggers>
 
                                     </Style>
@@ -167,11 +205,83 @@
 
         </ListView>
 
-        <Grid Visibility="{Binding SelectedBlogPostItemDataContext, 
-                          Converter={StaticResource IsValueNullToVisibilityConverter}}"
-              Grid.Row="1" Grid.Column="1">
-            
-            <views:BlogPostItemPreviewView DataContext="{Binding SelectedBlogPostItemDataContext}" />
+        <Grid Visibility="{Binding SelectedBlogPostItemDataContext.BlogPostItem,
+                Converter={StaticResource IsValueNullToVisibilityConverter}}">
+
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Grid.Column" Value="1" />
+                    <Setter Property="Grid.ColumnSpan" Value="1" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                            <Setter Property="Grid.Column" Value="0" />
+                            <Setter Property="Grid.ColumnSpan" Value="2" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    
+                </Style>
+            </Grid.Style>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"  />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Margin="10 0 10 5">
+                
+                <Button Command="{Binding ToggleIsExpandedCommand}">
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonStyle}">
+
+                            <Setter Property="ToolTipService.PlacementRectangle" Value="30,0,0,0" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="ToolTip" Value="Expand" />
+
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <fontAwesome:FontAwesome Icon="LongArrowLeft" />
+                                </Setter.Value>
+                            </Setter>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+
+                                    <Setter Property="ToolTip" Value="Collapse" />
+
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <fontAwesome:FontAwesome Icon="LongArrowRight" />
+                                        </Setter.Value>
+                                    </Setter>
+
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                        </Style>
+                    </Button.Style>
+                    
+                </Button>
+
+                <Button Command="{Binding DeSelectBlogPostItemCommand}"
+                        ToolTipService.PlacementRectangle="-23,0,0,0"
+                        Style="{StaticResource IconButtonStyle}"
+                        ToolTipService.Placement="Left"
+                        HorizontalAlignment="Right"
+                        ToolTip="Close">
+
+                    <Button.Content>
+                        <fontAwesome:FontAwesome Icon="Close" />
+                    </Button.Content>
+
+                </Button>
+                
+            </Grid>
+
+            <views:BlogPostItemPreviewView Grid.Row="1" DataContext="{Binding SelectedBlogPostItemDataContext}" />
             
         </Grid>
 

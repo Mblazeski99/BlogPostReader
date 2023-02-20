@@ -6,5 +6,6 @@
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <converters:IsValueNullToVisibilityConverter x:Key="IsValueNullToVisibilityConverter" />
     <converters:IsStringEmptyOrNullToVisibilityConverter x:Key="IsStringEmptyOrNullToVisibilityConverter" />
+    <converters:IsValueNullToBooleanConverter x:Key="IsValueNullToBooleanConverter" />
 
 </ResourceDictionary>
