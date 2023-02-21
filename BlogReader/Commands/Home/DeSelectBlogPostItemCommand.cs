@@ -14,6 +14,7 @@ namespace BlogReader.Commands.Home
         public override void Execute(object parameter)
         {
             _viewModel.SelectedBlogPostItemDataContext.BlogPostItem = null;
+            AppData.App.MainWindow.Title = "Blog Reader";
         }
     }
 }

@@ -75,6 +75,12 @@ namespace BlogReader.ViewModels
             _blogPostItemsStore.BlogPostItemsChanged += OnBlogPostItemsChanged;
         }
 
+        public override void Dispose()
+        {
+            AppData.App.MainWindow.Title = "Blog Reader";
+            base.Dispose();
+        }
+
         private void LoadBlogPostItems()
         {
             IsLoading = true;

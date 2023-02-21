@@ -59,6 +59,7 @@ namespace BlogReader
             navigationStore.CurrentViewModel = new HomeViewModel(_blogPostItemsStore, _notificationsStore);
 
             MainWindow = _host.Services.GetRequiredService<MainWindow>();
+            MainWindow.Title = "Blog Reader";
             MainWindow.Show();
 
             base.OnStartup(e);

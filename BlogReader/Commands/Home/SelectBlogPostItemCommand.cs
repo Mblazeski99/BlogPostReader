@@ -15,7 +15,10 @@ namespace BlogReader.Commands.Home
         public override void Execute(object parameter)
         {
             if (parameter == null || (parameter is BlogPostItem) == false) return;
-            _viewModel.SelectedBlogPostItemDataContext.RenderBlogPostItem(parameter as BlogPostItem);
+
+            var blogPostItem = parameter as BlogPostItem;
+            _viewModel.SelectedBlogPostItemDataContext.RenderBlogPostItem(blogPostItem);
+            AppData.App.MainWindow.Title = $"Blog Reader - {blogPostItem.Title}";
         }
     }
 }
