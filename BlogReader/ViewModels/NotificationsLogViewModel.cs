@@ -62,7 +62,7 @@ namespace BlogReader.ViewModels
             try
             {
                 _notifications.Clear();
-                foreach (Notification notification in _notificationsStore.Notifications)
+                foreach (Notification notification in _notificationsStore.GetAllNotifications())
                 {
                     _notifications.Add(notification);
                 }

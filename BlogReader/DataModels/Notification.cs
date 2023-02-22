@@ -1,5 +1,4 @@
 ﻿using BlogReader.DataModels.Enums;
-using System.Windows;
 
 namespace BlogReader.DataModels
 {
@@ -44,7 +43,7 @@ namespace BlogReader.DataModels
             get
             {
                 string messageType = MessageType.ToString();
-                string color = (Application.Current as App).Resources[$"{messageType}Color"].ToString();
+                string color = AppData.App.Resources[$"{messageType}Color"].ToString();
                 return color;
             }
         }

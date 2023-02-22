@@ -16,6 +16,7 @@ namespace BlogReader.ViewModels
         private readonly BlogPostItemsStore _blogPostItemsStore;
         private readonly NotificationsStore _notificationsStore;
         private readonly ObservableCollection<BlogPostItemSource> _blogPostItemsSources = new ObservableCollection<BlogPostItemSource>();
+        private readonly ObservableCollection<RssContentModel> _rssContentModels = new ObservableCollection<RssContentModel>();
 
         private BlogPostItemSource _selectedSourceItem;
         private bool _isItemsGridLoading;
@@ -83,7 +84,7 @@ namespace BlogReader.ViewModels
         }
 
         public ObservableCollection<BlogPostItemSource> BlogPostItemSources => _blogPostItemsSources;
-        public ObservableCollection<RssContentModel> RssContentModels => _blogPostItemsStore.RssContentModels;
+        public ObservableCollection<RssContentModel> RssContentModels => _rssContentModels;
 
         public event Action ItemRemoved;
 
@@ -118,7 +119,7 @@ namespace BlogReader.ViewModels
             RemoveBlogSourceItemCommand.OnExecuted += InvokeItemRemovedEvent;
             EditBlogSourceItemCommand.OnExecuted += InvokeItemSelectedEvent;
 
-            LoadSources();
+            LoadData();
             _blogPostItemsStore.BlogPostItemSourcesChanged += OnSourcesUpdated;
         }
 
@@ -144,7 +145,7 @@ namespace BlogReader.ViewModels
             return _dataPropertyErrors.Any(dpi => string.IsNullOrEmpty(dpi.Value) == false);
         }
 
-        private void LoadSources()
+        private void LoadData()
         {
             IsItemsGridLoading = true;
 
@@ -155,10 +156,16 @@ namespace BlogReader.ViewModels
                 {
                     _blogPostItemsSources.Add(BlogPostItemSource.CreateNewCopy(source));
                 }
+
+                _rssContentModels.Clear();
+                foreach (RssContentModel model in _blogPostItemsStore.GetAllRssContentModels())
+                {
+                    _rssContentModels.Add(RssContentModel.CreateNewCopy(model));
+                }
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to load blog sources", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to load blog sources data", ex.ToString());
                 _notificationsStore.AddNotification(error);
             }
             finally
@@ -169,7 +176,7 @@ namespace BlogReader.ViewModels
 
         private void OnSourcesUpdated(object sender, EventArgs args)
         {
-            LoadSources();
+            LoadData();
         }
     
         private void InvokeItemRemovedEvent(object sender, EventArgs args)

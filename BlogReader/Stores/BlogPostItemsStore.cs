@@ -21,9 +21,6 @@ namespace BlogReader.Stores
         private readonly ObservableCollection<BlogPostItem> _blogPostItems = new ObservableCollection<BlogPostItem>();
         private readonly ObservableCollection<RssContentModel> _rssContentModels = new ObservableCollection<RssContentModel>();
 
-        public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
-        public ObservableCollection<RssContentModel> RssContentModels => _rssContentModels;
-
         public event EventHandler BlogPostItemSourcesChanged;
         public event EventHandler BlogPostItemsChanged;
         public event EventHandler RssContentModelsChanged;
@@ -180,7 +177,7 @@ namespace BlogReader.Stores
                 }
             }
 
-            return _blogPostItemSources;
+            return _blogPostItemSources.ToObservableCollection();
         }
 
         public void AddOrUpdateBlogItemSource(BlogPostItemSource itemSource)
@@ -232,6 +229,11 @@ namespace BlogReader.Stores
         #endregion
 
         #region RSS Content Models
+        public ObservableCollection<RssContentModel> GetAllRssContentModels()
+        {
+            return _rssContentModels.ToObservableCollection();
+        }
+
         public void AddOrUpdateRssContentModel(RssContentModel model)
         {
             var existingModel = _rssContentModels.SingleOrDefault(m => m.Id == model.Id);

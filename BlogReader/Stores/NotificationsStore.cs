@@ -12,7 +12,6 @@ namespace BlogReader.Stores
         private readonly string _notificationsFilePath = String.Empty;
         private readonly ObservableCollection<Notification> _notifications;
 
-        public ObservableCollection<Notification> Notifications => _notifications;
         public event Action NotificationsChanged;
         public event EventHandler NotificationAdded;
 
@@ -36,6 +35,11 @@ namespace BlogReader.Stores
             {
                 using (FileStream fs = File.Create(_notificationsFilePath)) { }
             }
+        }
+
+        public ObservableCollection<Notification> GetAllNotifications()
+        {
+            return _notifications.OrderByDescending(n => n.DateCreated).ToObservableCollection();
         }
 
         public void AddNotification(Notification notification)

@@ -118,7 +118,7 @@ namespace BlogReader.ViewModels
             try
             {
                 _rssContentModels.Clear();
-                foreach (RssContentModel model in _blogPostItemsStore.RssContentModels)
+                foreach (RssContentModel model in _blogPostItemsStore.GetAllRssContentModels())
                 {
                     _rssContentModels.Add(RssContentModel.CreateNewCopy(model));
                 }
