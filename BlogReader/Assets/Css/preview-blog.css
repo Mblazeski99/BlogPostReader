@@ -1,4 +1,3 @@
-/* Custom */
 body {
     font: 400 20px/1.25 Arial,Gadget,sans-serif;
     color: fontColor;
@@ -109,8 +108,7 @@ pre:has(code) {
 pre[class*=language-],
 pre:has(code),
 pre {
-    /*TODO: Add from settings*/
-    background: #000;
+    background: codeBackgrounColor;
     border-radius: 10px;
     width: max-content;
     max-width: calc(90vw - 1.5em);

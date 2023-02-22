@@ -67,6 +67,7 @@ namespace BlogReader.ViewModels
                 string infoColor = AppData.InformationColorBrush.ToString().Replace("#FF", "#");
                 string accentColor = AppData.PrimaryAccentBtnColorBrush.ToString().Replace("#FF", "#");
                 string backgrounHighlightColor = AppData.BackgrounHighlightColorBrush.ToString().Replace("#FF", "#");
+                string codeBackgrounColor = AppData.CodeBackgrounColorBrush.ToString().Replace("#FF", "#");
                 string secondaryDateFormatString = AppData.SecondaryDateFormatString;
 
                 string codeStylesCssFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Assets\Css\preview-blog.css";
@@ -75,6 +76,7 @@ namespace BlogReader.ViewModels
                 codeStylesCss = codeStylesCss.Replace(nameof(fontColor), fontColor)
                                                 .Replace(nameof(backgroundColor), backgroundColor)
                                                 .Replace(nameof(backgrounHighlightColor), backgrounHighlightColor)
+                                                .Replace(nameof(codeBackgrounColor), codeBackgrounColor)
                                                 .Replace(nameof(primaryBtnColor), primaryBtnColor)
                                                 .Replace(nameof(accentColor), accentColor)
                                                 .Replace(nameof(secondaryBackgroundColor), secondaryBackgroundColor)

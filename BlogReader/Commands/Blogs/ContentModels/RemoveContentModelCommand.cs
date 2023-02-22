@@ -5,6 +5,8 @@ using BlogReader.ViewModels;
 using System;
 using BlogReader.CustomControls;
 using BlogReader.Enums;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BlogReader.Commands.Blogs.ContentModels
 {
@@ -31,13 +33,20 @@ namespace BlogReader.Commands.Blogs.ContentModels
             {
                 string itemToRemoveId = parameter.ToString();
 
-                // TODO: If model is being used by a source add warning.
                 string msg = "Are you sure you want to delete this content model?";
                 ExtendedMessageBoxResult answer = ExtendedMessageBox.Show(msg, "Delete Content Model", ExtendedMessageBoxButton.YesNo, ExtendedMessageBoxImage.Question);
 
                 if (answer == ExtendedMessageBoxResult.Yes)
                 {
                     _viewModel.IsItemsGridLoading = true;
+
+                    var sources = _blogPostItemsStore.GetAllBlogPostItemSources().Where(s => s.ContentModel.Id == itemToRemoveId);
+                    if (sources.Any())
+                    {
+                        msg = $"This content model is currently being used by the sources: {string.Join(",", sources.Select(s => s.SourceName))}";
+                        answer = ExtendedMessageBox.Show(msg, "Content Model Currently Used", ExtendedMessageBoxButton.OKCancel, ExtendedMessageBoxImage.Warning);
+                        if (answer == ExtendedMessageBoxResult.Cancel) return;
+                    }
 
                     if (_viewModel.SelectedContentModel?.Id == itemToRemoveId)
                     {

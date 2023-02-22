@@ -137,7 +137,7 @@
                     <Button Name="btnNo" Content="No" Click="BtnNo_Click" Style="{StaticResource CancelBtnStyle}" />
 
                     <Button Name="btnOk" Content="Ok" Click="BtnOk_Click" IsDefault="True" Style="{StaticResource ApproveBtnStyle}" />
-                    <Button Name="btnCancel" Click="BtnCancel_Click" IsCancel="True" Style="{StaticResource CancelBtnStyle}" />
+                    <Button Name="btnCancel" Content="Cancel" Click="BtnCancel_Click" IsCancel="True" Style="{StaticResource CancelBtnStyle}" />
 
                     <Button Name="btnApprove" Content="Approve" Click="BtnApprove_Click" Style="{StaticResource ApproveBtnStyle}" />
                     <Button Name="btnReject" Content="Reject" Click="BtnReject_Click" Style="{StaticResource CancelBtnStyle}" />

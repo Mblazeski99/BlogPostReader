@@ -13,6 +13,9 @@
     <Color x:Key="BackgrounHighlightColor">#555555</Color>
     <SolidColorBrush x:Key="BackgrounHighlightColorBrush" Color="{StaticResource BackgrounHighlightColor}" />
 
+    <Color x:Key="CodeBackgrounColor">#000</Color>
+    <SolidColorBrush x:Key="CodeBackgrounColorBrush" Color="{StaticResource CodeBackgrounColor}" />
+
     <Color x:Key="PrimaryFontColor">#ededed</Color>
     <SolidColorBrush x:Key="PrimaryFontColorBrush" Color="{StaticResource PrimaryFontColor}" />
 

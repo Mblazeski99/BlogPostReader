@@ -379,13 +379,11 @@ namespace BlogReader.Stores
                         }
                     }
 
-                    var blogPostItem = _blogPostItems.SingleOrDefault(bpi => bpi.SourceId == source.Id
-                    && bpi.Title == title);
+                    var blogPostItem = _blogPostItems.SingleOrDefault(bpi => 
+                        bpi.SourceId == source.Id
+                        && bpi.Title == title);
 
-                    if (blogPostItem == null)
-                    {
-                        blogPostItem = new BlogPostItem();
-                    }
+                    if (blogPostItem == null) blogPostItem = new BlogPostItem();
 
                     blogPostItem.Author = author;
                     blogPostItem.Content = content;
