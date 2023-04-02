@@ -336,7 +336,6 @@
         <Setter Property="Height" Value="36" />
         <Setter Property="Width" Value="36" />
 
-
     </Style>
     <!--#endregion-->
 
@@ -534,7 +533,6 @@
 
         <Setter Property="Placement" Value="Right" />
         <Setter Property="Height" Value="40" />
-        <Setter Property="Width" Value="100" />
         <Setter Property="Margin" Value="20,0,0,0" />
         <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource BackgrounHighlightColorBrush}" />
@@ -550,6 +548,15 @@
     </Style>
 
     <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource ToolTipStyle}" />
+    <!--#endregion-->
+    
+    <!--#region DatePicker -->
+    <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Template" Value="{StaticResource DatePickerControlTemplate}" />
+    </Style>
+
+    <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource DatePickerStyle}" />
+
     <!--#endregion-->
 
 </ResourceDictionary>

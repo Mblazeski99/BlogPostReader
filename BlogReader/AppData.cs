@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ToastNotifications.Utilities;
 
 namespace BlogReader
 {
@@ -66,6 +67,25 @@ namespace BlogReader
                     UseShellExecute = true
                 });
             }
+        }
+
+        public static void DatePickerClearSelectionButton_Click(object sender, RoutedEventArgs e) 
+        {
+            var button = (sender as Button);
+
+            if (button?.Tag?.ToString() == "DatePickerClearValueButton")
+            {
+                var datePicker = (button.TemplatedParent as DatePicker);
+                datePicker?.ClearValue(DatePicker.SelectedDateProperty);
+                button.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public static void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DatePicker datePicker = (sender as DatePicker);
+            Button clearValueButton = datePicker.FindChild<Button>("DatePickerClearValueButton");
+            clearValueButton.Visibility = Visibility.Visible;
         }
         #endregion
 

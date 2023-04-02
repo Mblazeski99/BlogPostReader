@@ -113,6 +113,14 @@ namespace BlogReader
             EventManager.RegisterClassHandler(typeof(TextBlock),
                 TextBlock.PreviewMouseLeftButtonUpEvent,
                 new MouseButtonEventHandler(AppData.HyperLinkTextBlock_PreviewMouseLeftButtonUp));
+
+            EventManager.RegisterClassHandler(typeof(Button),
+                Button.ClickEvent,
+                new RoutedEventHandler(AppData.DatePickerClearSelectionButton_Click));
+
+            EventManager.RegisterClassHandler(typeof(DatePicker),
+                DatePicker.SelectedDateChangedEvent,
+                new EventHandler<SelectionChangedEventArgs>(AppData.DatePicker_SelectionChanged));
         }
 
         private void ShowNotification(Notification notification)
