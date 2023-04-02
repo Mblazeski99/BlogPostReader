@@ -300,10 +300,11 @@
 
             <ContentPresenter ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                              VerticalAlignment="Stretch" HorizontalAlignment="Left"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
                               Content="{TemplateBinding SelectionBoxItem}"
                               IsHitTestVisible="False"
-                              x:Name="ContentSite" />
+                              x:Name="ContentSite"
+                              Margin="10 0 0 0" />
 
             <TextBox Foreground="{StaticResource PrimaryFontColorBrush}"
                      Background="Transparent"

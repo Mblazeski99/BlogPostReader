@@ -1,9 +1,10 @@
-﻿using BlogReader.Helpers;
+﻿using BlogReader.DataModels.Interfaces;
+using BlogReader.Helpers;
 using System;
 
 namespace BlogReader.DataModels
 {
-    public class BlogPostItem : BaseEntity
+    public class BlogPostItem : BaseEntity, IBaseEntity
     {
         private string _title;
         private string _summary;

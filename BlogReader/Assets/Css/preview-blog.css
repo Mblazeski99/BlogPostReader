@@ -123,6 +123,10 @@ pre {
     white-space: normal;
 }
 
+code.inline-code {
+    background-color: backgrounHighlightColor;
+}
+
 .token.cdata, .token.comment, .token.doctype, .token.prolog {
     color: #708090 !important;
 }

@@ -60,9 +60,8 @@
                             <StackPanel>
 
                                 <StackPanel.Resources>
-                                    <Style TargetType="TextBlock">
+                                    <Style TargetType="Label" BasedOn="{StaticResource LabelStyle}">
                                         <Setter Property="Margin" Value="0 10 0 0" />
-                                        <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
                                     </Style>
 
                                     <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
@@ -71,13 +70,13 @@
                                     </Style>
                                 </StackPanel.Resources>
 
-                                <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" Text="(* required fields)" />
+                                <Label Content="(* required fields)" />
 
                                 <StackPanel Orientation="Horizontal">
 
                                     <StackPanel>
 
-                                        <TextBlock Text="Model Name*" />
+                                        <Label Content="Model Name*" />
                                         <TextBox Text="{Binding SelectedContentModel.ModelName, Mode=TwoWay}" />
                                         <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                                    Text="{Binding DataPropertyErrors[ModelName]}"
@@ -85,7 +84,7 @@
                                                         Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                                         ConverterParameter={StaticResource Hidden}}" />
 
-                                        <TextBlock Text="Item Container Tag Name*" />
+                                        <Label Content="Item Container Tag Name*" />
                                         <TextBox Text="{Binding SelectedContentModel.ItemContainerTag, Mode=TwoWay}" />
                                         <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                                    Text="{Binding DataPropertyErrors[ItemContainerTag]}"
@@ -93,7 +92,7 @@
                                                         Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                                         ConverterParameter={StaticResource Hidden}}" />
 
-                                        <TextBlock Text="Title Tag Name*" />
+                                        <Label Content="Title Tag Name*" />
                                         <TextBox Text="{Binding SelectedContentModel.TitleTag, Mode=TwoWay}" />
                                         <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                                    Text="{Binding DataPropertyErrors[TitleTag]}"
@@ -101,17 +100,17 @@
                                                         Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                                         ConverterParameter={StaticResource Hidden}}" />
 
-                                        <TextBlock Text="Summary Tag Name" />
+                                        <Label Content="Summary Tag Name" />
                                         <TextBox Text="{Binding SelectedContentModel.SummaryTag, Mode=TwoWay}" />
 
-                                        <TextBlock Text="Author Tag Name" />
+                                        <Label Content="Author Tag Name" />
                                         <TextBox Text="{Binding SelectedContentModel.AuthorTag, Mode=TwoWay}" />
 
                                     </StackPanel>
 
                                     <StackPanel Margin="20 0 0 0">
 
-                                        <TextBlock Text="Content Tag Name*" />
+                                        <Label Content="Content Tag Name*" />
                                         <TextBox Text="{Binding SelectedContentModel.ContentTag, Mode=TwoWay}" />
                                         <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                                    Text="{Binding DataPropertyErrors[ContentTag]}"
@@ -119,7 +118,7 @@
                                                         Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                                         ConverterParameter={StaticResource Hidden}}" />
 
-                                        <TextBlock Text="Date Tag Name*" />
+                                        <Label Content="Date Tag Name*" />
                                         <TextBox Text="{Binding SelectedContentModel.DateTag, Mode=TwoWay}" />
                                         <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                                    Text="{Binding DataPropertyErrors[DateTag]}"
@@ -127,10 +126,10 @@
                                                         Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                                         ConverterParameter={StaticResource Hidden}}" />
 
-                                        <TextBlock Text="Item Link Tag name" />
+                                        <Label Content="Item Link Tag name" />
                                         <TextBox Text="{Binding SelectedContentModel.ItemLinkTag, Mode=TwoWay}" />
 
-                                        <TextBlock Text="Image Tag Name" Margin="0 24 0 0" />
+                                        <Label Content="Image Tag Name" Margin="0 24 0 0" />
                                         <TextBox Text="{Binding SelectedContentModel.ItemImageTag, Mode=TwoWay}" />
 
                                     </StackPanel>

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using BlogReader.DataModels.Interfaces;
 
 namespace BlogReader.DataModels
 {
-    public abstract class BaseEntity : INotifyPropertyChanged
+    public abstract class BaseEntity : INotifyPropertyChanged, IBaseEntity
     {
         private string _id;
         private DateTime? _dateCreated;
@@ -18,7 +19,7 @@ namespace BlogReader.DataModels
         public DateTime? DateCreated
         {
             get { return _dateCreated; }
-            set 
+            set
             {
                 _dateCreated = value;
                 OnPropertyChanged(nameof(DateCreated));

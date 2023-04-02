@@ -98,7 +98,7 @@ namespace BlogReader.Stores
                 blogPostItem.SourceName = blogPostItemSource?.SourceName;
             }
 
-            return _blogPostItems.Where(b => b.IsDeleted == false).ToObservableCollection();
+            return _blogPostItems.ToObservableCollection();
         }
 
         public BlogPostItem GetBlogPostItemById(string blogPostItemId)

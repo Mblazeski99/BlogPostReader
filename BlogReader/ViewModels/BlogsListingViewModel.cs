@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System;
 using System.Linq;
 using BlogReader.Commands.Blogs.BlogsListing;
+using BlogReader.CustomControls.GridFilterPopup;
 
 namespace BlogReader.ViewModels
 {
@@ -13,6 +14,7 @@ namespace BlogReader.ViewModels
     {
         private readonly BlogPostItemsStore _blogPostItemsStore;
         private readonly NotificationsStore _notificationsStore;
+        private readonly ObservableCollection<BlogPostItem> _allBlogPostItems = new ObservableCollection<BlogPostItem>();
         private readonly ObservableCollection<BlogPostItem> _blogPostItems = new ObservableCollection<BlogPostItem>();
 
         private bool _isItemsGridLoading;
@@ -43,6 +45,7 @@ namespace BlogReader.ViewModels
         public bool HasItems => _blogPostItems.Any();
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
+        public GridFilterDescriptor FilterDescriptor { get; private set; }
 
         public BaseCommand ClearAllBlogPostItemsCommand { get; }
         public BaseCommand PreviewBlogPostItemCommand { get; }
@@ -78,8 +81,27 @@ namespace BlogReader.ViewModels
                 _blogPostItems.Clear();
                 foreach (BlogPostItem model in _blogPostItemsStore.GetAllBlogPostItems().OrderByDescending(b => b.Date))
                 {
-                    _blogPostItems.Add(BlogPostItem.CreateNewCopy(model));
+                    var modelCopy = BlogPostItem.CreateNewCopy(model);
+                    _blogPostItems.Add(modelCopy);
+                    _allBlogPostItems.Add(modelCopy);
                 }
+                
+                var propertyNames = new ObservableCollection<string>
+                {
+                    nameof(BlogPostItem.Title),
+                    nameof(BlogPostItem.Summary),
+                    nameof(BlogPostItem.Date),
+                    nameof(BlogPostItem.SourceName),
+                    nameof(BlogPostItem.Author),
+                    nameof(BlogPostItem.MarkedAsWatchLater),
+                    nameof(BlogPostItem.MarkedAsIrrelevant),
+                    nameof(BlogPostItem.IsDeleted)
+                };
+
+                var itemSource = new ObservableCollection<BaseEntity>();
+                _allBlogPostItems.ForEach(b => itemSource.Add(b));
+
+                FilterDescriptor = new GridFilterDescriptor(itemSource, propertyNames);
 
                 OnPropertyChanged(nameof(HasItems));
             }

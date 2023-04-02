@@ -58,15 +58,14 @@
                         <StackPanel>
 
                             <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
+                                <Style TargetType="Label" BasedOn="{StaticResource LabelStyle}">
                                     <Setter Property="Margin" Value="0 10 0 0" />
-                                    <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" Text="(* required fields)" />
+                            <Label Content="(* required fields)" Margin="0" />
 
-                            <TextBlock Text="Name*" />
+                            <Label Content="Name*" />
                             <TextBox Text="{Binding SelectedSourceItem.SourceName, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                        Text="{Binding DataPropertyErrors[SourceName]}"
@@ -74,7 +73,7 @@
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
 
-                            <TextBlock Text="Url*" />
+                            <Label Content="Url*" />
                             <TextBox Text="{Binding SelectedSourceItem.SourceUrl, Mode=TwoWay}" />
                             <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
                                        Text="{Binding DataPropertyErrors[SourceUrl]}"
@@ -82,7 +81,7 @@
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
 
-                            <TextBlock Text="Content Model*" />
+                            <Label Content="Content Model*" />
                             
                             <ComboBox ItemsSource="{Binding RssContentModels, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedIndex="{Binding SelectedRssContentModelIndex, Mode=OneWay}"

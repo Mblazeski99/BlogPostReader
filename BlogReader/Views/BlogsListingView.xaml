@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
+             xmlns:gfp="clr-namespace:BlogReader.CustomControls.GridFilterPopup"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogsListingViewModel, IsDesignTimeCreatable=True}">
 
@@ -20,11 +21,14 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
-            <Button Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Command="{Binding ClearAllBlogPostItemsCommand}"
-                    Content="Clear All Blog Posts"
-                    HorizontalAlignment="Left" />
+            <StackPanel Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Orientation="Horizontal">
 
+                <Button Content="Clear All Blog Posts" Command="{Binding ClearAllBlogPostItemsCommand}" />
+                <gfp:GridFilterPopupButton Margin="10 0 0 0" FilterDescriptor="{Binding FilterDescriptor}" />
+
+            </StackPanel>
+            
             <fontAwesome:ImageAwesome Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Style="{StaticResource LoadingSpinnerStyle}"
                                       Margin="10 0 0 0" />
@@ -59,6 +63,7 @@
                             <DataGridTextColumn Header="Author" MinWidth="180" Width="1*" Binding="{Binding Author, Mode=OneWay}" />
                             <DataGridTextColumn Header="Source" MinWidth="180" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
                             <DataGridTextColumn Header="Published" Width="205" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                            <DataGridCheckBoxColumn Header="Is Deleted" Width="115" Binding="{Binding IsDeleted, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
 
                             <DataGridTemplateColumn Header="Actions" Width="170">
                                 

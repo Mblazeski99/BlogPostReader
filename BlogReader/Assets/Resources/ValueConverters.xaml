@@ -7,5 +7,6 @@
     <converters:IsValueNullToVisibilityConverter x:Key="IsValueNullToVisibilityConverter" />
     <converters:IsStringEmptyOrNullToVisibilityConverter x:Key="IsStringEmptyOrNullToVisibilityConverter" />
     <converters:IsValueNullToBooleanConverter x:Key="IsValueNullToBooleanConverter" />
+    <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
 
 </ResourceDictionary>
