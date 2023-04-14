@@ -110,6 +110,14 @@ namespace BlogReader
             return observableCollection;
         }
 
+        public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> valuesToAdd)
+        {
+            foreach (T item in valuesToAdd)
+            {
+                collection.Add(item);
+            }
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var cur in enumerable)

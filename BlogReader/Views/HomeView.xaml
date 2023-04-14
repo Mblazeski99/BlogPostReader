@@ -26,17 +26,14 @@
                         Grid.ColumnSpan="2"
                         Content="Latest" />
 
-        <ListView x:Name="blogPostItemsListView" ItemsSource="{Binding BlogPostItems}">
+        <ScrollViewer>
 
-            <ListView.Style>
-                <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource ListViewStyle}">
+            <ScrollViewer.Style>
+                <Style TargetType="{x:Type ScrollViewer}">
 
-                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-                    <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
-                    <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="Grid.Row" Value="1" />
                     <Setter Property="Visibility" Value="Visible" />
-
+                    
                     <Style.Triggers>
 
                         <MultiDataTrigger>
@@ -45,165 +42,219 @@
 
                                 <Condition Binding="{Binding IsExpanded}" Value="True" />
                                 <Condition Binding="{Binding SelectedBlogPostItemDataContext.BlogPostItem, 
-                                                Converter={StaticResource IsValueNullToBooleanConverter}}" 
-                                           Value="False" />
+                                                    Converter={StaticResource IsValueNullToBooleanConverter}}" 
+                                               Value="False" />
 
                             </MultiDataTrigger.Conditions>
 
                             <Setter Property="Visibility" Value="Collapsed" />
 
                         </MultiDataTrigger>
-                        
+
                     </Style.Triggers>
 
                 </Style>
-            </ListView.Style>
+            </ScrollViewer.Style>
             
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
+            <Grid>
 
-                    <Setter Property="MinHeight" Value="320" />
-                    <Setter Property="Margin" Value="0 0 0 20" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="Cursor" Value="Hand" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                </Style>
-            </ListView.ItemContainerStyle>
+                <ListView ItemsSource="{Binding ShownBlogPostItems}">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
+                    <ListView.Style>
+                        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource ListViewStyle}">
 
-                    <Border BorderThickness="0 0 0 2" BorderBrush="{StaticResource SecondaryBackgroundColorBrush}">
+                            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                            <Setter Property="BorderThickness" Value="0" />
 
-                        <interactivity:Interaction.Triggers>
-                            <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                        </Style>
+                    </ListView.Style>
+            
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource NoHoverListViewItemStyle}">
 
-                                <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
-                                                                       Mode=FindAncestor,
-                                                                       AncestorType=views:HomeView},
-                                                                       Path=DataContext.SelectBlogPostItemCommand}"
-                                                                   CommandParameter="{Binding }" />
+                            <Setter Property="MinHeight" Value="320" />
+                            <Setter Property="Margin" Value="0 0 0 20" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Cursor" Value="Hand" />
 
-                            </interactivity:EventTrigger>
-                        </interactivity:Interaction.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
-                        <Grid>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
 
-                            <Grid.RowDefinitions>
+                            <Border BorderThickness="0 0 0 2" BorderBrush="{StaticResource SecondaryBackgroundColorBrush}">
+
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+
+                                        <interactivity:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource 
+                                                                               Mode=FindAncestor,
+                                                                               AncestorType=views:HomeView},
+                                                                               Path=DataContext.SelectBlogPostItemCommand}"
+                                                                           CommandParameter="{Binding }" />
+
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
                                 
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                 
-                            </Grid.RowDefinitions>
+                                    </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                            <Border Background="{StaticResource PrimaryButtonColorBrush}"
-                                    ToolTip="{Binding SourceName}"
-                                    ToolTipService.Placement="Top"
-                                    HorizontalAlignment="Left"
-                                    Padding="10 5"
-                                    MaxWidth="270">
+                                    <Border Background="{StaticResource PrimaryButtonColorBrush}"
+                                            ToolTip="{Binding SourceName}"
+                                            ToolTipService.Placement="Top"
+                                            HorizontalAlignment="Left"
+                                            Padding="10 5"
+                                            MaxWidth="270">
 
-                                <TextBlock Text="{Binding SourceName}"
-                                           FontWeight="DemiBold"
-                                           TextAlignment="Left"
-                                           Foreground="#fff" />
+                                        <TextBlock Text="{Binding SourceName}"
+                                                   FontWeight="DemiBold"
+                                                   TextAlignment="Left"
+                                                   Foreground="#fff" />
 
+                                    </Border>
+
+                                    <TextBlock Text="{Binding Title}" Margin="0 20">
+
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+
+                                                <Setter Property="Grid.Row" Value="1" />
+                                                <Setter Property="Grid.ColumnSpan" Value="2" />
+                                                <Setter Property="TextAlignment" Value="Left" />
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                                <Setter Property="FontSize" Value="24" />
+
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+                                                    </Trigger>
+
+                                                    <MultiDataTrigger>
+
+                                                        <MultiDataTrigger.Conditions>
+                                                    
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                           AncestorType=ListViewItem},
+                                                                           Path=IsSelected}"
+                                                                       Value="True" />
+
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                           AncestorType=views:HomeView},
+                                                                           Path=DataContext.SelectedBlogPostItemDataContext.BlogPostItem,
+                                                                            Converter={StaticResource IsValueNullToBooleanConverter}}"
+                                                                       Value="False" />
+
+                                                        </MultiDataTrigger.Conditions>
+
+                                                        <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
+
+                                                    </MultiDataTrigger>
+                                            
+                                                </Style.Triggers>
+
+                                            </Style>
+                                        </TextBlock.Style>
+
+                                    </TextBlock>
+
+                                    <Image Source="{Binding ImageLink, FallbackValue={StaticResource DefaultSourceImage}}"
+                                           MaxWidth="230"
+                                           Grid.Row="2" />
+
+                                    <Grid Grid.Row="2" Grid.Column="1"
+                                          Margin="20 0 0 0">
+
+                                        <TextBlock Text="{Binding Summary}"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0 0 10 0" />
+                        
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2"
+                                                Orientation="Horizontal" 
+                                                Margin="0 15 0 15">
+
+                                        <TextBlock Visibility="{Binding Author, Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter}}"
+                                                   TextWrapping="Wrap">
+                                        
+                                                <Run Text="by " />
+                                                <Run Text="{Binding Author}" Foreground="{StaticResource InformationColorBrush}" />
+                                                <Run Text=" |  " />
+
+                                        </TextBlock>
+
+                                        <fontAwesome:ImageAwesome Foreground="{StaticResource PrimaryFontColorBrush}"
+                                                                  Icon="ClockOutline"
+                                                                  Width="20" />
+
+                                        <TextBlock Margin="10 0 0 0" Text="{Binding Date, Mode=OneWay, StringFormat={StaticResource SecondaryDateFormatString}}" />
+
+                                    </StackPanel>
+
+                                </Grid>
+                        
                             </Border>
 
-                            <TextBlock Text="{Binding Title}" Margin="0 20">
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
+                </ListView>
 
-                                        <Setter Property="Grid.Row" Value="1" />
-                                        <Setter Property="Grid.ColumnSpan" Value="2" />
-                                        <Setter Property="TextAlignment" Value="Left" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="FontSize" Value="24" />
+                <Grid HorizontalAlignment="Stretch"
+                      Margin="0 10 0 0"
+                      Grid.Row="1">
 
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-                                            </Trigger>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Command="{Binding IncreaseNumberOfItemsShownCommand}"
+                            Visibility="{Binding ShowMoreItemsButtonVisibility}"
+                            IsEnabled="{Binding EnableInput}"
+                            HorizontalAlignment="Center"
+                            Grid.ColumnSpan="2"
+                            Content="Show More"
+                            Width="120" />
 
-                                            <MultiDataTrigger>
+                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Foreground="{StaticResource InformationColorBrush}"
+                               Margin="0 0 20 0"
+                               Grid.Column="1">
 
-                                                <MultiDataTrigger.Conditions>
-                                                    
-                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                   AncestorType=ListViewItem},
-                                                                   Path=IsSelected}"
-                                                               Value="True" />
+                        <Run Text="{Binding ShownBlogPostItems.Count, Mode=OneWay}" />
+                        <Run Text="/" />
+                        <Run Text="{Binding AllBlogPostItems.Count, Mode=OneTime}" />
 
-                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                   AncestorType=views:HomeView},
-                                                                   Path=DataContext.SelectedBlogPostItemDataContext.BlogPostItem,
-                                                                    Converter={StaticResource IsValueNullToBooleanConverter}}"
-                                                               Value="False" />
+                    </TextBlock>
 
-                                                </MultiDataTrigger.Conditions>
-
-                                                <Setter Property="Foreground" Value="{StaticResource PrimaryAccentBtnColorBrush}" />
-
-                                            </MultiDataTrigger>
-                                            
-                                        </Style.Triggers>
-
-                                    </Style>
-                                </TextBlock.Style>
-
-                            </TextBlock>
-
-                            <Image Source="{Binding ImageLink, FallbackValue={StaticResource DefaultSourceImage}}"
-                                   MaxWidth="230"
-                                   Grid.Row="2" />
-
-                            <Grid Grid.Row="2" Grid.Column="1"
-                                  Margin="20 0 0 0">
-
-                                <TextBlock Text="{Binding Summary}"
-                                           TextWrapping="Wrap"
-                                           Margin="0 0 10 0" />
-                        
-                            </Grid>
-
-                            <StackPanel Grid.Row="3" Grid.ColumnSpan="2"
-                                        Orientation="Horizontal" 
-                                        Margin="0 15 0 15">
-
-                                <TextBlock Visibility="{Binding Author, Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter}}"
-                                           TextWrapping="Wrap">
-                                        
-                                        <Run Text="by " />
-                                        <Run Text="{Binding Author}" Foreground="{StaticResource InformationColorBrush}" />
-                                        <Run Text=" |  " />
-
-                                </TextBlock>
-
-                                <fontAwesome:ImageAwesome Foreground="{StaticResource PrimaryFontColorBrush}"
-                                                          Icon="ClockOutline"
-                                                          Width="20" />
-
-                                <TextBlock Margin="10 0 0 0" Text="{Binding Date, Mode=OneWay, StringFormat={StaticResource SecondaryDateFormatString}}" />
-
-                            </StackPanel>
-
-                        </Grid>
-                        
-                    </Border>
-
-                </DataTemplate>
-            </ListView.ItemTemplate>
-
-        </ListView>
+                </Grid>
+            
+            </Grid>
+            
+        </ScrollViewer>
 
         <Grid Visibility="{Binding SelectedBlogPostItemDataContext.BlogPostItem,
                 Converter={StaticResource IsValueNullToVisibilityConverter}}">
