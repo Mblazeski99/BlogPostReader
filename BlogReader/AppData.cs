@@ -4,9 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using ToastNotifications.Utilities;
 
 namespace BlogReader
@@ -89,44 +86,6 @@ namespace BlogReader
         }
         #endregion
 
-        #region Extension Methods
-        public static bool IsValidUri(this string uri)
-        {
-            Uri uriResult;
-            bool result = Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-
-            return result;
-        }
-
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> collection)
-        {
-            var observableCollection = new ObservableCollection<T>();
-            foreach (T item in collection)
-            {
-                observableCollection.Add(item);
-            }
-
-            return observableCollection;
-        }
-
-        public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> valuesToAdd)
-        {
-            foreach (T item in valuesToAdd)
-            {
-                collection.Add(item);
-            }
-        }
-
-        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
-        {
-            foreach (var cur in enumerable)
-            {
-                action(cur);
-            }
-        }
-        #endregion
-
         #region Colors
         public static Brush PrimaryBackgroundColorBrush => App.Resources[nameof(PrimaryBackgroundColorBrush)] as Brush;
         public static Brush SecondaryBackgroundColorBrush => App.Resources[nameof(SecondaryBackgroundColorBrush)] as Brush;
@@ -136,7 +95,8 @@ namespace BlogReader
         public static Brush InformationColorBrush => App.Resources[nameof(InformationColorBrush)] as Brush;
         public static Brush BackgrounHighlightColorBrush => App.Resources[nameof(BackgrounHighlightColorBrush)] as Brush;
         public static Brush CodeBackgrounColorBrush => App.Resources[nameof(CodeBackgrounColorBrush)] as Brush;
-        public static string SecondaryDateFormatString => App.Resources[nameof(SecondaryDateFormatString)].ToString();
         #endregion
+
+        public static string SecondaryDateFormatString => App.Resources[nameof(SecondaryDateFormatString)].ToString();
     }
 }

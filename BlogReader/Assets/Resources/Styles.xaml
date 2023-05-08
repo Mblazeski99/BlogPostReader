@@ -550,13 +550,57 @@
     <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource ToolTipStyle}" />
     <!--#endregion-->
     
-    <!--#region DatePicker -->
+    <!-- #region DatePicker/Calendar -->
     <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
         <Setter Property="Template" Value="{StaticResource DatePickerControlTemplate}" />
+        <Setter Property="CalendarStyle" Value="{StaticResource DatePickerCalendarStyle}" />
     </Style>
 
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource DatePickerStyle}" />
 
+    <Style x:Key="DatePickerCalendarStyle" TargetType="{x:Type Calendar}">
+
+        <Setter Property="Template" Value="{StaticResource DatePickerCalendarControlTemplate}" />
+        <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
+        <Setter Property="Width" Value="245" />
+
+        <Setter Property="CalendarButtonStyle">
+            <Setter.Value>
+
+                <Style TargetType="{x:Type CalendarButton}">
+                    
+                    <Setter Property="Template" Value="{StaticResource CalendarButtonControlTemplate}" />
+                    <Setter Property="Background" Value="{StaticResource BackgrounHighlightColorBrush}" />
+                    <Setter Property="Width" Value="60" />
+
+                </Style>
+
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="CalendarItemStyle">
+            <Setter.Value>
+                
+                <Style TargetType="{x:Type CalendarItem}">
+                    <Setter Property="Template" Value="{StaticResource CalendarItemControlTemplate}" />
+                    <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
+                </Style>
+                
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="CalendarDayButtonStyle">
+            <Setter.Value>
+                
+                <Style TargetType="{x:Type CalendarDayButton}">
+                    <Setter Property="Template" Value="{StaticResource CalendarDayButtonControlTemplate}" />
+                    <Setter Property="FontSize" Value="16" />
+                </Style>
+                
+            </Setter.Value>
+        </Setter>
+
+    </Style>
     <!--#endregion-->
 
 </ResourceDictionary>

@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using BlogReader.Commands.Blogs.BlogsListing;
 using BlogReader.CustomControls.GridFilterPopup;
+using BlogReader.Helpers;
 
 namespace BlogReader.ViewModels
 {

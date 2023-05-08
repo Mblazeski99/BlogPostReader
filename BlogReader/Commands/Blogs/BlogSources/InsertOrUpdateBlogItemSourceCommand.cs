@@ -3,6 +3,7 @@ using BlogReader.DataModels;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using System;
+using BlogReader.Helpers;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {

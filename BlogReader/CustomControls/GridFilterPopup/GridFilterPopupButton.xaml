@@ -30,8 +30,8 @@
                 <fontAwesome:ImageAwesome Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                         AncestorType={x:Type Button}}, 
                                                         Path=Foreground}"
-                                            Width="12" Height="12"
-                                            Icon="Filter" />
+                                          Width="12" Height="12"
+                                          Icon="Filter" />
             </Button.Content>
 
             <Button.Style>
@@ -110,7 +110,11 @@
                         </StackPanel>
 
                         <StackPanel x:Name="DateTimePropertyFilterSection" Visibility="Collapsed">
-                            <DatePicker x:Name="DateTimePropertyInputField" />
+                            
+                            <DatePicker CalendarStyle="{StaticResource DatePickerCalendarStyle}"
+                                        Style="{StaticResource DatePickerStyle}"
+                                        x:Name="DateTimePropertyInputField" />
+                            
                         </StackPanel>
 
                         <StackPanel x:Name="BooleanPropertyFilterSection" Visibility="Collapsed">

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
 using System.Linq;
+using BlogReader.Helpers;
 
 namespace BlogReader.Stores
 {

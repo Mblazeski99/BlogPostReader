@@ -1,6 +1,7 @@
 ﻿using BlogReader.DataModels.Interfaces;
 using BlogReader.Helpers;
 using System;
+using System.ComponentModel;
 
 namespace BlogReader.DataModels
 {
@@ -90,6 +91,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        [Description("Source Name")]
         public string SourceName
         { 
             get { return _sourceName; }
@@ -110,6 +112,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        [Description("Marked As Watch Later")]
         public bool MarkedAsWatchLater
         { 
             get { return _markedAsWatchLater; }
@@ -120,6 +123,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        [Description("Is Visited")]
         public bool IsVisited
         { 
             get { return _isVisited; }
@@ -130,6 +134,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        [Description("Marked As Irrelevant")]
         public bool MarkedAsIrrelevant
         { 
             get { return _markedAsIrrelevant; }
@@ -140,6 +145,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        [Description("Is Deleted")]
         public bool IsDeleted
         { 
             get { return _isDeleted; }
