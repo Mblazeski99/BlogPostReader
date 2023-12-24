@@ -1,5 +1,6 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -12,17 +13,22 @@ namespace BlogReader.CustomControls.GridFilterPopup
 
         public GridFilterDescriptor(ObservableCollection<BaseEntity> itemsSource, ObservableCollection<string> propertyNames = null)
         {
-            ItemsSource = itemsSource;
-            PropertyNames = propertyNames;
-
-            if ((PropertyNames == null || PropertyNames.Count == 0)
-                && ItemsSource != null && ItemsSource.Count > 0)
+            try
             {
-                var item = ItemsSource[0];
-                var properties = item.GetType().GetProperties();
-                PropertyNames = properties.Select(p => p.Name).ToObservableCollection();
-            }
+                ItemsSource = itemsSource;
+                PropertyNames = propertyNames;
 
+                if ((PropertyNames == null || PropertyNames.Count == 0)
+                    && ItemsSource != null && ItemsSource.Count > 0)
+                {
+                    var item = ItemsSource[0];
+                    var properties = item.GetType().GetProperties();
+                    PropertyNames = properties.Select(p => p.Name).ToObservableCollection();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

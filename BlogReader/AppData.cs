@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ToastNotifications.Utilities;
+using System;
 
 namespace BlogReader
 {
@@ -80,9 +81,15 @@ namespace BlogReader
 
         public static void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DatePicker datePicker = (sender as DatePicker);
-            Button clearValueButton = datePicker.FindChild<Button>("DatePickerClearValueButton");
-            clearValueButton.Visibility = Visibility.Visible;
+            try
+            {
+                DatePicker datePicker = (sender as DatePicker);
+                Button clearValueButton = datePicker.FindChild<Button>("DatePickerClearValueButton");
+                clearValueButton.Visibility = datePicker.SelectedDate.HasValue ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+            }
         }
         #endregion
 

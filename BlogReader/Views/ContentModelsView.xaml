@@ -168,8 +168,6 @@
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                    <TextBlock Text="No Sources Found" FontWeight="Bold" />
-
                     <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
                               ItemsSource="{Binding RssContentModels}">
 

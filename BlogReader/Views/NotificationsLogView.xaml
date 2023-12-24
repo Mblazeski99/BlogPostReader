@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:gfp="clr-namespace:BlogReader.CustomControls.GridFilterPopup"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:NotificationsLogViewModel, IsDesignTimeCreatable=True}">
     
@@ -22,10 +24,28 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-            <Button Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Command="{Binding ClearNotificationsCommand}"
-                    Content="Clear Notifications"
-                    HorizontalAlignment="Left" />
+            <StackPanel Visibility="{Binding HasItems, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Orientation="Horizontal">
+
+                <Button Command="{Binding ClearNotificationsCommand}" Content="Clear Notifications" />
+                
+                <gfp:GridFilterPopupButton Margin="10 0 0 0" FilterDescriptor="{Binding FilterDescriptor}">
+
+                    <interactivity:Interaction.Triggers>
+
+                        <interactivity:EventTrigger EventName="OnFilterClicked">
+                            <interactivity:InvokeCommandAction Command="{Binding FilterClickedCommand}" PassEventArgsToCommand="True" />
+                        </interactivity:EventTrigger>
+
+                        <interactivity:EventTrigger EventName="OnClearFilterClicked">
+                            <interactivity:InvokeCommandAction Command="{Binding ClearFilterClickedCommand}" />
+                        </interactivity:EventTrigger>
+
+                    </interactivity:Interaction.Triggers>
+
+                </gfp:GridFilterPopupButton>
+
+            </StackPanel>
 
             <fontAwesome:ImageAwesome Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Style="{StaticResource LoadingSpinnerStyle}"
@@ -39,8 +59,6 @@
                                       Style="{StaticResource LoadingSpinnerStyle}" />
 
             <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-
-                <TextBlock Text="No Notifications Found" FontWeight="Bold" />
 
                 <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
                           ItemsSource="{Binding Notifications}">

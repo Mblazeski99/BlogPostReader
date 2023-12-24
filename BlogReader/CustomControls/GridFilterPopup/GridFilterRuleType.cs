@@ -4,22 +4,37 @@ namespace BlogReader.CustomControls.GridFilterPopup
 {
     public enum GridFilterRuleType
     {
+        // GENERIC
+        [Description("Is equal to")]
+        IsEqualTo = 1,
+
+        [Description("Is not equal to")]
+        IsNotEqualTo = 2,
+
+        // STRINGS
         [Description("Starts with")]
-        StartsWith = 0,
+        StartsWith = 3,
 
         [Description("Contains")]
-        Contains = 1,
+        Contains = 4,
 
-        [Description("Not contains")]
-        NotContains = 2,
+        [Description("Does not contain")]
+        DoesNotContain = 5,
 
         [Description("Ends with")]
-        EndsWith = 3,
+        EndsWith = 6,
 
-        [Description("Equals")]
-        Equals = 4,
+        // NUMBERS, DATE
+        [Description("Is greater than or equal to")]
+        IsGreaterThanOrEqualTo = 7,
 
-        [Description("Not equals")]
-        NotEquals = 5
+        [Description("Is greater than")]
+        IsGreaterThan = 8,
+
+        [Description("Is less than or equal to")]
+        IsLessThanOrEqualTo = 9,
+
+        [Description("Is less than")]
+        IsLessThan = 10
     }
 }

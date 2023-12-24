@@ -426,7 +426,7 @@
                 <DatePickerTextBox.Style>
                     <Style TargetType="{x:Type DatePickerTextBox}">
 
-                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderThickness" Value="1.8" />
                         <Setter Property="BorderBrush" Value="{StaticResource PrimaryFontColorBrush}" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="IsReadOnly" Value="True" />
@@ -434,6 +434,7 @@
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
                         <Setter Property="Padding" Value="5 7" />
+                        <Setter Property="Height" Value="40" />
                         <Setter Property="Template" Value="{StaticResource TextBoxControlTemplate}" />
                         <Setter Property="Grid.ColumnSpan" Value="2" />
                         <Setter Property="Visibility" Value="Visible" />
@@ -575,7 +576,7 @@
                    AllowsTransparency="True"
                    x:Name="PART_Popup"
                    Placement="Bottom"
-                   StaysOpen="True" />
+                   StaysOpen="False" />
 
         </Grid>
         
@@ -862,7 +863,7 @@
 
     <ControlTemplate x:Key="CalendarDayButtonControlTemplate" TargetType="{x:Type CalendarDayButton}">
 
-        <Grid>
+        <Grid Cursor="Hand">
 
             <VisualStateManager.VisualStateGroups>
 
@@ -983,19 +984,16 @@
             <Rectangle Fill="{StaticResource PrimaryBackgroundColorBrush}"
                        x:Name="TodayBackground" 
                        RadiusX="1" RadiusY="1"
-                       Cursor="Hand"
                        Opacity="0" />
 
             <Rectangle Fill="{StaticResource BackgrounHighlightColorBrush}" 
                        x:Name="SelectedBackground"
                        RadiusX="1" RadiusY="1"
-                       Cursor="Hand"
                        Opacity="0" />
 
             <Rectangle Fill="{StaticResource SecondaryBackgroundColorBrush}"
                        RadiusX="1" RadiusY="1" 
                        x:Name="Background"
-                       Cursor="Hand"
                        Opacity="0" />
 
             <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

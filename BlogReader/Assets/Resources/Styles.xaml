@@ -31,10 +31,11 @@
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
 
         <Setter Property="FontFamily" Value="Arial" />
-        <Setter Property="Height" Value="36" />
+        <Setter Property="Height" Value="40" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="5 0" />
         <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryFontColorBrush}" />
         <Setter Property="Template" Value="{StaticResource TextBoxControlTemplate}" />
         <Setter Property="Foreground" Value="{StaticResource PrimaryFontColorBrush}" />
         <Setter Property="Background" Value="{StaticResource SecondaryBackgroundColorBrush}" />
@@ -270,16 +271,6 @@
             </Setter.Value>
             
         </Setter>
-
-        <Setter Property="Visibility" Value="Visible" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ItemsSource.Count}"
-                         Value="0">
-
-                <Setter Property="Visibility" Value="Collapsed" />
-
-            </DataTrigger>
-        </Style.Triggers>
 
     </Style>
 

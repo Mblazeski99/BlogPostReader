@@ -27,8 +27,14 @@ namespace BlogReader.ValueConverters
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Enum myEnum = (Enum)value;
-            string description = GetEnumDescription(myEnum);
+            string description = string.Empty;
+
+            if (value != null && value.ToString() != "")
+            {
+                Enum myEnum = (Enum)value;
+                description = GetEnumDescription(myEnum);
+            }
+
             return description;
         }
 

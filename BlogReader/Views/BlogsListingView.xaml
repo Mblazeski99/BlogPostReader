@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModels="clr-namespace:BlogReader.ViewModels"
              xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:gfp="clr-namespace:BlogReader.CustomControls.GridFilterPopup"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=viewModels:BlogsListingViewModel, IsDesignTimeCreatable=True}">
@@ -25,7 +26,22 @@
                         Orientation="Horizontal">
 
                 <Button Content="Clear All Blog Posts" Command="{Binding ClearAllBlogPostItemsCommand}" />
-                <gfp:GridFilterPopupButton Margin="10 0 0 0" FilterDescriptor="{Binding FilterDescriptor}" />
+
+                <gfp:GridFilterPopupButton Margin="10 0 0 0" FilterDescriptor="{Binding FilterDescriptor}">
+
+                    <interactivity:Interaction.Triggers>
+
+                        <interactivity:EventTrigger EventName="OnFilterClicked">
+                            <interactivity:InvokeCommandAction Command="{Binding FilterClickedCommand}" PassEventArgsToCommand="True" />
+                        </interactivity:EventTrigger>
+                        
+                        <interactivity:EventTrigger EventName="OnClearFilterClicked">
+                            <interactivity:InvokeCommandAction Command="{Binding ClearFilterClickedCommand}" />
+                        </interactivity:EventTrigger>
+
+                    </interactivity:Interaction.Triggers>
+                    
+                </gfp:GridFilterPopupButton>
 
             </StackPanel>
             
@@ -44,10 +60,6 @@
 
                 <Grid Visibility="{Binding IsItemsGridLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
 
-                    <TextBlock Foreground="{StaticResource PrimaryFontColorBrush}" 
-                               Text="No Blog Posts Found"
-                               FontWeight="Bold" />
-    
                     <DataGrid Style="{StaticResource PrimaryDataGridStyle}"
                               ItemsSource="{Binding BlogPostItems}">
 
@@ -62,7 +74,7 @@
                             <DataGridTextColumn Header="Link" MinWidth="200" Width="2*" CellStyle="{StaticResource HyperLinkTextCellStyle}" Binding="{Binding Link, Mode=OneWay}" />
                             <DataGridTextColumn Header="Author" MinWidth="180" Width="1*" Binding="{Binding Author, Mode=OneWay}" />
                             <DataGridTextColumn Header="Source" MinWidth="180" Width="1*" Binding="{Binding SourceName, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Published" Width="205" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
+                            <DataGridTextColumn Header="Date Published" Width="205" Binding="{Binding Date, Mode=OneWay, StringFormat={StaticResource PrimaryDateFormatString}}" />
                             <DataGridCheckBoxColumn Header="Is Deleted" Width="115" Binding="{Binding IsDeleted, Mode=OneWay}" ElementStyle="{StaticResource DataGridCheckBoxColumnStyle}" />
 
                             <DataGridTemplateColumn Header="Actions" Width="170">
@@ -79,7 +91,8 @@
                                                         Path=DataContext.PreviewBlogPostItemCommand}"
                                                     CommandParameter="{Binding Id}" />
 
-                                            <Button Style="{StaticResource DataGridColumnTertiaryButtonStyle}"
+                                            <Button Visibility="{Binding IsDeleted, Converter={StaticResource InverseBooleanToVisibilityConverter}, ConverterParameter={StaticResource Hidden}}"
+                                                    Style="{StaticResource DataGridColumnTertiaryButtonStyle}"
                                                     Content="Delete"
                                                     Margin="10 0 0 0"
                                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 

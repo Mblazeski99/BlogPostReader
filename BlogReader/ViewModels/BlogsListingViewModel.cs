@@ -20,6 +20,7 @@ namespace BlogReader.ViewModels
 
         private bool _isItemsGridLoading;
         private bool _isLoading;
+        private GridFilterDescriptor _filterDescriptor;
 
         public bool IsItemsGridLoading
         {
@@ -46,12 +47,21 @@ namespace BlogReader.ViewModels
         public bool HasItems => _blogPostItems.Any();
 
         public ObservableCollection<BlogPostItem> BlogPostItems => _blogPostItems;
-        public GridFilterDescriptor FilterDescriptor { get; private set; }
+        public GridFilterDescriptor FilterDescriptor 
+        { 
+            get { return _filterDescriptor; }
+            private set
+            {
+                _filterDescriptor = value;
+                OnPropertyChanged(nameof(FilterDescriptor));
+            }
+        }
 
         public BaseCommand ClearAllBlogPostItemsCommand { get; }
         public BaseCommand PreviewBlogPostItemCommand { get; }
         public BaseCommand RemoveBlogPostItemCommand { get; }
-        public BaseCommand CancelPreviewBlogPostItemCommand { get; }
+        public BaseCommand FilterClickedCommand { get; }
+        public BaseCommand ClearFilterClickedCommand { get; }
 
         public BlogsListingViewModel(NotificationsStore notificationsStore,
             BlogPostItemsStore blogPostItemsStore)
@@ -62,6 +72,8 @@ namespace BlogReader.ViewModels
             ClearAllBlogPostItemsCommand = new ClearAllBlogPostItemsCommand(this, notificationsStore, blogPostItemsStore);
             PreviewBlogPostItemCommand = new PreviewBlogPostItemCommand(notificationsStore, blogPostItemsStore);
             RemoveBlogPostItemCommand = new RemoveBlogPostItemCommand(this, notificationsStore, blogPostItemsStore);
+            FilterClickedCommand = new FilterClickedCommand(this);
+            ClearFilterClickedCommand = new ClearFilterClickedCommand(this);
 
             LoadBlogPostItems();
             _blogPostItemsStore.BlogPostItemsChanged += OnBlogPostItemsChanged;
@@ -73,13 +85,14 @@ namespace BlogReader.ViewModels
             base.Dispose();
         }
 
-        private void LoadBlogPostItems()
+        public void LoadBlogPostItems()
         {
             IsItemsGridLoading = true;
 
             try
             {
                 _blogPostItems.Clear();
+                _allBlogPostItems.Clear();
                 foreach (BlogPostItem model in _blogPostItemsStore.GetAllBlogPostItems().OrderByDescending(b => b.Date))
                 {
                     var modelCopy = BlogPostItem.CreateNewCopy(model);

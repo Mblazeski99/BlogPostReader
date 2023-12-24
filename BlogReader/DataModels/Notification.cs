@@ -1,4 +1,5 @@
 ﻿using BlogReader.DataModels.Enums;
+using BlogReader.Helpers;
 
 namespace BlogReader.DataModels
 {
@@ -55,6 +56,18 @@ namespace BlogReader.DataModels
             _message = message;
             _messageType = messageType;
             _exception = exception;
+        }
+
+        public static void Copy(Notification copyFrom, Notification copyTo) 
+        { 
+            PropertyCopier<Notification, Notification>.Copy(copyFrom, copyTo);
+        }
+
+        public static Notification CreateNewCopy(Notification item)
+        {
+            var newItem = new Notification();
+            Copy(item, newItem);
+            return newItem;
         }
     }
 }

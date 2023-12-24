@@ -9,10 +9,24 @@ namespace BlogReader.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return Visibility.Collapsed;
+            if (value == null)
+            {
+                if (parameter != null && parameter.ToString() == "hidden")
+                    return Visibility.Hidden;
 
-            var res = value is bool boolValue && boolValue ? Visibility.Collapsed : Visibility.Visible;
-            return res;
+                return Visibility.Collapsed;
+            }
+
+            bool res = value is bool boolValue && boolValue;
+            if (res)
+            {
+                if (parameter != null && parameter.ToString() == "hidden")
+                    return Visibility.Hidden;
+
+                return Visibility.Collapsed;
+            }
+
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
