@@ -9,9 +9,9 @@ namespace BlogReader.CustomControls.GridFilterPopup
     public class GridFilterDescriptor
     {
         public ObservableCollection<BaseEntity> ItemsSource { get; } = new ObservableCollection<BaseEntity>();
-        public ObservableCollection<string> PropertyNames { get; }
+        public ObservableCollection<GridFilterDescriptorProperty> PropertyNames { get; }
 
-        public GridFilterDescriptor(ObservableCollection<BaseEntity> itemsSource, ObservableCollection<string> propertyNames = null)
+        public GridFilterDescriptor(ObservableCollection<BaseEntity> itemsSource, ObservableCollection<GridFilterDescriptorProperty> propertyNames = null)
         {
             try
             {
@@ -23,12 +23,25 @@ namespace BlogReader.CustomControls.GridFilterPopup
                 {
                     var item = ItemsSource[0];
                     var properties = item.GetType().GetProperties();
-                    PropertyNames = properties.Select(p => p.Name).ToObservableCollection();
+
+                    PropertyNames = properties.Select(p => new GridFilterDescriptorProperty(p.Name, p.Name)).ToObservableCollection();
                 }
             }
             catch (Exception ex)
             {
             }
+        }
+    }
+
+    public class GridFilterDescriptorProperty
+    {
+        public string PropertyName { get; set; }
+        public string DisplayName { get; set; }
+
+        public GridFilterDescriptorProperty(string propertyName, string displayName)
+        {
+            PropertyName = propertyName;
+            DisplayName = displayName;
         }
     }
 }

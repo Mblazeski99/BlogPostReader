@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:fontAwesome="http://schemas.fontawesome.io/icons/"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gridfilterpopup="clr-namespace:BlogReader.CustomControls.GridFilterPopup"
+             x:Name="GridFilterPopupBtn"
              FontWeight="Bold"
              mc:Ignorable="d">
     
@@ -11,10 +13,8 @@
 
         <Button Click="FilterPopupButton_Click"
                 x:Name="FilterPopupButton"
-                Tag="False">
-                <!--Is Filter Active-->
-
-
+                Tag="False">  <!--Is Filter Active-->
+               
             <Button.Content>
 
                 <fontAwesome:ImageAwesome Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
@@ -80,123 +80,61 @@
                     Padding="10">
                 
                 <Grid>
-
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxStyle}">
-                            <Setter Property="Width" Value="280" />
-                        </Style>
-
-                        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelStyle}">
-                            <Setter Property="Padding" Value="0 0 0 5" />
-                        </Style>
-
-                        <Style x:Key="ErrorTextBlockStyle" TargetType="{x:Type TextBlock}">
-
-                            <Setter Property="Foreground" Value="{StaticResource ErrorColorBrush}" />
-                            <Setter Property="Text" Value="- This field is required!" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Setter Property="Margin" Value="5 0 0 0" />
-                            <Setter Property="FontSize" Value="16" />
-
-                        </Style>
-                    </Grid.Resources>
-
+                    
                     <Grid.RowDefinitions>
                         
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         
                     </Grid.RowDefinitions>
 
-                    <StackPanel>
+                    <gridfilterpopup:GridFilterPopupCondition FilterDescriptor="{Binding ElementName=GridFilterPopupBtn, Path=FilterDescriptor}"
+                                                              x:Name="FirstCondition" />
 
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Property" />
-                            <TextBlock x:Name="PropertyErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-                        </StackPanel>
+                    <Button Click="AddConditionButton_Click"
+                            x:Name="AddConditionButton"
+                            Content="Add Condition"
+                            Margin="0 15 0 0"
+                            Grid.Row="1" />
 
-                        <ComboBox SelectionChanged="PropertiesComboBox_SelectionChanged" x:Name="PropertiesComboBox" />
-                        
-                    </StackPanel>
-                        
-                    <StackPanel x:Name="FilterValueSection"
-                                Visibility="Collapsed"
+                    <Grid x:Name="SecondConditionContainerGrid"
+                          Visibility="Collapsed"
+                          Margin="0 15 0 0" 
+                          Grid.Row="2">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border BorderThickness="0 2 0 0" BorderBrush="{StaticResource BackgrounHighlightColorBrush}">
+                            
+                            <ComboBox ItemsSource="{Binding Converter={StaticResource EnumToItemSourceConverter}, ConverterParameter={x:Type gridfilterpopup:GridFilterConditionType}}"
+                                      SelectedValue="{x:Static gridfilterpopup:GridFilterConditionType.AND}"
+                                      x:Name="FilterConditionTypeComboBox" 
+                                      DisplayMemberPath="DisplayName" 
+                                      SelectedValuePath="Value" 
+                                      Margin="0 15 0 0" />
+                            
+                        </Border>
+
+                        <gridfilterpopup:GridFilterPopupCondition FilterDescriptor="{Binding ElementName=GridFilterPopupBtn, Path=FilterDescriptor}"
+                                                                  x:Name="SecondCondition"
+                                                                  Margin="0 15 0 0"
+                                                                  Grid.Row="1" />
+
+                        <Button Style="{StaticResource TertiaryButtonStyle}" 
+                                Click="RemoveConditionButton_Click"
+                                Content="Remove Condition"
                                 Margin="0 15 0 0"
-                                Grid.Row="1">
+                                Grid.Row="2" />
 
-                        <StackPanel x:Name="FilterValueTypesSection">
+                    </Grid>
 
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="Condition" />
-                                <TextBlock x:Name="ConditionErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-                            </StackPanel>
-
-                            <ComboBox x:Name="FilterValueTypesComboBox" Margin="0 0 0 15">
-
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-
-                            </ComboBox>
-                            
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Value" />
-                            <TextBlock x:Name="ValueErrorTextBlock" Style="{StaticResource ErrorTextBlockStyle}" />
-                        </StackPanel>
-                        
-                        <StackPanel x:Name="StringPropertyFilterSection"
-                                    Orientation="Horizontal"
-                                    Visibility="Collapsed">
-
-                            <TextBox x:Name="StringPropertyInputField" Width="280" />
-                            
-                        </StackPanel>
-
-                        <StackPanel x:Name="NumberPropertyFilterSection"
-                                    Orientation="Horizontal"
-                                    Visibility="Collapsed">
-
-                            <TextBox x:Name="NumberPropertyInputField" Width="280" />
-
-                        </StackPanel>
-
-                        <StackPanel x:Name="DateTimePropertyFilterSection" Visibility="Collapsed">
-                            
-                            <DatePicker CalendarStyle="{StaticResource DatePickerCalendarStyle}"
-                                        Style="{StaticResource DatePickerStyle}"
-                                        x:Name="DateTimePropertyInputField" />
-                            
-                        </StackPanel>
-
-                        <StackPanel x:Name="BooleanPropertyFilterSection" Visibility="Collapsed">
-                            
-                            <CheckBox x:Name="BoolPropertyInputField" 
-                                      IsChecked="False"
-                                      Content="Is True" />
-                            
-                        </StackPanel>
-
-                        <StackPanel x:Name="EnumPropertyFilterSection" Visibility="Collapsed">
-                            <ComboBox x:Name="EnumValueTypesComboBox">
-
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-
-                            </ComboBox>
-                        </StackPanel>
-
-                    </StackPanel>
-
-                    <Grid Grid.Row="2" Margin="0 10 0 0">
+                    <Grid Grid.Row="3" Margin="0 10 0 0">
 
                         <Button Click="FilterButton_Click"
                                 HorizontalAlignment="Left" 
@@ -208,9 +146,9 @@
                                 Content="Clear" />
 
                     </Grid>
-                        
+                    
                 </Grid>
-                
+                        
             </Border>
 
         </Popup>

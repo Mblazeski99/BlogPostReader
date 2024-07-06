@@ -29,71 +29,87 @@ namespace BlogReader
 
         public App()
         {
-            _host = Host.CreateDefaultBuilder()
-                .AddStores()
-                .AddViewModels()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddSingleton(s => new MainWindow()
-                    {
-                        DataContext = s.GetRequiredService<MainWindowViewModel>()
-                    });
-            }).Build();
-
-            Current.Dispatcher.BeginInvoke(() =>
+            try
             {
-                InitializeNotifier();
-            });
+                _host = Host.CreateDefaultBuilder()
+                    .AddStores()
+                    .AddViewModels()
+                    .ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddSingleton(s => new MainWindow()
+                        {
+                            DataContext = s.GetRequiredService<MainWindowViewModel>()
+                        });
+                }).Build();
 
-            InitializeGlobalEvents();
+                Current.Dispatcher.BeginInvoke(() =>
+                {
+                    InitializeNotifier();
+                });
+
+                InitializeGlobalEvents();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _host.Start();
+            try
+            {
+                _host.Start();
 
-            var navigationStore = _host.Services.GetRequiredService<NavigationStore>();
-            _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
-            _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
+                var navigationStore = _host.Services.GetRequiredService<NavigationStore>();
+                _blogPostItemsStore = _host.Services.GetRequiredService<BlogPostItemsStore>();
+                _notificationsStore = _host.Services.GetRequiredService<NotificationsStore>();
 
-            navigationStore.CurrentViewModel = new HomeViewModel(_blogPostItemsStore, _notificationsStore);
+                navigationStore.CurrentViewModel = new HomeViewModel(_blogPostItemsStore, _notificationsStore);
 
-            MainWindow = _host.Services.GetRequiredService<MainWindow>();
-            MainWindow.Title = "Blog Reader";
-            MainWindow.Show();
+                MainWindow = _host.Services.GetRequiredService<MainWindow>();
+                MainWindow.Title = "Blog Reader";
+                MainWindow.Show();
 
-            base.OnStartup(e);
+                base.OnStartup(e);
+            }
+            catch (Exception ex) { }
         }
 
         private void InitializeNotifier()
         {
-            _notifierMessageOptions = new MessageOptions() { UnfreezeOnMouseLeave = true };
-
-            _notifier = new Notifier(cfg =>
+            try
             {
-                cfg.PositionProvider = new WindowPositionProvider(
-                    parentWindow: Current.MainWindow,
-                    corner: Corner.TopLeft,
-                    offsetX: 0,
-                    offsetY: 0);
+                _notifierMessageOptions = new MessageOptions() { UnfreezeOnMouseLeave = true };
 
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(5),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                _notifier = new Notifier(cfg =>
+                {
+                    cfg.PositionProvider = new WindowPositionProvider(
+                        parentWindow: Current.MainWindow,
+                        corner: Corner.TopLeft,
+                        offsetX: 0,
+                        offsetY: 0);
 
-                cfg.Dispatcher = Current.Dispatcher;
-            });
+                    cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                        notificationLifetime: TimeSpan.FromSeconds(5),
+                        maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
-            _blogPostItemsStore.OnException += (messageObj, args) =>
+                    cfg.Dispatcher = Current.Dispatcher;
+                });
+
+                _blogPostItemsStore.OnException += (messageObj, args) =>
+                {
+                    string message = messageObj?.ToString();
+                    string exception = (args as ErrorEventArgs)?.GetException().ToString();
+
+                    var notification = new Notification(MessageType.Error, message, exception);
+                    ShowNotification(notification);
+                };
+
+                _notificationsStore.NotificationAdded += (currentNotification, args) => ShowNotification(currentNotification as Notification);
+            }
+            catch (Exception ex)
             {
-                string message = messageObj?.ToString();
-                string exception = (args as ErrorEventArgs)?.GetException().ToString();
-
-                var notification = new Notification(MessageType.Error, message, exception);
-                ShowNotification(notification);
-            };
-
-            _notificationsStore.NotificationAdded += (currentNotification, args) => ShowNotification(currentNotification as Notification);
+            }
         }
 
         private void InitializeGlobalEvents()

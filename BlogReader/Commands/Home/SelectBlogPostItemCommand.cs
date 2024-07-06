@@ -1,5 +1,6 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.ViewModels;
+using System;
 
 namespace BlogReader.Commands.Home
 {
@@ -14,11 +15,15 @@ namespace BlogReader.Commands.Home
 
         public override void Execute(object parameter)
         {
-            if (parameter == null || (parameter is BlogPostItem) == false) return;
+            try
+            {
+                if (parameter == null || (parameter is BlogPostItem) == false) return;
 
-            var blogPostItem = parameter as BlogPostItem;
-            _viewModel.SelectedBlogPostItemDataContext.RenderBlogPostItem(blogPostItem);
-            AppData.App.MainWindow.Title = $"Blog Reader - {blogPostItem.Title}";
+                var blogPostItem = parameter as BlogPostItem;
+                _viewModel.SelectedBlogPostItemDataContext.RenderBlogPostItem(blogPostItem);
+                AppData.App.MainWindow.Title = $"Blog Reader - {blogPostItem.Title}";
+            }
+            catch (Exception ex) { }
         }
     }
 }

@@ -1,3 +1,5 @@
+/* the fontColor, backgroundColor, etc... will be replaced with the actual colors when the blog post item is rendered. */
+
 body {
     font: 400 20px/1.25 Arial,Gadget,sans-serif;
     color: fontColor;

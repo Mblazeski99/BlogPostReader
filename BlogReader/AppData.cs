@@ -21,62 +21,78 @@ namespace BlogReader
 
         public static void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            DependencyObject parent = e.OriginalSource as UIElement;
-            while (parent != null && !(parent is TextBox))
+            try
             {
-                parent = VisualTreeHelper.GetParent(parent);
-            }
-
-            if (parent != null)
-            {
-                if (parent is TextBox)
+                DependencyObject parent = e.OriginalSource as UIElement;
+                while (parent != null && !(parent is TextBox))
                 {
-                    var textBox = (TextBox)parent;
-                    if (!textBox.IsKeyboardFocusWithin)
+                    parent = VisualTreeHelper.GetParent(parent);
+                }
+
+                if (parent != null)
+                {
+                    if (parent is TextBox)
                     {
-                        textBox.Focus();
-                        e.Handled = true;
+                        var textBox = (TextBox)parent;
+                        if (!textBox.IsKeyboardFocusWithin)
+                        {
+                            textBox.Focus();
+                            e.Handled = true;
+                        }
                     }
                 }
             }
+            catch (Exception ex) { }
         }
 
         public static void Hyperlink_RequestNavigate(object sender, RoutedEventArgs e)
         {
-            Hyperlink link = (Hyperlink)e.OriginalSource;
-            Process.Start(new ProcessStartInfo()
+            try
             {
-                FileName = link.NavigateUri.AbsoluteUri,
-                UseShellExecute = true
-            });
+                Hyperlink link = (Hyperlink)e.OriginalSource;
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = link.NavigateUri.AbsoluteUri,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex) { }
         }
 
         public static void HyperLinkTextBlock_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var textBlock = (sender as TextBlock);
-            var parent = textBlock?.Parent as Control;
-
-            if (textBlock?.Tag?.ToString() == "HyperLinkTextBlock"
-                || parent?.Tag?.ToString() == "HyperLinkTextBlock")
+            try
             {
-                Process.Start(new ProcessStartInfo()
+                var textBlock = (sender as TextBlock);
+                var parent = textBlock?.Parent as Control;
+
+                if (textBlock?.Tag?.ToString() == "HyperLinkTextBlock"
+                    || parent?.Tag?.ToString() == "HyperLinkTextBlock")
                 {
-                    FileName = textBlock.Text,
-                    UseShellExecute = true
-                });
+                    Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = textBlock.Text,
+                        UseShellExecute = true
+                    });
+                }
             }
+            catch (Exception ex) { }
         }
 
         public static void DatePickerClearSelectionButton_Click(object sender, RoutedEventArgs e) 
         {
-            var button = (sender as Button);
-
-            if (button?.Tag?.ToString() == "DatePickerClearValueButton")
+            try
             {
-                var datePicker = (button.TemplatedParent as DatePicker);
-                datePicker?.ClearValue(DatePicker.SelectedDateProperty);
-                button.Visibility = Visibility.Collapsed;
+                var button = (sender as Button);
+
+                if (button?.Tag?.ToString() == "DatePickerClearValueButton")
+                {
+                    var datePicker = (button.TemplatedParent as DatePicker);
+                    datePicker?.ClearValue(DatePicker.SelectedDateProperty);
+                    button.Visibility = Visibility.Collapsed;
+                }
             }
+            catch (Exception ex) { }
         }
 
         public static void DatePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)

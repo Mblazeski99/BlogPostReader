@@ -100,16 +100,16 @@ namespace BlogReader.ViewModels
                     _allBlogPostItems.Add(modelCopy);
                 }
                 
-                var propertyNames = new ObservableCollection<string>
+                var propertyNames = new ObservableCollection<GridFilterDescriptorProperty>
                 {
-                    nameof(BlogPostItem.Title),
-                    nameof(BlogPostItem.Summary),
-                    nameof(BlogPostItem.Date),
-                    nameof(BlogPostItem.SourceName),
-                    nameof(BlogPostItem.Author),
-                    nameof(BlogPostItem.MarkedAsWatchLater),
-                    nameof(BlogPostItem.MarkedAsIrrelevant),
-                    nameof(BlogPostItem.IsDeleted)
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.Title), "Title"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.Summary), "Summary"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.Date), "Date"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.SourceName), "Source Name"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.Author), "Author"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.MarkedAsWatchLater), "Marked As Watch Later"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.MarkedAsIrrelevant), "Marked As Irrelevant"),
+                    new GridFilterDescriptorProperty(nameof(BlogPostItem.IsDeleted), "Is Deleted")
                 };
 
                 var itemSource = new ObservableCollection<BaseEntity>();

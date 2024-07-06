@@ -87,11 +87,11 @@ namespace BlogReader.ViewModels
                     _allNotifications.Add(modelCopy);
                 }
 
-                var propertyNames = new ObservableCollection<string>
+                var propertyNames = new ObservableCollection<GridFilterDescriptorProperty>
                 {
-                    nameof(Notification.Message),
-                    nameof(Notification.DateCreated),
-                    nameof(Notification.MessageType)
+                    new GridFilterDescriptorProperty(nameof(Notification.Message), "Message"),
+                    new GridFilterDescriptorProperty(nameof(Notification.DateCreated), "Date Created"),
+                    new GridFilterDescriptorProperty(nameof(Notification.MessageType), "Message Type")
                 };
 
                 var itemsSource = new ObservableCollection<BaseEntity>();
