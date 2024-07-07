@@ -46,10 +46,10 @@ namespace BlogReader.Commands.Blogs.BlogSources
                     _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.SourceUrl), errorMsg);
                 }
 
-                if (_viewModel.SelectedSourceItem.ContentModel == null)
+                if (string.IsNullOrEmpty(_viewModel.SelectedSourceItem.ContentModelId))
                 {
                     string errorMsg = "This field is required!";
-                    _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.ContentModel), errorMsg);
+                    _viewModel.AddDataPropertyError(nameof(_viewModel.SelectedSourceItem.ContentModelId), errorMsg);
                 }
 
                 if (_viewModel.HasDataPropertyErrors()) return;

@@ -248,15 +248,6 @@ namespace BlogReader.Stores
                 RssContentModel.Copy(model, existingModel);
                 existingModel.DateModified = DateTime.Now;
 
-                // Update all sources which use the model
-                foreach (var source in _blogPostItemSources)
-                {
-                    if (source.ContentModel != null && source.ContentModel.Id == existingModel.Id)
-                    {
-                        RssContentModel.Copy(existingModel, source.ContentModel);
-                    }
-                }
-
                 SaveBlogSourcesToFile();
             }
 
@@ -273,9 +264,9 @@ namespace BlogReader.Stores
             // Remove the deleted models from sources that used it
             foreach (var source in _blogPostItemSources)
             {
-                if (source.ContentModel != null && source.ContentModel.Id == modelToRemove.Id)
+                if (string.IsNullOrEmpty(source.ContentModelId) == false && source.ContentModelId == modelToRemove.Id)
                 {
-                    source.ContentModel = null;
+                    source.ContentModelId = null;
                 }
             }
 
@@ -316,10 +307,12 @@ namespace BlogReader.Stores
                 var response = await client.GetAsync(source.SourceUrl);
                 var strResponse = await response.Content.ReadAsStringAsync();
 
+                RssContentModel contentModel = GetRssContentModelById(source.ContentModelId);
+
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(strResponse);
 
-                var blogItems = doc.GetElementsByTagName(source.ContentModel.ItemContainerTag);
+                var blogItems = doc.GetElementsByTagName(contentModel.ItemContainerTag);
                 foreach (XmlNode blogItem in blogItems)
                 {
                     string title = string.Empty;
@@ -332,33 +325,33 @@ namespace BlogReader.Stores
 
                     foreach (XmlNode childNode in blogItem.ChildNodes)
                     {
-                        if (childNode.Name == source.ContentModel.TitleTag)
+                        if (childNode.Name == contentModel.TitleTag)
                         {
                             title = childNode.InnerText;
                         }
 
-                        if (childNode.Name == source.ContentModel.SummaryTag)
+                        if (childNode.Name == contentModel.SummaryTag)
                         {
                             summary = childNode.InnerText;
                         }
 
-                        if (childNode.Name == source.ContentModel.ContentTag)
+                        if (childNode.Name == contentModel.ContentTag)
                         {
                             content = childNode.InnerText;
                         }
 
-                        if (childNode.Name == source.ContentModel.DateTag)
+                        if (childNode.Name == contentModel.DateTag)
                         {
                             bool success = DateTime.TryParse(childNode.InnerText, out var blogPostDate);
                             date = success ? blogPostDate : null;
                         }
 
-                        if (childNode.Name == source.ContentModel.AuthorTag)
+                        if (childNode.Name == contentModel.AuthorTag)
                         {
                             author = childNode.InnerText;
                         }
 
-                        if (childNode.Name == source.ContentModel.ItemLinkTag)
+                        if (childNode.Name == contentModel.ItemLinkTag)
                         {
                             if (string.IsNullOrEmpty(childNode.InnerText))
                             {
@@ -376,7 +369,7 @@ namespace BlogReader.Stores
                             }
                         }
 
-                        if (childNode.Name == source.ContentModel.ItemImageTag)
+                        if (childNode.Name == contentModel.ItemImageTag)
                         {
                             imageLink = childNode.InnerText;
                         }

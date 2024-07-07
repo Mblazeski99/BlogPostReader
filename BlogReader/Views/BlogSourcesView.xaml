@@ -60,6 +60,7 @@
                             <StackPanel.Resources>
                                 <Style TargetType="Label" BasedOn="{StaticResource LabelStyle}">
                                     <Setter Property="Margin" Value="0 10 0 0" />
+                                    <Setter Property="Padding" Value="0 0 0 5" />
                                 </Style>
                             </StackPanel.Resources>
 
@@ -85,7 +86,7 @@
                             
                             <ComboBox ItemsSource="{Binding RssContentModels, UpdateSourceTrigger=PropertyChanged}"
                                       SelectedIndex="{Binding SelectedRssContentModelIndex, Mode=OneWay}"
-                                      SelectedItem="{Binding SelectedSourceItem.ContentModel}"
+                                      SelectedItem="{Binding SelectedRssContentModel}"
                                       IsTextSearchCaseSensitive="False"
                                       TextSearch.TextPath="ModelName"
                                       IsTextSearchEnabled="True"
@@ -100,8 +101,8 @@
                             </ComboBox>
                             
                             <TextBlock Style="{StaticResource DataPropertyErrorTextBlock}"
-                                       Text="{Binding DataPropertyErrors[ContentModel]}"
-                                       Visibility="{Binding DataPropertyErrors[ContentModel], 
+                                       Text="{Binding DataPropertyErrors[ContentModelId]}"
+                                       Visibility="{Binding DataPropertyErrors[ContentModelId],
                                             Converter={StaticResource IsStringEmptyOrNullToVisibilityConverter},
                                             ConverterParameter={StaticResource Hidden}}" />
 

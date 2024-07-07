@@ -19,6 +19,7 @@ namespace BlogReader.ViewModels
         private readonly ObservableCollection<RssContentModel> _rssContentModels = new ObservableCollection<RssContentModel>();
 
         private BlogPostItemSource _selectedSourceItem;
+        private RssContentModel _selectedRssContentModel;
         private bool _isItemsGridLoading;
         private bool _isLoading;
         private BitmapImage _sourceImg;
@@ -69,6 +70,22 @@ namespace BlogReader.ViewModels
             }
         }
 
+        public RssContentModel SelectedRssContentModel
+        {
+            get { return _selectedRssContentModel; }
+            set
+            {
+                _selectedRssContentModel = value;
+
+                if (value is not null && SelectedSourceItem is not null)
+                {
+                    SelectedSourceItem.ContentModelId = value.Id;
+                }
+
+                OnPropertyChanged(nameof(SelectedRssContentModel));
+            }
+        }
+
         public bool EnableInput => !IsLoading;
 
         public int SelectedRssContentModelIndex
@@ -76,7 +93,7 @@ namespace BlogReader.ViewModels
             get 
             {
                 int index = SelectedSourceItem != null 
-                    ? RssContentModels.IndexOf(RssContentModels.SingleOrDefault(cm => cm.Id == SelectedSourceItem.ContentModel?.Id)) 
+                    ? RssContentModels.IndexOf(RssContentModels.SingleOrDefault(cm => cm.Id == SelectedSourceItem.ContentModelId)) 
                     : -1;
 
                 return index;
@@ -102,7 +119,7 @@ namespace BlogReader.ViewModels
             {
                 { nameof(BlogPostItemSource.SourceName), string.Empty },
                 { nameof(BlogPostItemSource.SourceUrl), string.Empty },
-                { nameof(BlogPostItemSource.ContentModel), string.Empty }
+                { nameof(BlogPostItemSource.ContentModelId), string.Empty }
             };
 
             _blogPostItemsStore = blogPostItemsStore;
@@ -157,10 +174,18 @@ namespace BlogReader.ViewModels
                     _blogPostItemsSources.Add(BlogPostItemSource.CreateNewCopy(source));
                 }
 
+                string selectedRssContentModelId = SelectedRssContentModel?.Id;
+
                 _rssContentModels.Clear();
                 foreach (RssContentModel model in _blogPostItemsStore.GetAllRssContentModels())
                 {
                     _rssContentModels.Add(RssContentModel.CreateNewCopy(model));
+                }
+
+                // re-select the SelectedRssContentModel value
+                if (string.IsNullOrEmpty(selectedRssContentModelId) == false)
+                {
+                    SelectedRssContentModel = RssContentModels.SingleOrDefault(cm => cm.Id == selectedRssContentModelId);
                 }
             }
             catch (Exception ex)

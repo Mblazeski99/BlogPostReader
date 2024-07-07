@@ -11,7 +11,7 @@ namespace BlogReader.DataModels
         private string _imagePath;
         private BitmapSource _imageSource;
         private bool _active;
-        private RssContentModel _contentModel;
+        private string _contentModelId;
 
         public string SourceName 
         {
@@ -73,23 +73,19 @@ namespace BlogReader.DataModels
             }
         }
 
-        public RssContentModel ContentModel
+        public string ContentModelId
         {
-            get { return _contentModel; }
+            get { return _contentModelId; }
             set 
             {
-                _contentModel = value; 
-                OnPropertyChanged(nameof(ContentModel));
+                _contentModelId = value; 
+                OnPropertyChanged(nameof(ContentModelId));
             }
         }
 
         public static void Copy(BlogPostItemSource copyFrom, BlogPostItemSource copyTo)
         {
             PropertyCopier<BlogPostItemSource, BlogPostItemSource>.Copy(copyFrom, copyTo);
-            if (copyFrom.ContentModel != null)
-            {
-                copyTo.ContentModel = RssContentModel.CreateNewCopy(copyFrom.ContentModel);
-            }
         }
 
         public static BlogPostItemSource CreateNewCopy(BlogPostItemSource source)

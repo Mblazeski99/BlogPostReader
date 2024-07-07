@@ -40,7 +40,7 @@ namespace BlogReader.Commands.Blogs.ContentModels
                 {
                     _viewModel.IsItemsGridLoading = true;
 
-                    var sources = _blogPostItemsStore.GetAllBlogPostItemSources().Where(s => s.ContentModel.Id == itemToRemoveId);
+                    var sources = _blogPostItemsStore.GetAllBlogPostItemSources().Where(s => s.ContentModelId == itemToRemoveId);
                     if (sources.Any())
                     {
                         msg = $"This content model is currently being used by the sources: {string.Join(",", sources.Select(s => s.SourceName))}";

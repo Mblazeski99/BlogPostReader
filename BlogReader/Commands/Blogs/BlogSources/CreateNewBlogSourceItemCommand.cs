@@ -21,6 +21,8 @@ namespace BlogReader.Commands.Blogs.BlogSources
                 Active = true,
                 SourceName = "My Blog Source"
             };
+
+            _viewModel.SelectedRssContentModel = null;
         }
     }
 }
