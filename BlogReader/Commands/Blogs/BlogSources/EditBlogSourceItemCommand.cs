@@ -1,7 +1,8 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
 using System.Windows.Media.Imaging;
 
@@ -53,8 +54,10 @@ namespace BlogReader.Commands.Blogs.BlogSources
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Could not find blog source", ex.ToString());
+                var error = new Notification(MessageType.Error, "Could not find blog source!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Could not find blog source!");
             }
             finally
             {

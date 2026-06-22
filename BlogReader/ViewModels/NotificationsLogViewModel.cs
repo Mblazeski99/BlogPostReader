@@ -5,6 +5,7 @@ using BlogReader.DataModels;
 using BlogReader.DataModels.Enums;
 using BlogReader.Helpers;
 using BlogReader.Stores;
+using Serilog;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace BlogReader.ViewModels
         {
             _notificationsStore = notificationsStore;
             ClearNotificationsCommand = new ClearAllNotificationsCommand(notificationsStore, this);
-            FilterClickedCommand = new FilterClickedCommand(this);
+            FilterClickedCommand = new FilterClickedCommand(this, notificationsStore);
             ClearFilterClickedCommand = new ClearFilterClickedCommand(this);
 
             LoadNotifications();
@@ -103,8 +104,9 @@ namespace BlogReader.ViewModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to load notifications", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to load notifications!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+                Log.Error(ex, "Failed to load notifications!");
             }
             finally
             {

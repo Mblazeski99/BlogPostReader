@@ -41,6 +41,7 @@ namespace BlogReader.DataModels
 
         protected void OnPropertyChanged(string propertyName)
         {
+            // TODO: horrible idea, move this to when adding/updating the record in DB.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             if (DateCreated.HasValue)
             {

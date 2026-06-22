@@ -1,7 +1,8 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
 
 namespace BlogReader.Commands.Blogs.ContentModels
@@ -42,8 +43,10 @@ namespace BlogReader.Commands.Blogs.ContentModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Could not find content model", ex.ToString());
+                var error = new Notification(MessageType.Error, "Could not find content model!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Could not find content model!");
             }
             finally
             {

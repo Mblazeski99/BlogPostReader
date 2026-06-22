@@ -1,10 +1,11 @@
-﻿using System;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.Helpers;
+using Newtonsoft.Json;
+using Serilog;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using Newtonsoft.Json;
 using System.Linq;
-using BlogReader.Helpers;
 
 namespace BlogReader.Stores
 {
@@ -18,23 +19,30 @@ namespace BlogReader.Stores
 
         public NotificationsStore() : base()
         {
-            _notificationsFilePath = DataItemsFolderPath + @"\Notifications.txt";
-            _notifications = new ObservableCollection<Notification>();
-
-            if (File.Exists(_notificationsFilePath))
+            try
             {
-                using (StreamReader sr = new StreamReader(_notificationsFilePath))
+                _notificationsFilePath = DataItemsFolderPath + @"\Notifications.txt";
+                _notifications = new ObservableCollection<Notification>();
+
+                if (File.Exists(_notificationsFilePath))
                 {
-                    string notificationsJson = sr.ReadToEnd();
-                    if (!String.IsNullOrEmpty(notificationsJson))
+                    using (StreamReader sr = new StreamReader(_notificationsFilePath))
                     {
-                        _notifications = JsonConvert.DeserializeObject<ObservableCollection<Notification>>(notificationsJson);
+                        string notificationsJson = sr.ReadToEnd();
+                        if (!String.IsNullOrEmpty(notificationsJson))
+                        {
+                            _notifications = JsonConvert.DeserializeObject<ObservableCollection<Notification>>(notificationsJson);
+                        }
                     }
                 }
+                else
+                {
+                    using (FileStream fs = File.Create(_notificationsFilePath)) { }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                using (FileStream fs = File.Create(_notificationsFilePath)) { }
+                Log.Error(ex, "NotificationsStore constructor failed!");
             }
         }
 

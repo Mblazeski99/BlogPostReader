@@ -1,11 +1,11 @@
-﻿using BlogReader.DataModels.Enums;
+﻿using BlogReader.CustomControls;
 using BlogReader.DataModels;
-using BlogReader.Stores;
-using System;
-using BlogReader.ViewModels;
-using BlogReader.CustomControls;
+using BlogReader.DataModels.Enums;
 using BlogReader.Enums;
-using System.Windows;
+using BlogReader.Stores;
+using BlogReader.ViewModels;
+using Serilog;
+using System;
 
 namespace BlogReader.Commands.Notifications
 {
@@ -34,8 +34,10 @@ namespace BlogReader.Commands.Notifications
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to load notifications", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to load notifications!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to load notifications!");
             }
             finally
             {

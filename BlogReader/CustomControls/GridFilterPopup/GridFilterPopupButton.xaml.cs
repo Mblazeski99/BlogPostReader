@@ -1,5 +1,6 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.Helpers;
+using Serilog;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -65,14 +66,17 @@ namespace BlogReader.CustomControls.GridFilterPopup
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
+            ObservableCollection<BaseEntity> filteredItems = new ObservableCollection<BaseEntity>();
+            bool success = false;
+
             try
             {
                 GridFilterPopupConditionResult filteredResult = FirstCondition.Filter(this._allItems);
-                ObservableCollection<BaseEntity> filteredItems = filteredResult.FilteredItems;
+                filteredItems = filteredResult.FilteredItems;
 
                 if (filteredResult.IsSuccessful)
                 {
-                    if (_useSecondCondition) 
+                    if (_useSecondCondition)
                     {
                         if ((int)FilterConditionTypeComboBox.SelectedValue == (int)GridFilterConditionType.AND)
                         {
@@ -80,8 +84,7 @@ namespace BlogReader.CustomControls.GridFilterPopup
 
                             if (filteredResult.IsSuccessful == false)
                             {
-                                // TODO: Log error
-                                return;
+                                throw new InvalidOperationException("The second condition durring FilterButton_Click has failed!");
                             }
 
                             filteredItems = filteredResult.FilteredItems.ToObservableCollection();
@@ -92,8 +95,7 @@ namespace BlogReader.CustomControls.GridFilterPopup
 
                             if (secondConditionFilteredResult.IsSuccessful == false)
                             {
-                                // TODO: Log error
-                                return;
+                                throw new InvalidOperationException("The second condition durring FilterButton_Click has failed!");
                             }
 
                             filteredItems.AddRange(secondConditionFilteredResult.FilteredItems);
@@ -102,14 +104,23 @@ namespace BlogReader.CustomControls.GridFilterPopup
                         filteredItems = filteredItems.Distinct().ToObservableCollection();
                     }
 
-                    OnFilterClicked?.Invoke(this, new GridFilterPopupButtonEventArgs() { FilteredItems = filteredItems });
+                    success = true;
 
                     FilterPopup.IsOpen = false;
                     FilterPopupButton.Tag = true; // Is Filter Active
                 }
+                else
+                {
+                    throw new InvalidOperationException("The first condition durring FilterButton_Click has failed!");
+                }
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "FilterButton_Click has failed!");
+            }
+            finally
+            {
+                OnFilterClicked?.Invoke(this, new GridFilterPopupButtonEventArgs() { IsSuccessful = success, FilteredItems = filteredItems });
             }
         }
 
@@ -149,6 +160,7 @@ namespace BlogReader.CustomControls.GridFilterPopup
 
     public class GridFilterPopupButtonEventArgs : EventArgs
     {
+        public bool IsSuccessful { get; set; }
         public ObservableCollection<BaseEntity> FilteredItems { get; set; }
     }
 }

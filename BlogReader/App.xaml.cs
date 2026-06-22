@@ -1,10 +1,11 @@
-﻿using BlogReader.HostBuilders;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
 using BlogReader.DataModels.Enums;
+using BlogReader.HostBuilders;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.IO;
 using System.Windows;
@@ -40,12 +41,26 @@ namespace BlogReader
                         {
                             DataContext = s.GetRequiredService<MainWindowViewModel>()
                         });
-                }).Build();
+                    }).Build();
+
+                InitializeLogging();
 
                 Current.Dispatcher.BeginInvoke(() =>
                 {
                     InitializeNotifier();
                 });
+
+                AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+                {
+                    Log.Fatal(args.ExceptionObject as Exception, "Unhandled exception");
+                    Log.CloseAndFlush();
+                };
+
+                DispatcherUnhandledException += (s, args) =>
+                {
+                    Log.Fatal(args.Exception, "Unhandled dispatcher exception");
+                    Log.CloseAndFlush();
+                };
 
                 InitializeGlobalEvents();
             }
@@ -54,7 +69,7 @@ namespace BlogReader
             }
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             try
             {
@@ -73,6 +88,38 @@ namespace BlogReader
                 base.OnStartup(e);
             }
             catch (Exception ex) { }
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            try
+            {
+                _host.Dispose();
+                _notificationsStore.Dispose();
+                _blogPostItemsStore.Dispose();
+                base.OnExit(e);
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        private void InitializeLogging()
+        {
+            try
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .ReadFrom.AppSettings()
+                    .CreateLogger();
+            }
+            catch (Exception ex) 
+            {
+                Log.Error(ex, "Failed to initialize logger");
+            }
         }
 
         private void InitializeNotifier()
@@ -109,6 +156,7 @@ namespace BlogReader
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Failed to initialize notifier!");
             }
         }
 
@@ -155,14 +203,6 @@ namespace BlogReader
                     _notifier.ShowSuccess(notification.Message, _notifierMessageOptions);
                     break;
             }
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            _host.Dispose();
-            _notificationsStore.Dispose();
-            _blogPostItemsStore.Dispose();
-            base.OnExit(e);
         }
     }
 }

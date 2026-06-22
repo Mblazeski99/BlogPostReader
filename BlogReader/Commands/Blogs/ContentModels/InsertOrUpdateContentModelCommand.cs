@@ -1,7 +1,8 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
 
 namespace BlogReader.Commands.Blogs.ContentModels
@@ -69,8 +70,10 @@ namespace BlogReader.Commands.Blogs.ContentModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to add/update content model", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to add/update content model!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to add/update content model!");
             }
             finally
             {

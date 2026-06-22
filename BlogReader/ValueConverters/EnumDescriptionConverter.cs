@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
@@ -10,19 +11,30 @@ namespace BlogReader.ValueConverters
     {
         private string GetEnumDescription(Enum enumObj)
         {
-            FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
+            string result = string.Empty;
 
-            object[] attribArray = fieldInfo.GetCustomAttributes(false);
+            try
+            {
+                FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
 
-            if (attribArray.Length == 0)
-            {
-                return enumObj.ToString();
+                object[] attribArray = fieldInfo.GetCustomAttributes(false);
+
+                if (attribArray.Length == 0)
+                {
+                    result = enumObj.ToString();
+                }
+                else
+                {
+                    DescriptionAttribute attrib = attribArray[0] as DescriptionAttribute;
+                    result = attrib.Description;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DescriptionAttribute attrib = attribArray[0] as DescriptionAttribute;
-                return attrib.Description;
+                Log.Error(ex, "EnumDescriptionConverter/GetEnumDescription failed!");
             }
+
+            return result;
         }
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)

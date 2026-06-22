@@ -1,7 +1,8 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
 
 namespace BlogReader.Commands
@@ -73,6 +74,8 @@ namespace BlogReader.Commands
             {
                 Notification error = new Notification(MessageType.Error, ex.ToString(), ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to navigate to: {parameter}!", parameter);
             }
         }
     }

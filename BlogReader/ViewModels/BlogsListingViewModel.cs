@@ -1,13 +1,14 @@
 ﻿using BlogReader.Commands;
-using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
-using BlogReader.Stores;
-using System.Collections.ObjectModel;
-using System;
-using System.Linq;
 using BlogReader.Commands.Blogs.BlogsListing;
 using BlogReader.CustomControls.GridFilterPopup;
+using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Helpers;
+using BlogReader.Stores;
+using Serilog;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BlogReader.ViewModels
 {
@@ -72,7 +73,7 @@ namespace BlogReader.ViewModels
             ClearAllBlogPostItemsCommand = new ClearAllBlogPostItemsCommand(this, notificationsStore, blogPostItemsStore);
             PreviewBlogPostItemCommand = new PreviewBlogPostItemCommand(notificationsStore, blogPostItemsStore);
             RemoveBlogPostItemCommand = new RemoveBlogPostItemCommand(this, notificationsStore, blogPostItemsStore);
-            FilterClickedCommand = new FilterClickedCommand(this);
+            FilterClickedCommand = new FilterClickedCommand(this, notificationsStore);
             ClearFilterClickedCommand = new ClearFilterClickedCommand(this);
 
             LoadBlogPostItems();
@@ -121,8 +122,9 @@ namespace BlogReader.ViewModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to load blog posts", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to load blog posts!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+                Log.Error(ex, "Failed to load blog posts!");
             }
             finally
             {

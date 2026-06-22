@@ -1,6 +1,7 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
+using Serilog;
 using System;
 using System.IO;
 
@@ -107,6 +108,7 @@ namespace BlogReader.ViewModels
             {
                 var error = new Notification(MessageType.Error, "Failed to load blog post", ex.ToString());
                 _notificationsStore.AddNotification(error);
+                Log.Error(ex, "Failed to load blog post!");
             }
         }
     }

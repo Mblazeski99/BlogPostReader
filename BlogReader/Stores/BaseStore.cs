@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
 
 namespace BlogReader.Stores
 {
@@ -30,7 +31,7 @@ namespace BlogReader.Stores
             }
             catch (Exception ex)
             {
-                throw new Exception($"SaveItemsToFile:" + ex);
+                Log.Error(ex, "SaveItemsToFile failed!");
             }
         }
 

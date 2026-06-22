@@ -26,7 +26,7 @@
     <SolidColorBrush x:Key="PrimaryBtnHoverColorBrush" Color="{StaticResource PrimaryBtnHoverColor}" />
 
     <Color x:Key="PrimaryAccentBtnColor">#00b0ff</Color>
-    <SolidColorBrush x:Key="PrimaryAccentBtnColorBrush" Color="{StaticResource PrimaryAccentBtnColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryAccentBtnColorBrush" Color="{StaticResource PrimaryAccentBtnColor}" />
 
     <Color x:Key="SuccessColor">#11ad45</Color>
     <SolidColorBrush x:Key="SuccessColorBrush" Color="{StaticResource SuccessColor}" />

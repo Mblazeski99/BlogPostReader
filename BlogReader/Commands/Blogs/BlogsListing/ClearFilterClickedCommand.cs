@@ -1,4 +1,5 @@
 ﻿using BlogReader.ViewModels;
+using Serilog;
 using System;
 
 namespace BlogReader.Commands.Blogs.BlogsListing
@@ -20,6 +21,7 @@ namespace BlogReader.Commands.Blogs.BlogsListing
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Failed to clear blogs listing filter!");
             }
         }
     }

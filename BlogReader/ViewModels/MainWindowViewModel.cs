@@ -3,6 +3,8 @@ using BlogReader.Commands.App;
 using BlogReader.Helpers;
 using BlogReader.Models;
 using BlogReader.Stores;
+using Serilog;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -87,16 +89,23 @@ namespace BlogReader.ViewModels
 
         private void OnCurrentViewModelChanged()
         {
-            OnPropertyChanged(nameof(CurrentViewModel));
+            try
+            {
+                OnPropertyChanged(nameof(CurrentViewModel));
 
-            TopMenuItems.ForEach(mi => mi.IsSelected = false);
+                TopMenuItems.ForEach(mi => mi.IsSelected = false);
 
-            var currentViewModelType = CurrentViewModel.GetType().Name;
+                var currentViewModelType = CurrentViewModel.GetType().Name;
 
-            var menuItem = TopMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
-            if (menuItem == null) menuItem = BottomMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
+                var menuItem = TopMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
+                if (menuItem == null) menuItem = BottomMenuItems.SingleOrDefault(mi => mi.CommandParameter == currentViewModelType);
 
-            menuItem.IsSelected = true;
+                menuItem.IsSelected = true;
+            }
+            catch (Exception ex) 
+            {
+                Log.Error(ex, "OnCurrentViewModelChanged failed!");
+            }
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using Microsoft.Win32;
+using Serilog;
 using System;
 using System.Windows.Media.Imaging;
 
@@ -47,8 +48,10 @@ namespace BlogReader.Commands.Blogs.BlogSources
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to upload image", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to upload image!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to upload image!");
             }
             finally
             {

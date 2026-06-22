@@ -8,9 +8,16 @@ namespace BlogReader.Helpers
     {
         public static bool IsValidUri(this string uri)
         {
-            Uri uriResult;
-            bool result = Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            bool result = false;
+
+            try
+            {
+                Uri uriResult;
+                result = Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+            }
+            catch (Exception ex) { }
 
             return result;
         }
@@ -18,28 +25,41 @@ namespace BlogReader.Helpers
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> collection)
         {
             var observableCollection = new ObservableCollection<T>();
-            foreach (T item in collection)
+            
+            try
             {
-                observableCollection.Add(item);
+                foreach (T item in collection)
+                {
+                    observableCollection.Add(item);
+                }
             }
+            catch (Exception ex) { }
 
             return observableCollection;
         }
 
         public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> valuesToAdd)
         {
-            foreach (T item in valuesToAdd)
+            try
             {
-                collection.Add(item);
+                foreach (T item in valuesToAdd)
+                {
+                    collection.Add(item);
+                }
             }
+            catch (Exception ex) { }
         }
 
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            foreach (var cur in enumerable)
+            try
             {
-                action(cur);
+                foreach (var cur in enumerable)
+                {
+                    action(cur);
+                }
             }
+            catch (Exception ex) { }
         }
     }
 }

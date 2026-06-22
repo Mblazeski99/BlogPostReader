@@ -4,6 +4,7 @@ using BlogReader.DataModels.Enums;
 using BlogReader.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
 
 namespace BlogReader.Commands.Blogs.BlogSources
@@ -51,8 +52,10 @@ namespace BlogReader.Commands.Blogs.BlogSources
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to delete blog source", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to delete blog source!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to delete blog source!");
             }
             finally
             {

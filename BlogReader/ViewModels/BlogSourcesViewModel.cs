@@ -3,6 +3,7 @@ using BlogReader.Commands.Blogs.BlogSources;
 using BlogReader.DataModels;
 using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -190,8 +191,9 @@ namespace BlogReader.ViewModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to load blog sources data", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to load blog sources data!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+                Log.Error(ex, "Failed to load blog sources data!");
             }
             finally
             {

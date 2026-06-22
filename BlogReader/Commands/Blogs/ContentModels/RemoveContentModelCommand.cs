@@ -1,10 +1,11 @@
-﻿using BlogReader.DataModels.Enums;
+﻿using BlogReader.CustomControls;
 using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
+using BlogReader.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
-using BlogReader.CustomControls;
-using BlogReader.Enums;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -63,8 +64,10 @@ namespace BlogReader.Commands.Blogs.ContentModels
             }
             catch (Exception ex)
             {
-                var error = new Notification(MessageType.Error, "Failed to delete content model", ex.ToString());
+                var error = new Notification(MessageType.Error, "Failed to delete content model!", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to delete content model!");
             }
             finally
             {

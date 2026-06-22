@@ -3,6 +3,7 @@ using BlogReader.DataModels.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
 using BlogReader.Views;
+using Serilog;
 using System;
 using System.Windows;
 
@@ -50,6 +51,8 @@ namespace BlogReader.Commands.Blogs.BlogsListing
             {
                 var error = new Notification(MessageType.Error, "Failed to get blog post", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to get blog post!");
             }
         }
 

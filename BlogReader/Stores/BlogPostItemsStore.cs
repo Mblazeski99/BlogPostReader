@@ -1,6 +1,7 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.Helpers;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -29,65 +30,72 @@ namespace BlogReader.Stores
 
         public BlogPostItemsStore() : base()
         {
-            _blogPostItemsFilePath = DataItemsFolderPath + @"\BlogPostItems.txt";
-            _blogPostItemSourcesFilePath = DataItemsFolderPath + @"\BlogPostItemSources.txt";
-            _blogPostItemSourceUploadsFolderPath = DataItemsFolderPath + @"\BlogPostItemSourceUploads";
-            _rssContentModelsFilePath = DataItemsFolderPath + @"\RssContentModels.txt";
-
-            if (File.Exists(_blogPostItemsFilePath))
+            try
             {
-                using (StreamReader sr = new StreamReader(_blogPostItemsFilePath))
+                _blogPostItemsFilePath = DataItemsFolderPath + @"\BlogPostItems.txt";
+                _blogPostItemSourcesFilePath = DataItemsFolderPath + @"\BlogPostItemSources.txt";
+                _blogPostItemSourceUploadsFolderPath = DataItemsFolderPath + @"\BlogPostItemSourceUploads";
+                _rssContentModelsFilePath = DataItemsFolderPath + @"\RssContentModels.txt";
+
+                if (File.Exists(_blogPostItemsFilePath))
                 {
-                    string blogPostItemsJson = sr.ReadToEnd();
-                    if (!String.IsNullOrEmpty(blogPostItemsJson))
+                    using (StreamReader sr = new StreamReader(_blogPostItemsFilePath))
                     {
-                        _blogPostItems = JsonConvert.DeserializeObject<ObservableCollection<BlogPostItem>>(blogPostItemsJson);
+                        string blogPostItemsJson = sr.ReadToEnd();
+                        if (!String.IsNullOrEmpty(blogPostItemsJson))
+                        {
+                            _blogPostItems = JsonConvert.DeserializeObject<ObservableCollection<BlogPostItem>>(blogPostItemsJson);
+                        }
                     }
                 }
-            }
-            else
-            {
-                using (FileStream fs = File.Create(_blogPostItemsFilePath)) { }
-            }
-
-            if (File.Exists(_blogPostItemSourcesFilePath))
-            {
-                using (StreamReader sr = new StreamReader(_blogPostItemSourcesFilePath))
+                else
                 {
-                    string blogPostItemSourcesJson = sr.ReadToEnd();
-                    if (!String.IsNullOrEmpty(blogPostItemSourcesJson))
+                    using (FileStream fs = File.Create(_blogPostItemsFilePath)) { }
+                }
+
+                if (File.Exists(_blogPostItemSourcesFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(_blogPostItemSourcesFilePath))
                     {
-                        _blogPostItemSources = JsonConvert.DeserializeObject<ObservableCollection<BlogPostItemSource>>(blogPostItemSourcesJson);
+                        string blogPostItemSourcesJson = sr.ReadToEnd();
+                        if (!String.IsNullOrEmpty(blogPostItemSourcesJson))
+                        {
+                            _blogPostItemSources = JsonConvert.DeserializeObject<ObservableCollection<BlogPostItemSource>>(blogPostItemSourcesJson);
+                        }
                     }
                 }
-            }
-            else
-            {
-                using (FileStream fs = File.Create(_blogPostItemSourcesFilePath)) { }
-            }
-
-            if (Directory.Exists(_blogPostItemSourceUploadsFolderPath) == false)
-            {
-                Directory.CreateDirectory(_blogPostItemSourceUploadsFolderPath);
-            }
-
-            if (File.Exists(_rssContentModelsFilePath))
-            {
-                using (StreamReader sr = new StreamReader(_rssContentModelsFilePath))
+                else
                 {
-                    string rssContentModelsJson = sr.ReadToEnd();
-                    if (!String.IsNullOrEmpty(rssContentModelsJson))
+                    using (FileStream fs = File.Create(_blogPostItemSourcesFilePath)) { }
+                }
+
+                if (Directory.Exists(_blogPostItemSourceUploadsFolderPath) == false)
+                {
+                    Directory.CreateDirectory(_blogPostItemSourceUploadsFolderPath);
+                }
+
+                if (File.Exists(_rssContentModelsFilePath))
+                {
+                    using (StreamReader sr = new StreamReader(_rssContentModelsFilePath))
                     {
-                        _rssContentModels = JsonConvert.DeserializeObject<ObservableCollection<RssContentModel>>(rssContentModelsJson);
+                        string rssContentModelsJson = sr.ReadToEnd();
+                        if (!String.IsNullOrEmpty(rssContentModelsJson))
+                        {
+                            _rssContentModels = JsonConvert.DeserializeObject<ObservableCollection<RssContentModel>>(rssContentModelsJson);
+                        }
                     }
                 }
-            }
-            else
-            {
-                using (FileStream fs = File.Create(_rssContentModelsFilePath)) { }
-            }
+                else
+                {
+                    using (FileStream fs = File.Create(_rssContentModelsFilePath)) { }
+                }
 
-            FetchAllBlogPostSourceData();
+                FetchAllBlogPostSourceData();
+            }
+            catch (Exception ex) 
+            {
+                Log.Error(ex, "BlogPostItemsStore constructor failed!");
+            }
         }
 
         #region Blog Post Items
@@ -183,39 +191,47 @@ namespace BlogReader.Stores
 
         public void AddOrUpdateBlogItemSource(BlogPostItemSource itemSource)
         {
-            string sourceImagePath = new Uri($@"{_blogPostItemSourceUploadsFolderPath}\{itemSource.ImageName}_{DateTime.Now.Ticks}.png")
-                .ToString()
-                .Replace("file:///", String.Empty)
-                .Replace(@"//", @"/");
-
-            var existingItemSource = _blogPostItemSources.SingleOrDefault(bs => bs.Id == itemSource.Id);
-            if (existingItemSource == null)
+            try
             {
-                itemSource.DateCreated = DateTime.Now;
-                itemSource.ImagePath = sourceImagePath;
+                string sourceImagePath = new Uri($@"{_blogPostItemSourceUploadsFolderPath}\{itemSource.ImageName}_{DateTime.Now.Ticks}.png")
+                    .ToString()
+                    .Replace("file:///", String.Empty)
+                    .Replace(@"//", @"/");
 
-                _blogPostItemSources.Add(itemSource);
-            }
-            else
-            {
-                File.Delete(existingItemSource.ImagePath);
+                var existingItemSource = _blogPostItemSources.SingleOrDefault(bs => bs.Id == itemSource.Id);
+                if (existingItemSource == null)
+                {
+                    itemSource.DateCreated = DateTime.Now;
+                    itemSource.ImagePath = sourceImagePath;
 
-                BlogPostItemSource.Copy(itemSource, existingItemSource);
-                existingItemSource.ImagePath = sourceImagePath;
-                existingItemSource.DateModified = DateTime.Now;
-            }
+                    _blogPostItemSources.Add(itemSource);
+                }
+                else
+                {
+                    File.Delete(existingItemSource.ImagePath);
 
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(itemSource.ImageSource));
+                    BlogPostItemSource.Copy(itemSource, existingItemSource);
+                    existingItemSource.ImagePath = sourceImagePath;
+                    existingItemSource.DateModified = DateTime.Now;
+                }
+
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(itemSource.ImageSource));
             
-            using (var fileStream = new FileStream(sourceImagePath, FileMode.Create, FileAccess.Write))
-            {
-                encoder.Save(fileStream);
-                fileStream.Close();
-            }
+                using (var fileStream = new FileStream(sourceImagePath, FileMode.Create, FileAccess.Write))
+                {
+                    encoder.Save(fileStream);
+                    fileStream.Close();
+                }
 
-            SaveBlogSourcesToFile();
-            BlogPostItemSourcesChanged?.Invoke(itemSource, EventArgs.Empty);
+                SaveBlogSourcesToFile();
+                BlogPostItemSourcesChanged?.Invoke(itemSource, EventArgs.Empty);
+            }
+            catch (Exception ex) 
+            {
+                OnException?.Invoke("Failed to update blog item source!", new ErrorEventArgs(ex));
+                Log.Error(ex, "Failed to update blog item source: {sourceId}", itemSource?.Id);
+            }
         }
 
         public void RemoveBlogItemSource(string sourceId)
@@ -257,23 +273,31 @@ namespace BlogReader.Stores
 
         public void RemoveRssContentModel(string modelId)
         {
-            var modelToRemove = _rssContentModels.SingleOrDefault(m => m.Id == modelId);
-
-            _rssContentModels.Remove(modelToRemove);
-
-            // Remove the deleted models from sources that used it
-            foreach (var source in _blogPostItemSources)
+            try
             {
-                if (string.IsNullOrEmpty(source.ContentModelId) == false && source.ContentModelId == modelToRemove.Id)
+                var modelToRemove = _rssContentModels.SingleOrDefault(m => m.Id == modelId);
+
+                _rssContentModels.Remove(modelToRemove);
+
+                // Remove the deleted models from sources that used it
+                foreach (var source in _blogPostItemSources)
                 {
-                    source.ContentModelId = null;
+                    if (string.IsNullOrEmpty(source.ContentModelId) == false && source.ContentModelId == modelToRemove.Id)
+                    {
+                        source.ContentModelId = null;
+                    }
                 }
+
+                SaveBlogSourcesToFile();
+
+                RssContentModelsChanged?.Invoke(modelToRemove, EventArgs.Empty);
+                BlogPostItemSourcesChanged?.Invoke(_blogPostItemSources, EventArgs.Empty);
             }
-
-            SaveBlogSourcesToFile();
-
-            RssContentModelsChanged?.Invoke(modelToRemove, EventArgs.Empty);
-            BlogPostItemSourcesChanged?.Invoke(_blogPostItemSources, EventArgs.Empty);
+            catch (Exception ex) 
+            {
+                OnException?.Invoke("Failed to remove rss content model!", new ErrorEventArgs(ex));
+                Log.Error(ex, "Failed to remove rss content model: {modelId}", modelId);
+            }
         }
 
         public RssContentModel GetRssContentModelById(string id)
@@ -399,6 +423,7 @@ namespace BlogReader.Stores
             {
                 string msg = $"Failed to get blogs for: '{source.SourceName}'";
                 OnException?.Invoke(msg, new ErrorEventArgs(ex));
+                Log.Error(ex, msg);
             }
         }
 

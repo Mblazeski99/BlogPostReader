@@ -1,5 +1,6 @@
 ﻿using BlogReader.DataModels;
 using BlogReader.ViewModels;
+using System;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {
@@ -14,15 +15,19 @@ namespace BlogReader.Commands.Blogs.BlogSources
 
         public override void Execute(object parameter)
         {
-            _viewModel.SourceImg = _viewModel.DefualtSourceImg;
-
-            _viewModel.SelectedSourceItem = new BlogPostItemSource()
+            try
             {
-                Active = true,
-                SourceName = "My Blog Source"
-            };
+                _viewModel.SourceImg = _viewModel.DefualtSourceImg;
 
-            _viewModel.SelectedRssContentModel = null;
+                _viewModel.SelectedSourceItem = new BlogPostItemSource()
+                {
+                    Active = true,
+                    SourceName = "My Blog Source"
+                };
+
+                _viewModel.SelectedRssContentModel = null;
+            }
+            catch (Exception ex) { }
         }
     }
 }

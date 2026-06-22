@@ -39,6 +39,7 @@ namespace BlogReader.DataModels
             }
         }
 
+        // TODO: DataModel should probably not reference App resources -> Move this getter to viewmodel or a better place.
         public string MessageTypeColor
         {
             get

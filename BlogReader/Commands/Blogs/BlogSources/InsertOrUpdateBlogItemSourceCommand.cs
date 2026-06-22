@@ -1,9 +1,10 @@
-﻿using BlogReader.DataModels.Enums;
-using BlogReader.DataModels;
+﻿using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
+using BlogReader.Helpers;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
-using BlogReader.Helpers;
 
 namespace BlogReader.Commands.Blogs.BlogSources
 {
@@ -69,6 +70,8 @@ namespace BlogReader.Commands.Blogs.BlogSources
             {
                 var error = new Notification(MessageType.Error, "Failed to add/update blog source", ex.ToString());
                 _notificationsStore.AddNotification(error);
+
+                Log.Error(ex, "Failed to add/update blog source!");
             }
             finally
             {

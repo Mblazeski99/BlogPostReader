@@ -1,10 +1,12 @@
-﻿using BlogReader.DataModels.Enums;
+﻿using BlogReader.CustomControls;
 using BlogReader.DataModels;
+using BlogReader.DataModels.Enums;
+using BlogReader.Enums;
 using BlogReader.Stores;
 using BlogReader.ViewModels;
+using Serilog;
 using System;
-using BlogReader.Enums;
-using BlogReader.CustomControls;
+using System.Windows.Interop;
 
 namespace BlogReader.Commands.Blogs.BlogsListing
 {
@@ -39,6 +41,7 @@ namespace BlogReader.Commands.Blogs.BlogsListing
             {
                 var error = new Notification(MessageType.Error, "Failed to load blog posts", ex.ToString());
                 _notificationsStore.AddNotification(error);
+                Log.Error(ex, "Failed to load blog posts");
             }
             finally
             {
